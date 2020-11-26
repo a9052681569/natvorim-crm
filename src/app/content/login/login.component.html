@@ -1,0 +1,29 @@
+<div class="signin-content">
+    <mat-card>
+        <form #f="ngForm">
+            <p>Login</p>
+            <mat-form-field class="full-width">
+                <input matInput placeholder="Username"
+                    type="text"
+                    ngModel
+                    name="username"
+                    required
+                    #name='ngModel'
+                    minlength='5'
+                    appUsernameValidator
+                >
+                <mat-error *ngIf='name.errors?.nospecial'>{{name?.errors?.nospecial || ""}}</mat-error>
+            </mat-form-field>
+            <mat-form-field class="full-width">
+                <input matInput placeholder="Password"
+                    type="password"
+                    name="password"
+                    ngModel
+                    required
+                >
+            </mat-form-field>
+            <button [disabled]='f.invalid' mat-raised-button color='primary' type="submit">Enter</button>
+            <a mat-button [routerLink]='["/signup"]'>Signup</a>
+        </form>
+    </mat-card>
+</div>

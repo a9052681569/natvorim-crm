@@ -7,12 +7,45 @@
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
-          "style": "scss"
+		  "style": "scss",
+		  "skipTests": true,
+          "lintFix": true
+        },
+        "@schematics/angular:application": {
+          "strict": true
+        },
+        "@schematics/angular:class": {
+          "skipTests": true,
+          "lintFix": true
+        },
+        "@schematics/angular:directive": {
+          "skipTests": true,
+          "lintFix": true
+        },
+        "@schematics/angular:guard": {
+          "skipTests": true,
+          "lintFix": true
+        },
+        "@schematics/angular:interceptor": {
+          "skipTests": true,
+          "lintFix": true
+        },
+        "@schematics/angular:module": {
+          "skipTests": true,
+			"lintFix": true
+        },
+        "@schematics/angular:pipe": {
+          "skipTests": true,
+          "lintFix": true
+        },
+        "@schematics/angular:service": {
+          "skipTests": true,
+          "lintFix": true
         }
       },
       "root": "",
       "sourceRoot": "src",
-      "prefix": "app",
+      "prefix": "ntv",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
@@ -25,12 +58,19 @@
             "aot": true,
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              "src/manifest.webmanifest"
             ],
             "styles": [
-              "./node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css",
-              "src/styles.scss"
+              "src/assets/scss/base/settings.scss",
+              "src/styles.scss",
+              "src/assets/scss/scrm-material-theme.scss"
             ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "src/assets/scss/base"
+              ]
+            },
             "scripts": []
           },
           "configurations": {

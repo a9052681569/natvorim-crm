@@ -1,0 +1,27 @@
+:host {
+	display: block;
+	overflow: hidden;
+}
+
+.person {
+
+	&__title{
+		min-width: 200px;
+		max-width: 200px;
+	}
+
+	&__description {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr) auto;
+		grid-gap: 16px;
+	}
+
+	
+
+	&.mat-expansion-panel {
+		border-radius: 0!important;
+	}
+
+
+}
+

@@ -1,0 +1,17 @@
+:host {
+	display: block;
+}
+
+.scrollbar {
+
+	max-height: calc(100vh - 64px);
+	min-height: calc(100vh - 64px);
+
+	&__content {
+		padding: 16px;
+	}
+}
+
+.sc {
+	height: 2rem;
+}

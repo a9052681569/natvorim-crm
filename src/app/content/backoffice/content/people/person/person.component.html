@@ -1,0 +1,36 @@
+<mat-expansion-panel class="person">
+
+	<mat-expansion-panel-header>
+		
+		<mat-panel-title class="person__title" 
+				 		 (click)="$event.stopPropagation(); clipService.clip(person.name)">
+			{{person.name}}
+		</mat-panel-title>
+		<mat-panel-description class="person__description" (click)="$event.stopPropagation()">
+
+			<div class="person__contact" 
+				 *ngFor="let contact of contactItems"
+				 (click)="clipService.clip(contact.value)">
+				<div class="overline">
+					{{contact.name}}
+				</div>
+
+				<div class="person__contact-value">
+					{{contact.value}}
+				</div>
+			</div>
+
+			<button mat-icon-button>
+				<mat-icon>people</mat-icon>
+			</button>
+
+		</mat-panel-description>
+
+	</mat-expansion-panel-header>
+	<ng-template matExpansionPanelContent>
+		<ntv-person-orders [personId]="person.id"></ntv-person-orders>
+	</ng-template>
+
+	
+</mat-expansion-panel>
+  

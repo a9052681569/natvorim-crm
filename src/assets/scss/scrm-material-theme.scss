@@ -1,0 +1,54 @@
+@import '~@angular/material/theming';
+@import "settings";
+
+@include mat-core();
+
+$scrm-theme-background: (
+	status-bar: map_get($mat-grey, 300),
+	app-bar:    #ffffff,
+	background: map_get($mat-grey, 50),
+	hover:      rgba(black, 0.04),
+	card:       white,
+	dialog:     white,
+	disabled-button: rgba(black, 0.12),
+	raised-button: white,
+	focused-button: $dark-focused,
+	selected-button: map_get($mat-grey, 300),
+	selected-disabled-button: map_get($mat-grey, 400),
+	disabled-button-toggle: map_get($mat-grey, 200),
+	unselected-chip: map_get($mat-blue-gray, 50),
+	disabled-list-option: map_get($mat-grey, 200),
+);
+
+$scrm-theme-foreground: (
+  	base:              black,
+	divider:           $dark-dividers,
+	dividers:          $dark-dividers,
+	disabled:          $dark-disabled-text,
+	disabled-button:   rgba(black, 0.26),
+	disabled-text:     $dark-disabled-text,
+	elevation:         black,
+	hint-text:         $dark-disabled-text,
+	secondary-text:    $dark-secondary-text,
+	icon:              rgba(black, 0.54),
+	icons:             rgba(black, 0.54),
+	text:              rgba(black, 0.87),
+	slider-min:        rgba(black, 0.87),
+	slider-off:        rgba(black, 0.26),
+	slider-off-active: rgba(black, 0.38),
+);
+
+@function scrm-light-theme($primary, $accent, $warn: mat-palette($mat-red)) {
+	@return (
+		primary: $primary,
+		accent: $accent,
+		warn: $warn,
+		is-dark: false,
+		foreground: $scrm-theme-foreground,
+		background: $scrm-theme-background,
+	);
+}
+
+$scrm-theme: scrm-light-theme($scrm-primary, $scrm-accent, $scrm-warn);
+
+@include angular-material-theme($scrm-theme);

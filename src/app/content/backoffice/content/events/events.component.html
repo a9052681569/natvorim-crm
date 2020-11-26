@@ -1,0 +1,23 @@
+<div class="events-header">
+    <h3>Ваши действия</h3>
+    <button class="events-header__clear-button" mat-raised-button color='primary'>Очистить</button>
+</div>
+
+
+
+<mat-form-field class="full-width">
+    <mat-label>Поиск действий по названию</mat-label>
+    <input matInput placeholder="Введите название действия">
+</mat-form-field>
+
+<!-- <mat-list *ngIf='((user$ | async).events | eventsFilter:searchText) as events; else loading'>
+    <mat-list-item @softAppearAnimation *ngFor='let event of events; index as i;'>
+        <app-event-card [event]='event'></app-event-card>
+        <mat-icon>delete</mat-icon>
+        <mat-divider></mat-divider>
+    </mat-list-item>
+</mat-list> -->
+
+<ng-template #loading>
+    <span>Loading...</span>
+</ng-template>

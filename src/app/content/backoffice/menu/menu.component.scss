@@ -1,0 +1,49 @@
+@import 'settings';
+
+.menu {
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	font-size: 1.5rem;
+	color: $icon-light;
+
+	&__item {
+		min-width: 40px;
+		height: 40px;
+		border-radius: .25rem;
+		display: grid;
+		grid-template-columns: 40px 1fr;
+		align-items: center;
+		cursor: pointer;
+		outline: none;
+
+		&-icon {
+			justify-self: center;
+			align-items: center;
+		}
+
+		&-name {
+			font-size: .875rem;
+			min-width: 200px;
+			padding-left: 1rem;
+			white-space: nowrap;
+		}
+
+		&--disabled {
+			color: rgba($color: #000000, $alpha: .34);
+			cursor: default;
+		}
+
+	}
+
+	&__section {
+		display: grid;
+		grid-gap: .5rem;
+		padding: 1rem;
+	}
+}
+
+.isActive {
+	background-color: $active-menu-item-bg;
+}

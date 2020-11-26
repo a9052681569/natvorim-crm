@@ -1,0 +1,434 @@
+@import "settings";
+@import "mixins";
+@import '~@angular/material/theming';
+
+.page-content {
+	padding: 32px 32px 32px 0;
+}
+
+button.button--fab {
+	position: fixed;
+	bottom: 24px;
+	right: 32px;
+	z-index: 2;
+}
+
+/* Material overrides */
+
+button[mat-button],
+button[mat-raised-button],
+button[mat-stroked-button],
+button[mat-flat-button] {
+	font-weight: 500;
+
+	.mat-button-wrapper {
+		vertical-align: middle;
+	}
+
+	.mat-icon {
+		margin-right: 8px;
+	}
+
+	+ button[mat-flat-button],
+	+ button[mat-button],
+	+ button[mat-raised-button],
+	+ button[mat-stroked-button] {
+		margin-left: 8px;
+	}
+}
+
+mat-form-field.mat-form-field {
+	font-size: 0.869rem;
+
+	.mat-icon {
+		color: rgba(0, 0, 0, 0.54);
+	}
+
+	.mat-form-field-infix {
+		width: auto;
+	}
+
+	.mat-form-field-suffix {
+		align-self: flex-start;
+	}
+
+	.mat-icon-button:hover .mat-icon {
+		color: rgba(0, 0, 0, 0.87);
+		transition: color 0.3s;
+	}
+
+	/* текстовый курсор на ховере инпутов */
+	&-type-mat-input .mat-form-field-wrapper,
+	.mat-form-field-wrapper{
+		padding-bottom: 2.3em;
+
+		.mat-form-field {
+			line-height: 1;
+		}
+
+		.mat-form-field-underline {
+			bottom: 2.3em;
+		}
+
+		.mat-form-field-subscript-wrapper {
+			top: calc(100% - 2.8416666667em);
+		}
+	}
+
+	.mat-form-field-label .mat-form-field-required-marker {
+		font-size: 0.875rem;
+	}
+
+	&.mat-form-field-appearance-fill .mat-form-field-infix {
+		padding: 0.1125em 0 0.36em 0;
+
+		.mat-input-element,
+		.mat-select-value-text,
+		.mts-date-range-picker-input {
+			font-size: 1rem;
+		}
+	}
+
+
+	/**
+	Кастомизация инпутов под проект
+	 */
+	.mat-form-field-label-wrapper {
+		top: -0.94375em;
+		font-size: 1rem;
+	}
+
+	.mat-form-field-prefix,
+	.mat-form-field-suffix {
+		.mat-icon {
+			font-size: 175%;
+			line-height: 1.125;
+		}
+	}
+
+	&.mat-form-field-appearance-fill.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label,
+	&.mat-form-field-appearance-fill.mat-form-field-can-float .mat-input-server:focus + .mat-form-field-label-wrapper .mat-form-field-label {
+		transform: translateY(-0.59375em) scale(0.65);
+	}
+
+	.mat-form-field-subscript-wrapper {
+		font-size: 86.306%;
+	}
+}
+
+.mat-option-text {
+	font-size: 1.125rem;
+}
+
+.mat-bottom-sheet-container {
+	&.bottom-sheet-with-padding {
+		padding: 16px;
+	}
+}
+
+.mat-icon-button:not([disabled]) {
+	.mat-icon {
+		color: rgba(0, 0, 0, 0.54);
+	}
+
+	&:hover .mat-icon {
+		color: rgba(0, 0, 0, 0.87);
+		transition: color 0.3s;
+	}
+}
+
+.mat-checkbox {
+	.mat-checkbox-inner-container {
+		width: 18px;
+		height: 18px;
+	}
+
+	.mat-checkbox-layout {
+		vertical-align: text-bottom;
+	}
+
+	&.no-hover {
+		.mat-checkbox-inner-container:hover .mat-checkbox-persistent-ripple {
+			opacity: 0;
+		}
+	}
+}
+
+
+/* TABS */
+
+.mat-tab-labels .mat-tab-label-active {
+	color: mat-color($scrm-accent);
+}
+
+mat-tab-group .mat-tab-body-content {
+	margin-top: 24px;
+}
+
+/* CHIPS */
+.cms-chip.cms-chip--error:not(.cms-chip--selected) {
+	background-color: mat-color($scrm-warn, 0.12);
+
+	&::after {
+		background-color: mat-color($scrm-warn);
+	}
+
+	.mat-ripple-element {
+		background: mat-color($scrm-warn, 0.1);
+	}
+
+	.mat-chip-remove {
+		color: mat-color($scrm-warn);
+		opacity: 1;
+	}
+
+	&:not(.mat-chip-disabled) {
+		.mat-chip-remove:hover {
+			opacity: 1;
+		}
+	}
+}
+
+mat-chip-list .mat-standard-chip:focus::after {
+	opacity: 0;
+}
+
+/* TOOLBAR */
+
+.mat-toolbar {
+	border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+/* CDK DRAG&DROP */
+
+.cdk-drag-preview {
+	box-sizing: border-box;
+	border-radius: 4px;
+	box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2),
+	0 4px 5px 0 rgba(0, 0, 0, 0.14),
+	0 1px 10px 0 rgba(0, 0, 0, 0.12);
+}
+
+.cdk-drag-placeholder {
+	opacity: 0;
+}
+
+/* Animate items as they're being sorted. */
+.cdk-drop-list-dragging .cdk-drag {
+	transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+/* Animate an item that has been dropped. */
+.cdk-drag-animating {
+	transition: transform 200ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+/* Disable-стили для автокомплита с чипсами, т.к. из-за бага он не дизейблится
+https://github.com/angular/components/issues/14036
+*/
+.chip-autocomplete-disabled {
+	pointer-events: none;
+
+	&.mat-form-field-appearance-fill .mat-form-field-underline::before {
+		background-color: transparent;
+	}
+
+	&.mat-form-field-appearance-fill .mat-form-field-flex {
+		background-color: rgba(0, 0, 0, 0.02);
+	}
+
+	&.mat-form-field-appearance-fill .mat-form-field-label {
+		color: rgba(0, 0, 0, 0.38);
+	}
+}
+
+.mat-placeholder-required {
+	margin-left: -2px;
+}
+mat-progress-bar {
+	.mat-progress-bar {
+		height: 3px;
+	}
+
+	.mat-progress-bar-buffer {
+		background-color: #f5f5f5;
+	}
+
+	.mat-progress-bar-fill::after {
+		background-color: #546e7ac9;
+	}
+}
+
+h1,
+h1.heading-1 {
+	font-family: $heading-font-family;
+	font-size: 1.5rem;
+	line-height: 2.125rem;
+	margin-bottom: 0.25rem;
+}
+
+h2,
+h2.heading-2 {
+	font-family: $heading-font-family;
+	font-size: 1.25rem;
+	line-height: 1.5rem;
+	margin-bottom: 0.25rem;
+}
+
+.subheading-1 {
+	font-family: $heading-font-family;
+	font-size: 1rem;
+	line-height: 1.25rem;
+	font-weight: 700;
+}
+
+.subheading-1-5 {
+	font-family: $heading-font-family;
+	font-size: 1rem;
+	line-height: 1.5rem;
+	font-weight: 500;
+}
+
+.subheading-2 {
+	font-family: $heading-font-family;
+	font-size: 1rem;
+	line-height: 1.25rem;
+	font-weight: 500;
+}
+
+.subheading-3 {
+	font-family: $heading-font-family;
+	font-size: 0.875rem;
+	line-height: 1.25rem;
+	font-weight: 500;
+}
+
+.body-2 {
+	font-family: $body-font-family;
+	font-size: 0.875rem;
+	line-height: 1.25rem;
+}
+
+.body-3 {
+	font-family: $heading-font-family;
+	font-size: 0.875rem;
+	line-height: 1.25rem;
+	font-weight: 500;
+}
+
+
+.body-4 {
+	font-family: $body-font-family;
+	font-size: 0.875rem;
+	line-height: 1.25rem;
+	font-weight: 500;
+	color: mat-color($scrm-primary, 700);
+}
+
+.overline {
+	font-family: $heading-font-family;
+	font-size: 0.625rem;
+	line-height: 1rem;
+	letter-spacing: 1.5px;
+	font-weight: 700;
+	text-transform: uppercase;
+
+	// margin-bottom: 4px;
+}
+
+.break-spaces {
+	word-spacing: 100vw;
+}
+
+.crm-tariff-item__options--chips .crm-scroll-container mat-chip-list .mat-chip-list-wrapper {
+	display: block;
+}
+
+mat-chip-list .mat-chip {
+	font-weight: 400;
+}
+
+.crm-tariff-item__select {
+	mat-checkbox {
+		width: 100%;
+		display: flex;
+		margin: 0 -16px -16px -16px;
+		padding: 0 0 16px 16px;
+
+		.mat-checkbox-layout {
+			width: 100%;
+			display: inline-block;
+		}
+
+		.mat-checkbox-label {
+			margin-left: 26px;
+		}
+	}
+}
+
+.hint-dialog__panel .mat-dialog-container {
+    @include mat-elevation(2);
+}
+
+/*
+* Disable-стили для лейбла инпута в форме создания организации
+* нужны, т.к. там происходит ручное отключение формы
+* а если форму отключать через .disable(), то в нее не попадают данные
+*/
+.newsale-org-form__block--disabled .mat-form-field-label {
+	color: rgba(0, 0, 0, 0.38);
+}
+
+/*
+* задаем шрифт для символа рубля, т.к. он не отображается на iOS
+*/
+.rouble-sign {
+	font-family: 'mtssans', sans-serif;
+	font-style: normal;
+}
+
+.snackbar {
+	&-container > * {
+		display: flex;
+		justify-content: space-between;
+		flex-direction: row;
+		font-size: 0.875rem;
+		color: white;
+	}
+
+	&-action-list {
+		display: flex;
+		justify-content: flex-end;
+		align-content: center;
+		margin-right: -8px;
+	}
+}
+
+.mat-menu-panel .mat-menu-item.isActive {
+	background-color: $active-menu-item-bg;
+}
+
+/**
+ * Фикс ng-scrollbar. Появлялся ненужный скролл.
+ */
+.ng-scroll-viewport {
+	display: flex;
+	flex-direction: column;
+}
+
+.ng-scroll-content {
+	display: block;
+}
+
+mat-list.mat-list-base {
+	padding-top: 0;
+}
+
+.cdk-overlay-pane .dashboard-menu {
+	min-height: 0;
+}
+
+.dashboard-menu .mat-menu-content:not(:empty) {
+	display: flex;
+	padding: 0;
+}

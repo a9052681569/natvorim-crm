@@ -1,0 +1,60 @@
+@import "~@angular/material/theming";
+
+/* Настройки темы для Angular Material */
+
+$scrm-primary: mat-palette($mat-blue-gray, 600, 300, 700);
+$scrm-accent: mat-palette($mat-red, 700);
+$scrm-warn: mat-palette($mat-amber, 800);
+
+
+$roboto-font-path: '../fonts/roboto';
+$mtssans-font-path: '../fonts/mts-sans';
+$icons-font-path: '../fonts/iconfont';
+$default-icon-color: #757575 !default;
+
+/* типографика */
+$root-font-size: 16px;
+
+/*Body*/
+$body-bg-color: rgba(0, 0, 0, 0.04);
+$body-text-color: rgba(0, 0, 0, 0.87);
+$body-accent-text-color: rgba(255, 255, 255, 0.87);
+
+
+/* Colors */
+$text-color-light: rgba(0, 0, 0, 0.6);
+$text-color-lighter: rgba(0, 0, 0, 0.54);
+$text-color-lightest: rgba(0, 0, 0, 0.38);
+$success-color: #009721;
+$accent-color: map-get($mat-red, 700);
+$icon-light: rgba(0, 0, 0, 0.54);
+$icon-disabled: rgba(0, 0, 0, 0.34);
+$border-lightest: rgba(0, 0, 0, 0.12);
+$active-menu-item-bg: rgba($color: #546E7A, $alpha: .12);
+
+
+
+$mobile-header-height: 56px;
+$desktop-header-height: 64px;
+
+/*Сетка*/
+
+$flexboxgrid-breakpoints:
+	sm 768px 720px,
+	md 992px 960px,
+	lg 1280px 1232px;
+
+$flexboxgrid-max-width: 1232px;
+
+/* Таблица */
+
+$tableControlsHeight: 56px;
+$asyncPaginatorHeight: 56px;
+
+
+/* Статусы. Цветовая палитра */
+$status-yellow: #FFA000;
+$status-blue: #0288D1;;
+$status-green: #388E3C;
+$status-red: #D32F2F;;
+$status-violet: #7F22FD;

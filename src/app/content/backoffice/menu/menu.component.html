@@ -1,0 +1,27 @@
+<div class="menu">
+	<div class="menu__section">
+
+		<div class="menu__item"
+			 *ngFor="let item of navItems"
+			 [routerLink]="item.route"
+			 routerLinkActive="isActive">
+			<mat-icon class="menu__item-icon">{{item.iconName}}</mat-icon>
+			<div @menuToggleAnimation class="menu__item-name" *ngIf="isOpened">{{item.itemName}}</div>
+		</div>
+	</div>
+
+	<div class="menu__section">
+
+		<div class="menu__item"
+			 routerLink="/user"
+			 routerLinkActive="isActive">
+			<mat-icon class="menu__item-icon">settings</mat-icon>
+			<div @menuToggleAnimation class="menu__item-name" *ngIf="isOpened">Настройки</div>
+		</div>
+
+		<div class="menu__item" (click)="toggleMenu()">
+			<mat-icon class="menu__item-icon">{{ isOpened ? "chevron_left" : "chevron_right"}}</mat-icon>
+			<div @menuToggleAnimation class="menu__item-name" *ngIf="isOpened">Свернуть</div>
+		</div>
+	</div>
+</div>

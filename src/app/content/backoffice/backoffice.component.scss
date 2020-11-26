@@ -1,0 +1,29 @@
+:host {
+	display: grid;
+	grid-template-areas:
+		'header header'
+		'menu content';
+	grid-template-rows: auto 1fr;
+	grid-template-columns: auto 1fr;
+	width: 100%;
+	height: 100%;
+}
+
+.header {
+	grid-area: header;
+}
+
+.menu {
+	grid-area: menu;
+}
+
+.content {
+	grid-area: content;
+}
+
+.add-order {
+	position: fixed;
+	right: 24px;
+	bottom: 24px;
+	z-index: 2;
+}

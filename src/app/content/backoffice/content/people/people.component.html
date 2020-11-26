@@ -1,0 +1,19 @@
+<ng-scrollbar class="scrollbar" *ngIf="state | async as state">
+	<div infiniteScroll 
+		 [scrollWindow]="false" 
+		 scrollViewport
+		 (scrolled)="onScroll()">
+
+		<mat-accordion class="scrollbar__content" *ngIf="state.customers.length">
+			<ntv-person *ngFor="let person of state.customers" [person]="person"></ntv-person>
+		</mat-accordion>
+		<p class="scrollbar__content" *ngIf="state.err">Ошибка</p>
+		<ntv-spinner *ngIf="state.loading"></ntv-spinner>
+		
+	</div>
+	
+
+	
+	
+</ng-scrollbar>
+

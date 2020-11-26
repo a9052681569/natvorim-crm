@@ -1,0 +1,87 @@
+@mixin roboto-font($type, $weight, $style: normal) {
+	@font-face {
+		font-family: 'Roboto';
+		src: url('#{$roboto-font-path}/Roboto-#{$type}.woff2') format('woff2'),
+		url('#{$roboto-font-path}/Roboto-#{$type}.woff') format('woff'),
+		url('#{$roboto-font-path}/Roboto-#{$type}.ttf') format('truetype');
+		font-weight: $weight;
+		font-style: $style;
+	}
+}
+
+@mixin roboto-font-pair($type, $weight) {
+	@include roboto-font($type, $weight);
+	@include roboto-font(#{$type}Italic, $weight, italic);
+}
+
+@include roboto-font-pair('Thin', 100);
+@include roboto-font-pair('Light', 300);
+@include roboto-font-pair('Regular', 400);
+@include roboto-font-pair('Medium', 500);
+@include roboto-font-pair('Bold', 700);
+@include roboto-font-pair('Black', 900);
+
+@mixin mtssans-font($type, $weight, $style: normal) {
+	@font-face {
+		font-family: 'mtssans';
+		src: url('#{$mtssans-font-path}/MTSSans-#{$type}.woff2') format('woff2'),
+		url('#{$mtssans-font-path}/MTSSans-#{$type}.woff') format('woff'),
+		url('#{$mtssans-font-path}/MTSSans-#{$type}.otf') format('truetype');
+		font-weight: $weight;
+		font-style: $style;
+	}
+}
+
+@include mtssans-font('Regular', 400);
+@include mtssans-font('Medium', 500);
+@include mtssans-font('Bold', 700);
+@include mtssans-font('Black', 900);
+@include mtssans-font('UltraWide', 1000);
+
+@mixin icon-font($type) {
+	@font-face {
+		font-family: 'Material Icons #{$type}';
+		src: url('#{$icons-font-path}/#{$type}.woff2') format('woff2');
+	}
+
+	.material-icon-#{$type} {
+		font-family: 'Material Icons #{$type}';
+		font-weight: normal;
+		font-style: normal;
+		font-size: 24px;  /* Preferred icon size */
+		display: inline-block;
+		line-height: 1;
+		text-transform: none;
+		letter-spacing: normal;
+		word-wrap: normal;
+		white-space: nowrap;
+		direction: ltr;
+		box-sizing: content-box;
+
+		/* Support for all WebKit browsers. */
+		-webkit-font-smoothing: antialiased;
+		/* Support for Safari and Chrome. */
+		text-rendering: optimizeLegibility;
+
+		/* Support for Firefox. */
+		-moz-osx-font-smoothing: grayscale;
+
+		/* Support for IE. */
+		font-feature-settings: 'liga';
+
+		&.cursor-default {
+			cursor: default;
+		}
+	}
+}
+
+@include icon-font('regular');
+@include icon-font('outlined');
+//@include icon-font('round');
+//@include icon-font('sharp');
+//@include icon-font('twotone');
+
+// Иконочный шрифт по-умолчанию
+.material-icons {
+	@extend .material-icon-outlined;
+}
