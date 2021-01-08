@@ -6,7 +6,11 @@ import { NgScrollbarModule } from 'ngx-scrollbar';
 import { SpinnerComponent } from './components/spinner/spinner.component';
 import { MaterialModule } from './material.module';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
-import { FilterByIdPipe } from '../content/backoffice/content/people/person/person-orders/filter-by-id.pipe';
+import { OverlinedComponent } from './components/overlined/overlined.component';
+import { NumberToStringPipe } from './pipes/number-to-string.pipe';
+import { SendedCheckboxComponent } from './components/sended-checkbox/sended-checkbox.component';
+import { TrackFieldComponent } from './components/track-field/track-field.component';
+import { ClipboardModule } from '@angular/cdk/clipboard';
 
 export const modules = [
 	CommonModule,
@@ -14,23 +18,33 @@ export const modules = [
 	HttpClientModule,
 	ReactiveFormsModule,
 	NgScrollbarModule,
-	InfiniteScrollModule
+	InfiniteScrollModule,
+	MaterialModule,
+	ClipboardModule
+];
+export const components = [
+	OverlinedComponent,
+	SpinnerComponent,
+	SendedCheckboxComponent,
+	TrackFieldComponent
+];
+
+export const pipes = [
+	NumberToStringPipe
 ];
 
 @NgModule({
 	imports: [
-		modules,
-		MaterialModule
+		...modules,
 	],
 	exports: [
 		...modules,
-		SpinnerComponent,
-		MaterialModule,
-		FilterByIdPipe
+		...components,
+		...pipes
 	],
 	declarations: [
-		SpinnerComponent,
-		FilterByIdPipe
+		...components,
+		...pipes
 	],
 	providers: [
 	]

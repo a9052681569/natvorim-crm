@@ -1,15 +1,15 @@
 import { ActionReducerMap, MetaReducer } from '@ngrx/store';
 import { customersReducer, CustomersState } from './reducers/costomers.reducer';
-import { ordersReducer, OrdersState } from './reducers/orders.reducer';
+import { authReducer, AuthState } from './reducers/auth.reducer';
 
 export interface RootState {
 	customers: CustomersState;
-	orders: OrdersState;
+	auth: AuthState;
 }
 
 export const reducer: ActionReducerMap<RootState> = {
 	customers: customersReducer,
-	orders: ordersReducer
+	auth: authReducer
 };
 
 export const metaReducers: MetaReducer<RootState>[] = [];

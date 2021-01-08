@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { createEffect, ofType, Actions } from '@ngrx/effects';
 import { EMPTY, of } from 'rxjs';
 import { mergeMap, map, catchError } from 'rxjs/operators';
@@ -10,18 +11,33 @@ import { CustomersActions, CustomersActionsNames } from '../actions/costomers.ac
 export class CustomersEffects {
 
 	setCustomers$ = createEffect(() => this.actions$.pipe(
-		ofType(CustomersActionsNames.SET_СUSTOMERS_PENDING),
-		mergeMap(({_start, _end}) => {
-			return this.peopleService.getCustomers({_start, _end})
+		ofType(CustomersActionsNames.SEARCH_СUSTOMERS_PENDING),
+		mergeMap(({name}) => {
+			return this.peopleService.getCustomers(name)
 				.pipe(
-					map((customers: Person[]) => CustomersActions.setSuccess({ customers })),
-					catchError(() => of(CustomersActions.setError()))
+					map((customers: Person[]) => CustomersActions.searchSuccess({ customers })),
+					catchError(() => of(CustomersActions.searchError()))
+				);
+		})
+	));
+
+	patchCustomer$ = createEffect(() => this.actions$.pipe(
+		ofType(CustomersActionsNames.PATCH_СUSTOMER_PENDING),
+		mergeMap(({customer}) => {
+			return this.peopleService.patchCustomer(customer)
+				.pipe(
+					map((cust: Person) => {
+						this.dialog.closeAll();
+						return CustomersActions.patchSuccess({ customer: cust });
+					}),
+					catchError(() => of(CustomersActions.patchError()))
 				);
 		})
 	));
 
 	constructor(
 		private actions$: Actions,
-		private peopleService: PeopleService
+		private peopleService: PeopleService,
+		private dialog: MatDialog
 	) {}
 }

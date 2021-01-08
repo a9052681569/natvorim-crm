@@ -8,13 +8,12 @@ export class ClipService {
 
 	constructor(private snack: MatSnackBar) { }
 
-	clip(val: string | number): void {
-		navigator.clipboard.writeText(val.toString())
-			.then(() => {
-				this.snack.open('Скопировано в буфер обмена', undefined, {duration: 2000});
-			})
-			.catch(err => {
-				this.snack.open('Ошибка при кпировании в буфер обмена', undefined, {duration: 2000});
-			});
+	clip(val: string | number | undefined): void {
+		if (val === undefined) { return; }
+		if (val) {
+			this.snack.open('Скопировано в буфер обмена', undefined, {duration: 2000});
+		} else {
+			this.snack.open('Копируем пустое значение', undefined, {duration: 2000});
+		}
 	}
 }

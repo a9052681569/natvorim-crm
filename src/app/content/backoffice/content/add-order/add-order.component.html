@@ -1,0 +1,48 @@
+<!-- <mat-accordion>
+    <mat-expansion-panel hideToggle>
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                Клиент
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+       	<ntv-customer-form></ntv-customer-form>
+    </mat-expansion-panel>
+    <mat-expansion-panel hideToggle>
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                Заказ
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+        <ntv-order-form></ntv-order-form>
+	</mat-expansion-panel>
+</mat-accordion> -->
+
+<ng-scrollbar class="scrollbar">
+	<div class="add-order">
+		<p>Заказ</p>
+		<ntv-order-form></ntv-order-form>
+
+		<p>Клиент</p>
+		<ntv-customer-form></ntv-customer-form>
+
+		<ng-container *ngIf="state$ | async as state">
+			<button mat-raised-button (click)="registerNewOrder(state)" [ngSwitch]="loadingState$ | async" class="submit-button">
+				<span *ngSwitchCase="loadingStates.loading" class="submit-button__content">
+					Сохраняем... 
+					<ntv-spinner class="submit-button__spinner" [diameter]="16"></ntv-spinner>
+				</span>
+			
+				<span *ngSwitchCase="loadingStates.err" class="submit-button__content">
+					Ошибка, нажми чтобы попробовать снова
+					<mat-icon class="submit-button__error-icon">error</mat-icon>
+				</span>
+			
+				<ng-container *ngSwitchDefault>
+					Создать заказ
+				</ng-container>
+			</button>
+			
+		</ng-container>
+	</div>
+</ng-scrollbar>
+

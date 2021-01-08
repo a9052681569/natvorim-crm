@@ -9,6 +9,8 @@ export class SpinnerComponent implements OnInit {
 
 	@Input() diameter = 64;
 
+	@Input() color = 'primary';
+
 	constructor() { }
 
 	ngOnInit(): void {

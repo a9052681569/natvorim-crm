@@ -1,19 +1,24 @@
-<mat-accordion class="orders" *ngIf="(store.select('orders') | async)?.orders as orders">
+<ng-container *ngIf="state$ | async as state">
+	<mat-accordion>
 
-	<ntv-person-order 
-		*ngFor="let order of orders | filterById: personId" 
-		[order]="order">
-	</ntv-person-order>
+		<ntv-person-order 
+			*ngFor="let order of state.orders" 
+			[order]="order"
+			class="order">
+		</ntv-person-order>
+	
+		<p *ngIf="!state.orders.length && !state.err && !state.loading">У клиента нет заказов</p>
+	
+	</mat-accordion>
+	
+	
+	<p *ngIf="state.err">Ошибка, попробуйте <span (click)="getOrders()" class="text-button">еще раз</span></p>
+	
+	<div if></div>
+	
+	<ntv-spinner [diameter]='24' *ngIf="state.loading"></ntv-spinner>
+	
+</ng-container>
 
-	<p *ngIf="!(orders | filterById: personId).length && !state.err && !state.loading">У клиента нет заказов</p>
-
-</mat-accordion>
-
-
-<p *ngIf="state.err">Ошибка, попробуйте <span (click)="getOrders()" class="text-button">еще раз</span></p>
-
-<div if></div>
-
-<ntv-spinner [diameter]='24' *ngIf="state.loading"></ntv-spinner>
 
 

@@ -17,11 +17,7 @@ export interface Person {
 	/**
 	 * адрес доставки клиенту
 	 */
-	address: string;
-	/**
-	 * массив id заказов пользователя
-	 */
-	ordersIds: number[];
+	address: PersonAddress;
 }
 
 export interface PersonContacts {
@@ -37,4 +33,9 @@ export interface PersonContacts {
 	 * аккаунт инстаграмм
 	 */
 	inst?: string;
+}
+
+export interface PersonAddress {
+	city: string;
+	address: string;
 }

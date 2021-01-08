@@ -1,0 +1,48 @@
+<form [formGroup]="addCustomerForm" class="form">
+	<mat-form-field appearance="standard">
+		<mat-label>ФИО</mat-label>
+		<input matInput formControlName="name" [matAutocomplete]="auto">
+		<mat-autocomplete #auto="matAutocomplete" (optionSelected)="setCustomerFromAutocomplete($event)">
+			<mat-option *ngFor="let option of autocompleteOptions" [value]="option">
+				{{option.name}}
+			</mat-option>
+		</mat-autocomplete>
+	</mat-form-field>
+
+	<div formGroupName="contacts" class="form__group">
+
+		<mat-form-field appearance="standard">
+			<mat-label>E-mail</mat-label>
+			<input matInput formControlName="email">
+		</mat-form-field>
+	
+		<mat-form-field appearance="standard">
+			<mat-label>Инстаграм</mat-label>
+			<input matInput formControlName="inst">
+		</mat-form-field>
+	
+		<mat-form-field appearance="standard">
+			<mat-label>Телефон</mat-label>
+			<input matInput formControlName="phone">
+		</mat-form-field>
+	</div>
+
+	<div formGroupName="address" class="form__group">
+		<mat-form-field appearance="standard">
+			<mat-label>Город</mat-label>
+			<input matInput formControlName="city">
+		</mat-form-field>
+	
+		<mat-form-field appearance="standard">
+			<mat-label>Остальной адрес</mat-label>
+			<input matInput formControlName="address">
+		</mat-form-field>
+
+		<button mat-icon-button (click)="resetForm()">
+			<mat-icon>refresh</mat-icon>
+		</button>
+
+		
+	</div>
+
+</form>

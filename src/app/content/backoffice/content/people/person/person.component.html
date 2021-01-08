@@ -3,31 +3,42 @@
 	<mat-expansion-panel-header>
 		
 		<mat-panel-title class="person__title" 
-				 		 (click)="$event.stopPropagation(); clipService.clip(person.name)">
+						 [cdkCopyToClipboard]="person.name" 
+						 (cdkCopyToClipboardCopied)="clipService.clip(person.name)"
+						 (click)="$event.stopPropagation()">
 			{{person.name}}
 		</mat-panel-title>
 		<mat-panel-description class="person__description" (click)="$event.stopPropagation()">
 
-			<div class="person__contact" 
-				 *ngFor="let contact of contactItems"
-				 (click)="clipService.clip(contact.value)">
-				<div class="overline">
-					{{contact.name}}
-				</div>
+			<ntv-overlined *ngFor="let contact of contactItems"
+						   [clip]="contact.value"
+						   [overline]="contact.name"
+						   [value]="contact.value || 'не указан'"
+						   class="person__address-item">
+			</ntv-overlined>
 
-				<div class="person__contact-value">
-					{{contact.value}}
-				</div>
-			</div>
-
-			<button mat-icon-button>
-				<mat-icon>people</mat-icon>
+			<button mat-icon-button (click)="showEditor()">
+				<mat-icon>edit</mat-icon>
 			</button>
 
 		</mat-panel-description>
 
 	</mat-expansion-panel-header>
 	<ng-template matExpansionPanelContent>
+		<div class="person__address">
+			<h6 class="person__address-title">Адрес</h6>
+			<ntv-overlined [clip]="person.address.city"
+						   overline="город" 
+						   [value]="person.address.city || 'не указан'"
+						   class="person__address-item">
+			</ntv-overlined>
+			<ntv-overlined [clip]="person.address.address"
+						   overline="остальное" 
+						   [value]="person.address.address || 'не указан'"
+						   class="person__address-item">
+			</ntv-overlined>
+		</div>
+		<h6>Заказы</h6>
 		<ntv-person-orders [personId]="person.id"></ntv-person-orders>
 	</ng-template>
 

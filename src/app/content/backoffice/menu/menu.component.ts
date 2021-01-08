@@ -24,6 +24,16 @@ export class MenuComponent {
 			iconName: 'people',
 			itemName: 'Люди'
 		},
+		{
+			route: 'shipment-preparing',
+			iconName: 'accessible_forward',
+			itemName: 'Подготовка отправки'
+		},
+		{
+			route: 'add-order',
+			iconName: 'add',
+			itemName: 'Добавление заказа'
+		},
 	];
 
 	/**

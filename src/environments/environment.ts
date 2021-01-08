@@ -3,9 +3,21 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+	production: false,
+	apiEndpoints: {
+		customersForAutocomplete: '/cors/people/autocomplete',
+		postOrders: '/cors/orders/post',
+		postCustomer: '/cors/people/post',
+		getCustomers: '/cors/people/get',
+		getOrdersById: '/cors/orders/by/personid',
+		patchOrder: '/cors/orders/patch',
+		patchOrderSended: '/cors/orders/patch/sended',
+		patchOrderTrack: '/cors/orders/patch/track',
+		patchCustomer: '/cors/people/patch',
+		auth: '/cors/auth/main',
+		prepairingOrders: '/cors/orders/for/prepaire'
+	}
 };
-
 /*
  * For easier debugging in development mode, you can import the following file
  * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.

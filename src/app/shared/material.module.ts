@@ -30,6 +30,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { MatCardModule } from '@angular/material/card';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+
 
 const MATERIAL_MODULES = [
 	MatButtonModule,
@@ -60,7 +63,9 @@ const MATERIAL_MODULES = [
 	MatDialogModule,
 	MatExpansionModule,
 	MatBottomSheetModule,
-	MatCardModule
+	MatCardModule,
+	MatDatepickerModule,
+	MatNativeDateModule
 ];
 
 @NgModule({

@@ -2,16 +2,17 @@
 	display: block;
 }
 
-.scrollbar {
-
-	max-height: calc(100vh - 64px);
-	min-height: calc(100vh - 64px);
-
-	&__content {
-		padding: 16px;
-	}
+.search {
+	width: 100%;
 }
 
-.sc {
-	height: 2rem;
+.people {
+	display: grid;
+	grid-gap: 16px;
+	padding: 16px;
+}
+
+.scrollbar {
+	max-height: calc(100vh - 64px);
+	min-height: calc(100vh - 64px);
 }

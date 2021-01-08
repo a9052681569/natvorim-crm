@@ -1,0 +1,21 @@
+<mat-card class="preparing-order">
+	<ntv-overlined overline="Имя"
+				   [value]="order.name"
+				   [clip]="order.name"></ntv-overlined>
+
+	<ntv-overlined overline="Телефон" 
+				   [value]="order.phone || 'не указан'" 
+				   [clip]="order.phone"></ntv-overlined>
+
+	<ntv-overlined overline="Город"
+				   [value]="order.address.city || 'не указан'"></ntv-overlined>
+	
+	<ntv-overlined overline="Адрес" 
+				   [value]="order.address.address ? 'нажми чтобы скопировать' : 'не указан'"
+				   [clip]="order.address.address">
+	</ntv-overlined>
+
+	<ntv-sended-checkbox [orderId]="order.id" [sendedStatus]="order.sended"></ntv-sended-checkbox>
+
+	<ntv-track-field [orderId]="order.id" [trackNumber]="order.trackNumber"></ntv-track-field>
+</mat-card>

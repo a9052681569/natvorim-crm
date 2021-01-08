@@ -1,0 +1,29 @@
+:host {
+	display: block;
+	width: 100%;
+}
+
+.add-order {
+	padding: 24px;
+}
+
+.submit-button {
+	&__content {
+		display: flex;
+		align-items: center;
+	}
+
+	&__spinner {
+		margin-top: 0;
+		margin-left: 8px;
+	}
+
+	&__error-icon {
+		margin-left: 8px;
+	}
+}
+
+.scrollbar {
+	max-height: calc(100vh - 64px);
+	min-height: calc(100vh - 64px);
+}

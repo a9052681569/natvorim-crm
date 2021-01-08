@@ -16,6 +16,22 @@
 		grid-gap: 16px;
 	}
 
+	&__address {
+		display: grid;
+		grid-template-areas: 
+			'title title'
+			'item item';
+		grid-template-columns: auto auto;
+		grid-template-rows: auto auto;
+		
+		&-title {
+			grid-area: title;
+		}
+		&-item {
+			cursor: pointer;
+		}
+	}
+
 	
 
 	&.mat-expansion-panel {

@@ -1,0 +1,32 @@
+<form [formGroup]="form" class="form" (ngSubmit)="search()">
+	<mat-form-field appearance="standard" class="form__control">
+		<mat-label>Дата</mat-label>
+		<mat-select formControlName="shipmentDate">
+			<mat-option *ngFor="let month of months" [value]="month.date">
+					{{month.name}}
+			</mat-option>
+		</mat-select>
+	</mat-form-field>
+
+	<mat-form-field appearance="standard" class="form__control">
+		<mat-label>Тип отправки</mat-label>
+		<mat-select formControlName="shipmentType">
+			<mat-option *ngFor="let shipmentType of shipmentTypes" [value]="shipmentType">
+					{{shipmentType}}
+			</mat-option>
+		</mat-select>
+	</mat-form-field>
+
+	<mat-form-field appearance="standard" class="form__control">
+		<mat-label>Тип заказа</mat-label>
+		<mat-select formControlName="ordersType">
+			<mat-option *ngFor="let age of ages" [value]="age">
+					{{age}}
+			</mat-option>
+		</mat-select>
+	</mat-form-field>
+
+	<button mat-raised-button color="accent" type="submit">
+		search
+	</button>
+</form>

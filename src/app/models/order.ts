@@ -1,16 +1,17 @@
+import { OrderAges, OrderTypes, ShipmentTypes } from '../enums/order/order-enums';
+
+/**
+ * объект с информацией о заказе
+ */
 export interface Order {
 	/**
 	 * идентификатор заказа
 	 */
-	id: number;
+	id: string;
 	/**
 	 * id клиентa, которому будет доставлен заказ
 	 */
 	personId: number;
-	/**
-	 * адрес доставки, указывается при отличии от адреса клиента
-	 */
-	address?: string;
 	/**
 	 * тип отправки (почта, курьер, сдек и т.д)
 	 */
@@ -20,13 +21,9 @@ export interface Order {
 	 */
 	type: OrderTypes;
 	/**
-	 * набор дополнительных опций (например добавить театр теней)
+	 * состав заказа
 	 */
-	extraOptions: ExtraOptions;
-	/**
-	 * массив наборов в заказе
-	 */
-	kits: Kit[];
+	orderStructure: OrderStructure;
 	/**
 	 * комментарий к заказу
 	 */
@@ -39,30 +36,41 @@ export interface Order {
 	 * дата совершения заказа. ISOString
 	 */
 	orderDate: string;
+	/**
+	 * номер почтового отправления
+	 */
+	trackNumber: string;
+	/**
+	 * маркер отправленности заказа
+	 */
+	sended: boolean;
 }
 
-export interface ExtraOptions {
-	theatre: boolean;
-}
 
-export enum ShipmentTypes {
-	cdek = 'сдэк',
-	post = 'почта',
-	courier = 'курьер'
-}
-
-export enum OrderTypes {
-	check = 'пробный',
-	subscription = 'подписка',
-}
-
-export enum OrderAges {
-	twoThree = '2-3',
-	fourSix = '4-6',
-	sevenNine = '7-9'
-}
-
+/**
+ * набор
+ */
 export interface Kit {
+	/**
+	 * возраст ребенка
+	 */
 	age: OrderAges;
+	/**
+	 * кол-во наборов для этого возраста
+	 */
 	count: number;
+}
+
+/**
+ * структура заказа (что именно будет доставлено клиенту)
+ */
+export interface OrderStructure {
+	/**
+	 * наборы
+	 */
+	kits: Kit[];
+	/**
+	 * театры теней
+	 */
+	theatres: Kit[];
 }

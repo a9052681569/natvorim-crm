@@ -4,7 +4,7 @@ import { PeopleComponent } from './people.component';
 
 const routes: Routes = [
 	{ path: '', component: PeopleComponent },
-  ];
+];
 
 @NgModule({
 	imports: [RouterModule.forChild(routes)],

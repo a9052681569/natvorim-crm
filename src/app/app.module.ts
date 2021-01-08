@@ -15,6 +15,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from 'src/environments/environment';
 import { reducer, metaReducers } from 'src/app/store/index';
 import { effects } from 'src/app/store/effects/index';
+import { MAT_DATE_LOCALE } from '@angular/material/core';
 
 @NgModule({
 	declarations: [
@@ -33,7 +34,8 @@ import { effects } from 'src/app/store/effects/index';
 	],
 	providers: [
 		AuthGuard,
-		CustomPreloadService
+		CustomPreloadService,
+		{provide: MAT_DATE_LOCALE, useValue: 'ru-ru'},
 	],
 	bootstrap: [AppComponent]
 })

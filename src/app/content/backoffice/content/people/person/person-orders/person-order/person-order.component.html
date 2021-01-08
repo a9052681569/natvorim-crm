@@ -1,1 +1,44 @@
-<p>{{order.type}} {{order.shipmentDate | date:'dd.MM.yyyy'}}</p>
+
+<mat-card class="order">
+	<div class="order__data">
+		<ntv-overlined [overline]="'тип заказа'" [value]="order.type"></ntv-overlined>
+
+		<ntv-overlined [overline]="'отправить'" [value]="order.shipmentDate"></ntv-overlined>
+	
+		<ntv-overlined [overline]="'повезет'" [value]="order.shipmentType || 'не указан'"></ntv-overlined>
+	
+		<ntv-overlined *ngIf="moreThanOneKit; else oneKit"
+					   (click)="showOrderStructureDialog()"
+					   [overline]="'наборы'"
+					   [value]="'нажми для просмотра'"
+					   class="order__kits">
+		</ntv-overlined>
+	
+		<ng-template #oneKit>
+			<ng-container *ngIf="order.orderStructure.kits.length">
+				<ntv-overlined overline="что привезти" value="набор"></ntv-overlined>
+				<ntv-kit [kit]="order.orderStructure.kits[0]"></ntv-kit>
+			</ng-container>
+	
+			<ng-container *ngIf="order.orderStructure.theatres.length">
+				<ntv-overlined overline="что привезти" value="театр"></ntv-overlined>
+				<ntv-kit [kit]="order.orderStructure.theatres[0]"></ntv-kit>
+			</ng-container>
+		</ng-template>
+	
+		<ntv-sended-checkbox [orderId]="order.id" [sendedStatus]="order.sended"></ntv-sended-checkbox>
+		
+		<ntv-track-field [orderId]="order.id" [trackNumber]="order.trackNumber"></ntv-track-field>
+	
+	</div>
+
+	<ntv-overlined [overline]="'комментарий'" 
+				   [value]="order.comment || 'не указан'"
+				   class="order__comment">
+	</ntv-overlined>
+
+	<button mat-icon-button (click)="showEditor()" class="order__edit">
+		<mat-icon>edit</mat-icon>
+	</button>
+	
+</mat-card>

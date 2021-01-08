@@ -1,0 +1,34 @@
+<form [formGroup]="editPersonForm" class="form" (ngSubmit)="patchPerson()">
+		<mat-form-field appearance="standard">
+			<mat-label>ФИО</mat-label>
+			<input matInput formControlName="name">
+		</mat-form-field>
+
+		<mat-form-field appearance="standard">
+			<mat-label>E-mail</mat-label>
+			<input matInput formControlName="email">
+		</mat-form-field>
+
+		<mat-form-field appearance="standard">
+			<mat-label>Инстаграм</mat-label>
+			<input matInput formControlName="inst">
+		</mat-form-field>
+
+		<mat-form-field appearance="standard">
+			<mat-label>Телефон</mat-label>
+			<input matInput formControlName="phone">
+		</mat-form-field>
+
+		<mat-form-field appearance="standard">
+			<mat-label>Город</mat-label>
+			<input matInput formControlName="city">
+		</mat-form-field>
+
+		<mat-form-field appearance="standard">
+			<mat-label>Остальной адрес</mat-label>
+			<input matInput formControlName="address">
+		</mat-form-field>
+
+		<button mat-flat-button type="submit">изменить</button>
+
+</form>

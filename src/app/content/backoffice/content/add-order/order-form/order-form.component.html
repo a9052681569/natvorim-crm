@@ -1,0 +1,8 @@
+<mat-tab-group mat-stretch-tabs dynamicHeight (selectedTabChange)="setCurrentOrderType($event)">
+	<mat-tab [label]="orderTypes.subscription | titlecase">
+		<ntv-subscription-form></ntv-subscription-form>
+	</mat-tab>
+	<mat-tab [label]="orderTypes.check | titlecase">
+		<ntv-once-form></ntv-once-form>
+	</mat-tab>
+</mat-tab-group>

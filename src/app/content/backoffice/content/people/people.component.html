@@ -1,19 +1,29 @@
 <ng-scrollbar class="scrollbar" *ngIf="state | async as state">
-	<div infiniteScroll 
-		 [scrollWindow]="false" 
-		 scrollViewport
-		 (scrolled)="onScroll()">
 
-		<mat-accordion class="scrollbar__content" *ngIf="state.customers.length">
-			<ntv-person *ngFor="let person of state.customers" [person]="person"></ntv-person>
-		</mat-accordion>
-		<p class="scrollbar__content" *ngIf="state.err">Ошибка</p>
+	<div class="people">
+		<mat-form-field appearance="standard" 
+						class="search">
+
+			<mat-label>поиск по имени</mat-label>
+			<input matInput [formControl]="name" [matAutocomplete]="auto">
+			<mat-autocomplete #auto="matAutocomplete" (optionSelected)="setCustomer($event)">
+				<mat-option *ngFor="let option of autocompleteOptions" [value]="option">
+					{{option.name}}
+				</mat-option>
+			</mat-autocomplete>
+
+		</mat-form-field>
+
 		<ntv-spinner *ngIf="state.loading"></ntv-spinner>
-		
-	</div>
-	
 
-	
-	
+		<mat-accordion *ngIf="state.customers.length">
+
+			<ntv-person *ngFor="let person of state.customers" [person]="person"></ntv-person>
+
+		</mat-accordion>
+
+		<p *ngIf="state.err">Ошибка</p>
+	</div>
+
 </ng-scrollbar>
 

@@ -1,0 +1,29 @@
+
+	<h4>Конфигурируем подписку</h4>
+	<form [formGroup]="addSubscriptionForm" class="form">
+		<mat-form-field appearance="standard">
+			<mat-label>Месяцы</mat-label>
+			<mat-select formControlName="months" multiple>
+				<mat-option *ngFor="let month of months" [value]="month.date">
+						{{month.name}}
+				</mat-option>
+			</mat-select>
+		</mat-form-field>
+
+		<mat-form-field appearance="standard">
+			<mat-label>Отправка</mat-label>
+			<mat-select formControlName="shipmentType">
+				<mat-option *ngFor="let type of shipmentTypes" [value]="type">
+						{{type}}
+				</mat-option>
+			</mat-select>
+		</mat-form-field>
+
+		<button mat-flat-button 
+				(click)="showOrderStructureSelectionDialog()"
+				class="form__submit">Состав заказа</button>
+		
+	</form>
+
+	<ntv-subscription-orders-form></ntv-subscription-orders-form>
+

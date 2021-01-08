@@ -1,0 +1,41 @@
+:host {
+	display: block;
+}
+
+.order {
+	display: grid;
+	grid-template-areas: 
+		'data edit'
+		'comment comment';
+	grid-template-columns: 1fr 40px;
+	grid-template-rows: auto auto;
+	grid-gap: 8px;
+
+	&__data {
+		display: flex;
+		gap: 16px;
+		flex-wrap: wrap;
+		grid-area: data;
+	}
+
+	&__comment {
+		grid-area: comment;
+	}
+
+	&__edit {
+		grid-area: edit;
+	}
+
+	&__kits {
+		cursor: pointer;
+	}
+
+	&__track {
+		&-control-spinner {
+			margin-top: 16px;
+		}
+		&-copy-icon {
+			cursor: pointer;
+		}
+	}
+}

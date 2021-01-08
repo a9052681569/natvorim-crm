@@ -1,0 +1,9 @@
+<div class="kits">
+	<h6>Наборы</h6>
+	<ntv-kit *ngFor="let kit of data.orderStructure.kits" [kit]="kit"></ntv-kit>
+</div>
+<mat-divider [vertical]="true"></mat-divider>
+<div class="theatres">
+	<h6>Театры</h6>
+	<ntv-kit *ngFor="let theatre of data.orderStructure.theatres" [kit]="theatre"></ntv-kit>
+</div>

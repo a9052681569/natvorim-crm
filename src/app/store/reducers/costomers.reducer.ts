@@ -1,18 +1,22 @@
 import { createReducer, on } from '@ngrx/store';
 import { Action } from '@ngrx/store/src/models';
 import { Person } from '../../models/people';
-import { CustomersActions, CustomersAddProps, CustomersSetSuccessProps } from '../actions/costomers.actions';
+import { CustomersActions, CustomersAddProps, CustomersSearchSuccessProps } from '../actions/costomers.actions';
 
 export interface CustomersState {
 	customers: Person[];
 	loading: boolean;
 	err: boolean;
+	patchLoading: boolean;
+	patchError: boolean;
 }
 
 export const initialState: CustomersState = {
 	customers: [],
 	loading: false,
-	err: false
+	err: false,
+	patchLoading: false,
+	patchError: false
 };
 
 const _customersReducer = createReducer(
@@ -25,26 +29,53 @@ const _customersReducer = createReducer(
 			customers
 		};
 	}),
-	on(CustomersActions.setPending, (state: CustomersState) => {
+	on(CustomersActions.searchPending, (state: CustomersState) => {
 		return {
 			...state,
 			loading: true
 		};
 	}),
-	on(CustomersActions.setSuccess, (state: CustomersState, { customers }: CustomersSetSuccessProps) => {
-		const clonedCustomers = state.customers.slice();
-		clonedCustomers.push(...customers);
+	on(CustomersActions.searchSuccess, (state: CustomersState, { customers }: CustomersSearchSuccessProps) => {
 		return {
 			...state,
-			customers: clonedCustomers,
+			customers,
 			loading: false
 		};
 	}),
-	on(CustomersActions.setError, (state: CustomersState) => {
+	on(CustomersActions.searchError, (state: CustomersState) => {
 		return {
 			...state,
 			err: true,
 			loading: false
+		};
+	}),
+	on(CustomersActions.patchPending, (state: CustomersState) => {
+		return {
+			...state,
+			patchError: false,
+			patchLoading: true
+		};
+	}),
+	on(CustomersActions.patchSuccess, (state: CustomersState, { customer }) => {
+		const clonedCustomers = state.customers.slice();
+		clonedCustomers[clonedCustomers.findIndex(c => c.id === customer.id)] = customer;
+		return {
+			...state,
+			patchError: false,
+			patchLoading: false,
+			customers: clonedCustomers
+		};
+	}),
+	on(CustomersActions.patchError, (state: CustomersState) => {
+		return {
+			...state,
+			patchError: true,
+			patchLoading: false
+		};
+	}),
+	on(CustomersActions.reset, (state: CustomersState) => {
+		return {
+			...initialState
 		};
 	}),
 );

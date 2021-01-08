@@ -1,0 +1,154 @@
+<ng-scrollbar class="scrollbar">
+	<form [formGroup]="editOrderForm" class="form" (ngSubmit)="patchOrder()">
+
+		<h4>О заказе</h4>
+		<div class="form__block">
+			<mat-card class="select-card">
+				<mat-form-field appearance="standard">
+					<mat-label>Комментарий</mat-label>
+					<textarea matInput formControlName="comment"></textarea>
+				</mat-form-field>
+				
+			</mat-card>
+			
+			
+			<mat-divider [vertical]="true"></mat-divider>
+	
+			
+			<div class="form__block-colomn">
+				<mat-card class="select-card">
+					<mat-checkbox formControlName="sended">Отправлено</mat-checkbox>
+				</mat-card>
+	
+				<mat-card class="select-card">
+					<mat-form-field appearance="standard">
+						<mat-label>Тип</mat-label>
+						<mat-select formControlName="type">
+							<mat-option *ngFor="let type of orderTypes" [value]="type">
+								  {{type}}
+							</mat-option>
+						</mat-select>
+					</mat-form-field>
+				</mat-card>
+			</div>
+		</div>
+	
+		<h4>Отправка</h4>
+		<div class="form__block">
+			<mat-card class="select-card">
+				<mat-form-field appearance="standard">
+					<mat-label>Дата</mat-label>
+					<mat-select formControlName="shipmentDate">
+						<mat-option *ngFor="let month of months" [value]="month.date">
+								{{month.name}}
+						</mat-option>
+					</mat-select>
+				</mat-form-field>
+			</mat-card>
+			
+			<mat-divider [vertical]="true"></mat-divider>
+	
+			<mat-card class="select-card">
+				<mat-form-field appearance="standard">
+					<mat-label>Тип</mat-label>
+					<mat-select formControlName="shipmentType">
+						<mat-option *ngFor="let type of shipmentTypes" [value]="type">
+							  {{type}}
+						</mat-option>
+					</mat-select>
+				</mat-form-field>
+			</mat-card>
+			
+		</div>
+		
+	
+		<h4>Что везем</h4>
+		<div formGroupName="orderStructure" class="form__block">
+			<div formArrayName="kits" class="form__array">
+				<div class="form__array-title">
+	
+					<h6>Наборы</h6>
+	
+					<button mat-icon-button type="button" (click)="addKit(initialKitGroupState)">
+						<mat-icon>add</mat-icon>
+					</button>
+				</div>
+				
+				<mat-card *ngFor="let form of kits.controls; index as i" class="form__array-item">
+	
+					<mat-form-field appearance="standard">
+						<mat-label>сколько</mat-label>
+						<input type="number" matInput [formControl]="getControl(form.get('count'))">
+					</mat-form-field>
+	
+					<button mat-icon-button type="button" (click)='removeKit(i)'>
+						<mat-icon>delete</mat-icon>
+					</button>
+	
+					<mat-form-field appearance="standard">
+						<mat-label>возраст</mat-label>
+						<mat-select [formControl]="getControl(form.get('age'))">
+							<mat-option *ngFor="let age of ages" [value]="age">
+							  {{age}}
+							</mat-option>
+						</mat-select>
+					</mat-form-field>
+	
+				</mat-card>
+			</div>
+	
+			<mat-divider [vertical]="true"></mat-divider>
+	
+			<div formArrayName="theatres" class="form__array">
+				<div class="form__array-title">
+	
+					<h6>Театры</h6>
+	
+					<button mat-icon-button type="button" (click)="addTheatre(initialKitGroupState)">
+						<mat-icon>add</mat-icon>
+					</button>
+				</div>
+				
+				<mat-card *ngFor="let form of theatres.controls; index as i" class="form__array-item">
+	
+					<mat-form-field appearance="standard">
+						<mat-label>сколько</mat-label>
+						<input type="number" matInput [formControl]="getControl(form.get('count'))">
+					</mat-form-field>
+	
+					<button mat-icon-button type="button" (click)='removeTheatre(i)'>
+						<mat-icon>delete</mat-icon>
+					</button>
+	
+					<mat-form-field appearance="standard">
+						<mat-label>возраст</mat-label>
+						<mat-select [formControl]="getControl(form.get('age'))">
+							<mat-option name="dsfsd" *ngFor="let age of ages" [value]="age">
+							  {{age}}
+							</mat-option>
+						</mat-select>
+					</mat-form-field>
+	
+				</mat-card>
+			</div>
+		</div>
+	
+		<button mat-raised-button type="submit" [ngSwitch]="loadingState" class="submit-button">
+			<span *ngSwitchCase="loadingStates.loading" class="submit-button__content">
+				Сохраняем... 
+				<ntv-spinner class="submit-button__spinner" [diameter]="16"></ntv-spinner>
+			</span>
+
+			<span *ngSwitchCase="loadingStates.err" class="submit-button__content">
+				Ошибка, нажми чтобы попробовать снова
+				<mat-icon class="submit-button__error-icon">error</mat-icon>
+			</span>
+
+			<ng-container *ngSwitchDefault>
+				Сохранить
+			</ng-container>
+		</button>
+	
+	</form>
+</ng-scrollbar>
+

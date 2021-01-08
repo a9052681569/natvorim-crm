@@ -1,74 +1,39 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { Observable, Subject, throwError } from 'rxjs';
-import { catchError, finalize, takeUntil, tap } from 'rxjs/operators';
-import { Order } from 'src/app/models/order';
-import { RootState } from 'src/app/store';
-import { OrdersActions } from 'src/app/store/actions/orders.actions';
-import { OrdersState } from 'src/app/store/reducers/orders.reducer';
-import { PeopleService } from '../../people.service';
+import { Component, Input, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { OrdersState, OrdersStore } from './orders-store.service';
 
 @Component({
-  selector: 'ntv-person-orders',
-  templateUrl: './person-orders.component.html',
-  styleUrls: ['./person-orders.component.scss']
+	selector: 'ntv-person-orders',
+	templateUrl: './person-orders.component.html',
+	styleUrls: ['./person-orders.component.scss'],
+	providers: [OrdersStore]
 })
-export class PersonOrdersComponent implements OnInit, OnDestroy {
+export class PersonOrdersComponent implements OnInit {
 
+	/**
+	 * идентификатор клиента, чьи заказы необходимо отрисовать
+	 */
 	@Input() personId: number;
 
-	localState: OrdersLocalState = {
-		loading: false,
-		err: false,
-		orders: []
-	};
+	/**
+	 * состояние заказов клиента (загрузка, ошибка, массив заказов)
+	 */
+	state$: Observable<OrdersState>;
 
-	destroy$$ = new Subject();
-
-	constructor(
-		public store: Store<RootState>,
-		private peopleService: PeopleService) { }
+	constructor(private readonly ordersStore: OrdersStore) { }
 
 	ngOnInit(): void {
+		this.state$ = this.ordersStore.select(s => s);
+
 		this.getOrders();
 
-		this.store.select('orders')
-			.pipe(takeUntil(this.destroy$$))
-			.subscribe((ordersState: OrdersState) => {
-				this.localState.orders = ordersState.orders.filter(o => o.personId === this.personId);
-			});
 	}
 
-	ngOnDestroy(): void {
-		this.destroy$$.next();
-		this.destroy$$.complete();
-	}
-
+	/**
+	 * запрашивает заказы клиента
+	 */
 	getOrders(): void {
-		this.localState.loading = true;
-		this.localState.err = false;
-
-		this.peopleService.getOrders({ personId: this.personId })
-			.pipe(
-				tap((orders: Order[]) => {
-					this.store.dispatch(OrdersActions.addOrdersSuccess({ orders }));
-					this.localState.err = false;
-				}),
-				catchError(err => {
-					this.store.dispatch(OrdersActions.addOrdersError());
-					this.localState.err = true;
-					return throwError(err);
-				}),
-				finalize(() => {
-					this.localState.loading = false;
-				})
-			).subscribe();
+		this.ordersStore.getOrders(this.personId);
 	}
 
-}
-
-export interface OrdersLocalState {
-	loading: boolean;
-	err: boolean;
-	orders: Order[];
 }

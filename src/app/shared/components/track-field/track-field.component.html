@@ -1,0 +1,21 @@
+<mat-form-field appearance="standard" class="order__track">
+	<mat-label>трек</mat-label>
+	<input matInput [formControl]="trackControl" type="text">
+	<mat-icon matSuffix
+			  *ngIf="trackControlState !== 'loading' && trackControlState !== 'err'"
+			  class="order__track-copy-icon" 
+			  [cdkCopyToClipboard]="trackControl.value" 
+			  (cdkCopyToClipboardCopied)="clipService.clip(trackControl.value)" >
+		copy
+	</mat-icon>
+	<ntv-spinner *ngIf="trackControlState === 'loading'" 
+				 [diameter]="16" 
+				 matSuffix 
+				 class="order__track-control-spinner">
+	</ntv-spinner>
+	<mat-icon *ngIf="trackControlState === 'err'" 
+			  title="ошибка при сохранении данных, попробуйте еще раз" 
+			  matSuffix>
+		error
+	</mat-icon>
+</mat-form-field>

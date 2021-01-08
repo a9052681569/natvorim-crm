@@ -1,0 +1,14 @@
+<ntv-filter-form></ntv-filter-form>
+<ng-scrollbar class="scrollbar" *ngIf="preparingStore.state$ | async as preparingState">
+
+	<ntv-spinner *ngIf="preparingState.loadingState === loadingStates.loading"></ntv-spinner>
+
+	<p *ngIf="preparingState.loadingState === loadingStates.err">Ошибка</p>
+
+	<div class="orders-container" *ngIf="!preparingState.loadingState">
+		<ntv-preparing-order *ngFor="let order of preparingState.orders" [order]="order"></ntv-preparing-order>
+	</div>
+
+	<p *ngIf="!preparingState.loadingState && preparingState.orders.length === 0">нет заказов с выбранными критериями</p>
+	
+</ng-scrollbar>

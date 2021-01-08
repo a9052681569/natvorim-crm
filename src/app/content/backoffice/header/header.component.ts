@@ -1,17 +1,15 @@
-import { Component, Input } from '@angular/core';
-import { MatSidenav } from '@angular/material/sidenav';
+import { Component } from '@angular/core';
+
+import { opacityChangeAnimation } from 'src/app/shared/animations';
 
 @Component({
-  selector: 'ntv-header',
-  templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss']
+	selector: 'ntv-header',
+	templateUrl: './header.component.html',
+	styleUrls: ['./header.component.scss'],
+	animations: [opacityChangeAnimation]
 })
 export class HeaderComponent {
 
-	@Input()
-	public drawer: MatSidenav;
-
-	public constructor() {}
-
+	constructor() { }
 
 }

@@ -1,4 +1,4 @@
 import { CustomersEffects } from './customers.effects';
-import { OrdersEffects } from './orders.effects';
+import { AuthEffects } from './auth.effects';
 
-export const effects = [CustomersEffects, OrdersEffects];
+export const effects = [CustomersEffects, AuthEffects];

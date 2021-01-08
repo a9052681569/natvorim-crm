@@ -60,14 +60,18 @@ mat-form-field.mat-form-field {
 	/* текстовый курсор на ховере инпутов */
 	&-type-mat-input .mat-form-field-wrapper,
 	.mat-form-field-wrapper{
-		padding-bottom: 2.3em;
+		padding-bottom: 0;
 
 		.mat-form-field {
 			line-height: 1;
 		}
 
+		.mat-form-field-flex {
+			padding-top: 0;
+		}
+
 		.mat-form-field-underline {
-			bottom: 2.3em;
+			bottom: auto;
 		}
 
 		.mat-form-field-subscript-wrapper {
@@ -159,10 +163,6 @@ mat-form-field.mat-form-field {
 
 .mat-tab-labels .mat-tab-label-active {
 	color: mat-color($scrm-accent);
-}
-
-mat-tab-group .mat-tab-body-content {
-	margin-top: 24px;
 }
 
 /* CHIPS */
@@ -431,4 +431,8 @@ mat-list.mat-list-base {
 .dashboard-menu .mat-menu-content:not(:empty) {
 	display: flex;
 	padding: 0;
+}
+
+.clickable {
+	cursor: pointer;
 }
