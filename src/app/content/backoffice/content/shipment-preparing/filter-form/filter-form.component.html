@@ -20,7 +20,7 @@
 	<mat-form-field appearance="standard" class="form__control">
 		<mat-label>Тип заказа</mat-label>
 		<mat-select formControlName="ordersType">
-			<mat-option *ngFor="let age of ages" [value]="age">
+			<mat-option *ngFor="let age of filterCriteria" [value]="age">
 					{{age}}
 			</mat-option>
 		</mat-select>

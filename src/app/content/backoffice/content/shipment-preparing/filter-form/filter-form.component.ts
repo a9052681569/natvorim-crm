@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
-import { takeUntil, tap, debounceTime } from 'rxjs/operators';
+import { takeUntil, tap, debounceTime, take } from 'rxjs/operators';
 import { Month, MONTHS } from 'src/app/enums/months/months';
 import { OrderAges, ShipmentTypes } from 'src/app/enums/order/order-enums';
 import { ShipmentPreparingStoreService } from '../shipment-preparing-store.service';
@@ -31,7 +31,7 @@ export class FilterFormComponent implements OnInit, OnDestroy {
 	 *
 	 * @example ['2-3', '4-6']
 	 */
-	ages: (OrderAges | 'сложный')[] = Object.values(OrderAges);
+	filterCriteria: (OrderAges | 'сложный' | 'театры')[] = Object.values(OrderAges);
 
 	/**
 	 * возможные месяцы доставки
@@ -71,17 +71,16 @@ export class FilterFormComponent implements OnInit, OnDestroy {
 			ordersType: filterFormInitialState.data.ordersType
 		});
 
-		this.ages.push('сложный');
+		this.filterCriteria.push('сложный');
+		this.filterCriteria.push('театры');
 	}
 
 	private initFormSetter(): void {
 		this.store.select(s => s)
 			.pipe(
-				takeUntil(this.destroyer$$),
+				take(1),
 				tap((state: FilterFormState) => {
-					if (!this.isObjectsEqual(this.form.value, state.data)) {
-						this.form.setValue(state.data);
-					}
+					this.form.setValue(state.data);
 				})
 			)
 			.subscribe();
@@ -97,30 +96,5 @@ export class FilterFormComponent implements OnInit, OnDestroy {
 				this.store.saveForm(v);
 			});
 	}
-
-	private isObjectsEqual(obj1: Record<string, any>, obj2: Record<string, any>): boolean {
-
-		const vals1 = this.getDeepValues(Object.values(obj1));
-
-		const vals2 = this.getDeepValues(Object.values(obj2));
-
-		return vals1.every(item => vals2.includes(item));
-	}
-
-	private getDeepValues(arr: any[]): (string | number | boolean | null)[] {
-		return arr.reduce((res: (string | number | boolean | null)[], item: any) => {
-			if (typeof item !== 'object' || item === null) {
-				res.push(item);
-			} else {
-				if (Array.isArray(item)) {
-					res.push(...this.getDeepValues(item));
-				} else {
-					res.push(...this.getDeepValues(Object.values(item)));
-				}
-			}
-			return res;
-		}, []);
-	}
-
 
 }
