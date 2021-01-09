@@ -54,7 +54,7 @@ export interface Kit {
 	/**
 	 * возраст ребенка
 	 */
-	age: OrderAges;
+	age: OrderAges | null;
 	/**
 	 * кол-во наборов для этого возраста
 	 */

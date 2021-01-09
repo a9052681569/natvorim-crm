@@ -30,13 +30,6 @@ export class EditOrderDialogComponent implements OnInit {
 	editOrderForm: FormGroup;
 
 	/**
-	 * массив возможных диапазонов возрастов для контрола селект (наборы бывают для нескольких диапазов возрастов)
-	 *
-	 * @example ['2-3', '4-6']
-	 */
-	ages: OrderAges[] = Object.values(OrderAges);
-
-	/**
 	 * массив возможных типов заказов для контрола селект
 	 *
 	 * @example ['подписка', 'пробный']
@@ -51,36 +44,21 @@ export class EditOrderDialogComponent implements OnInit {
 	shipmentTypes: ShipmentTypes[] = Object.values(ShipmentTypes);
 
 	/**
-	 * начальное состояние группы заказа (когда добавляешь новый инстанс театра или набора)
-	 */
-	initialKitGroupState: Kit = {
-		age: OrderAges.twoThree,
-		count: 0
-	};
-
-	/**
 	 * текущее состояние загрузки
 	 */
 	loadingState: LOADING_STATES | null;
 
 	constructor(
 		private dialogRef: MatDialogRef<EditOrderDialogComponent>,
-		@Inject(MAT_DIALOG_DATA) private order: Order,
+		@Inject(MAT_DIALOG_DATA) public order: Order,
 		private fb: FormBuilder,
 		private ordersService: OrdersService) { }
 
 	/**
-	 * массив форм контролов для наборов
+	 * Группа отвечающая за структуру заказа. Жестко приведена к типу.
 	 */
-	get kits(): FormArray {
-		return (this.editOrderForm.get('orderStructure') as FormGroup).get('kits') as FormArray;
-	}
-
-	/**
-	 * массив форм контролов для театров
-	 */
-	get theatres(): FormArray {
-		return (this.editOrderForm.get('orderStructure') as FormGroup).get('theatres') as FormArray;
+	get orderStructure(): FormGroup {
+		return this.editOrderForm.get('orderStructure') as FormGroup;
 	}
 
 	ngOnInit(): void {
@@ -99,8 +77,6 @@ export class EditOrderDialogComponent implements OnInit {
 			})
 		});
 
-		// устанавливаем начальный массив контролов для наборов и театров
-		this.initKitsAndTheatresControls();
 	}
 
 	/**
@@ -133,67 +109,5 @@ export class EditOrderDialogComponent implements OnInit {
 				})
 			)
 			.subscribe();
-	}
-
-	/**
-	 * добавляем новый контрол в массив наборов
-	 *
-	 * @param kit начальное значение полей контрола
-	 */
-	addKit(kit: Kit): void {
-		this.kits.push(
-			this.fb.group(kit)
-		);
-	}
-	/**
-	 * добавляем новый контрол в массив театров
-	 *
-	 * @param theatre начальное значение полей контрола
-	 */
-	addTheatre(theatre: Kit): void {
-		this.theatres.push(
-			this.fb.group(theatre)
-		);
-	}
-
-	/**
-	 * удаляем контрол из массива наборов
-	 *
-	 * @param i индекс нужного контрола
-	 */
-	removeKit(i: number): void {
-		this.kits.removeAt(i);
-	}
-
-	/**
-	 * удаляем контрол из массива театров
-	 *
-	 * @param i индекс нужного контрола
-	 */
-	removeTheatre(i: number): void {
-		this.theatres.removeAt(i);
-	}
-
-	/**
-	 * приводит контрол к точному типу. В целом это грязных хак, обманывающий тайпскрипт, но как сделать по другому не придумал
-	 *
-	 * @param control результат метода {@link FormGroup.get()}
-	 * @returns инстанс контрола
-	 */
-	getControl(control: AbstractControl | null): FormControl {
-		return control as FormControl;
-	}
-
-	/**
-	 *  устанавливает начальный массив контролов для наборов и театров
-	 */
-	initKitsAndTheatresControls(): void {
-		this.order.orderStructure.kits.forEach((kit: Kit) => {
-			this.addKit(kit);
-		});
-
-		this.order.orderStructure.theatres.forEach((theatre: Kit) => {
-			this.addTheatre(theatre);
-		});
 	}
 }

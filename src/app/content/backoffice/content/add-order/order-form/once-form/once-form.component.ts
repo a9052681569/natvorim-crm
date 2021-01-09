@@ -4,7 +4,7 @@ import { Subject } from 'rxjs';
 import { debounceTime, take, takeUntil, tap } from 'rxjs/operators';
 import { LOADING_STATES } from 'src/app/enums/loading-states/loading-states';
 import { Month, MONTHS } from 'src/app/enums/months/months';
-import { OrderAges, OrderTypes, ShipmentTypes } from 'src/app/enums/order/order-enums';
+import { OrderAges, OrderTypes, ShipmentTypes, TheatreTypes } from 'src/app/enums/order/order-enums';
 import { Kit, Order } from 'src/app/models/order';
 import { Person } from 'src/app/models/people';
 import { AddOrderStoreService } from '../../add-order-store.service';
@@ -24,12 +24,7 @@ export class OnceFormComponent implements OnInit, OnDestroy {
 
 	months: Month[] = MONTHS;
 
-	/**
-	 * массив возможных диапазонов возрастов для контрола селект (наборы бывают для нескольких диапазов возрастов)
-	 *
-	 * @example ['2-3', '4-6']
-	 */
-	ages: OrderAges[] = Object.values(OrderAges);
+	order: Order;
 
 	/**
 	 * массив возможных типов отпавки заказа
@@ -38,32 +33,14 @@ export class OnceFormComponent implements OnInit, OnDestroy {
 	 */
 	shipmentTypes: ShipmentTypes[] = Object.values(ShipmentTypes);
 
-	/**
-	 * начальное состояние группы заказа (когда добавляешь новый инстанс театра или набора)
-	 */
-	initialKitGroupState: Kit = {
-		age: OrderAges.twoThree,
-		count: 1
-	};
-
 	destroyer$$ = new Subject();
 
 	constructor(
 		private fb: FormBuilder,
 		private store: AddOrderStoreService) { }
 
-	/**
-	 * массив форм контролов для наборов
-	 */
-	get kits(): FormArray {
-		return (this.addOrderForm.get('orderStructure') as FormGroup).get('kits') as FormArray;
-	}
-
-	/**
-	 * массив форм контролов для театров
-	 */
-	get theatres(): FormArray {
-		return (this.addOrderForm.get('orderStructure') as FormGroup).get('theatres') as FormArray;
+	get orderStructure(): FormGroup {
+		return this.addOrderForm.get('orderStructure') as FormGroup;
 	}
 
 	ngOnInit(): void {
@@ -111,15 +88,15 @@ export class OnceFormComponent implements OnInit, OnDestroy {
 		.pipe(
 			take(1),
 			tap((order: Order) => {
-					this.setKitsAndTheatresControls(order);
+				this.order = order;
 
-					const orderWithoutStructure: any = {...order};
+				const orderWithoutStructure: any = {...order};
 
-					delete orderWithoutStructure.orderStructure;
+				delete orderWithoutStructure.orderStructure;
 
-					orderWithoutStructure.type = OrderTypes.check;
+				orderWithoutStructure.type = OrderTypes.check;
 
-					this.addOrderForm.patchValue(orderWithoutStructure);
+				this.addOrderForm.patchValue(orderWithoutStructure);
 
 			})
 		)
@@ -138,67 +115,4 @@ export class OnceFormComponent implements OnInit, OnDestroy {
 			)
 			.subscribe();
 	}
-
-	/**
-	 * добавляем новый контрол в массив наборов
-	 *
-	 * @param kit начальное значение полей контрола
-	 */
-	addKit(kit: Kit): void {
-		this.kits.push(
-			this.fb.group(kit)
-		);
-	}
-	/**
-	 * добавляем новый контрол в массив театров
-	 *
-	 * @param theatre начальное значение полей контрола
-	 */
-	addTheatre(theatre: Kit): void {
-		this.theatres.push(
-			this.fb.group(theatre)
-		);
-	}
-
-	/**
-	 * удаляем контрол из массива наборов
-	 *
-	 * @param i индекс нужного контрола
-	 */
-	removeKit(i: number): void {
-		this.kits.removeAt(i);
-	}
-
-	/**
-	 * удаляем контрол из массива театров
-	 *
-	 * @param i индекс нужного контрола
-	 */
-	removeTheatre(i: number): void {
-		this.theatres.removeAt(i);
-	}
-
-	/**
-	 * приводит контрол к точному типу. В целом это грязных хак, обманывающий тайпскрипт, но как сделать по другому не придумал
-	 *
-	 * @param control результат метода {@link FormGroup.get()}
-	 * @returns инстанс контрола
-	 */
-	getControl(control: AbstractControl | null): FormControl {
-		return control as FormControl;
-	}
-
-	/**
-	 *  устанавливает начальный массив контролов для наборов и театров
-	 */
-	setKitsAndTheatresControls(order: Order): void {
-		order.orderStructure?.kits.forEach((kit: Kit) => {
-			this.addKit(kit);
-		});
-
-		order.orderStructure?.theatres.forEach((theatre: Kit) => {
-			this.addTheatre(theatre);
-		});
-	}
-
 }

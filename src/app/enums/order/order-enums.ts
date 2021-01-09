@@ -22,3 +22,15 @@ export enum OrderAges {
 	sevenNine = '7-9'
 }
 
+/**
+ * возможные типы театров
+ */
+export enum TheatreTypes {
+	twoThree = '2-3',
+	fourSix = '4-6',
+	sevenNine = '7-9',
+	allFairytales = 'все сказки'
+}
+
+
+

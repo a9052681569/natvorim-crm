@@ -10,6 +10,7 @@ import { OverlinedComponent } from './components/overlined/overlined.component';
 import { NumberToStringPipe } from './pipes/number-to-string.pipe';
 import { SendedCheckboxComponent } from './components/sended-checkbox/sended-checkbox.component';
 import { TrackFieldComponent } from './components/track-field/track-field.component';
+import { OrderStructureComponent } from './components/order-structure/order-structure.component';
 import { ClipboardModule } from '@angular/cdk/clipboard';
 
 export const modules = [
@@ -26,7 +27,8 @@ export const components = [
 	OverlinedComponent,
 	SpinnerComponent,
 	SendedCheckboxComponent,
-	TrackFieldComponent
+	TrackFieldComponent,
+	OrderStructureComponent
 ];
 
 export const pipes = [
