@@ -15,7 +15,7 @@ export interface Order {
 	/**
 	 * тип отправки (почта, курьер, сдек и т.д)
 	 */
-	shipmentType: ShipmentTypes;
+	shipmentType: ShipmentTypes | null;
 	/**
 	 * тип заказа (подписка, пробный и т.д)
 	 */

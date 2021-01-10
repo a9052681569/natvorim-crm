@@ -1,6 +1,6 @@
 <form [formGroup]="addCustomerForm" class="form">
 	<mat-form-field appearance="standard">
-		<mat-label>ФИО</mat-label>
+		<mat-label>ФИО*</mat-label>
 		<input matInput formControlName="name" [matAutocomplete]="auto">
 		<mat-autocomplete #auto="matAutocomplete" (optionSelected)="setCustomerFromAutocomplete($event)">
 			<mat-option *ngFor="let option of autocompleteOptions" [value]="option">
@@ -8,7 +8,7 @@
 			</mat-option>
 		</mat-autocomplete>
 	</mat-form-field>
-
+	
 	<div formGroupName="contacts" class="form__group">
 
 		<mat-form-field appearance="standard">
@@ -25,16 +25,20 @@
 			<mat-label>Телефон</mat-label>
 			<input matInput formControlName="phone">
 		</mat-form-field>
+		
 	</div>
+	<ng-container *ngIf="hs.getControl(addCustomerForm.get('contacts')) as contacts">
+		<mat-error *ngIf="contacts.errors?.oneRequired">{{contacts.errors?.oneRequired}}</mat-error>
+	</ng-container>
 
 	<div formGroupName="address" class="form__group">
 		<mat-form-field appearance="standard">
-			<mat-label>Город</mat-label>
+			<mat-label>Город*</mat-label>
 			<input matInput formControlName="city">
 		</mat-form-field>
 	
 		<mat-form-field appearance="standard">
-			<mat-label>Остальной адрес</mat-label>
+			<mat-label>Остальной адрес*</mat-label>
 			<input matInput formControlName="address">
 		</mat-form-field>
 

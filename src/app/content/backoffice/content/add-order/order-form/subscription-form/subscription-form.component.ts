@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
 import { debounceTime, take, takeUntil, tap } from 'rxjs/operators';
@@ -8,7 +8,7 @@ import { Order, OrderStructure } from 'src/app/models/order';
 import { AddOrderStoreService } from '../../add-order-store.service';
 import { AddOrderStructureDialogComponent } from './add-order-structure-dialog/add-order-structure-dialog.component';
 import { Month, MONTHS, MONTH_NAMES } from 'src/app/enums/months/months';
-import { ADD_ORDER_FORM_INITIAL_STATE } from '../../models/add-order-form';
+import { AddOrderFormSubscriptionsOrders, ADD_ORDER_FORM_INITIAL_STATE } from '../../models/add-order-form';
 
 @Component({
 	selector: 'ntv-subscription-form',
@@ -37,9 +37,9 @@ export class SubscriptionFormComponent implements OnInit, OnDestroy {
 
 	ngOnInit(): void {
 		this.addSubscriptionForm = this.fb.group({
-			months: '',
-			shipmentType: '',
-			orderStructure: ''
+			months: ['', Validators.required],
+			shipmentType: ['', Validators.required],
+			orderStructure: ADD_ORDER_FORM_INITIAL_STATE.onceOrder.order.orderStructure
 		});
 
 		this.initFormSetter();
@@ -59,18 +59,20 @@ export class SubscriptionFormComponent implements OnInit, OnDestroy {
 		this.store.select(s => s.subscriptionsOrders)
 			.pipe(
 				take(1),
-				tap((orders: Order[]) => {
+				tap((subscriptionsOrdersState: AddOrderFormSubscriptionsOrders) => {
+
+					const orders = subscriptionsOrdersState.orders;
+
 					if (orders.length) {
 
 						const setObj = {
 							months: orders.map(o => o.shipmentDate),
 							shipmentType: orders[0].shipmentType,
-							orderStructure: orders[0].orderStructure || ADD_ORDER_FORM_INITIAL_STATE.onceOrder.orderStructure
+							orderStructure: orders[0].orderStructure || ADD_ORDER_FORM_INITIAL_STATE.onceOrder.order.orderStructure
 						};
 
 						this.addSubscriptionForm.setValue(setObj);
 					}
-
 				})
 			)
 			.subscribe();
@@ -85,22 +87,31 @@ export class SubscriptionFormComponent implements OnInit, OnDestroy {
 			.subscribe((v) => {
 				if (Array.isArray(v.months)) {
 
-					const subscriptionsOrders: Order[] = v.months.map((month: string) => {
+					let isValid = true;
+
+					if (!v.orderStructure.kits.length && !v.orderStructure.theatres.length) {
+						isValid = false;
+					} else {
+						isValid = this.addSubscriptionForm.valid;
+					}
+
+					const orders: Order[] = v.months.map((month: string) => {
+
 						return {
-							id: ADD_ORDER_FORM_INITIAL_STATE.onceOrder.id,
-							personId: ADD_ORDER_FORM_INITIAL_STATE.onceOrder.personId,
-							comment: ADD_ORDER_FORM_INITIAL_STATE.onceOrder.comment,
-							sended: ADD_ORDER_FORM_INITIAL_STATE.onceOrder.sended,
+							id: ADD_ORDER_FORM_INITIAL_STATE.onceOrder.order.id,
+							personId: ADD_ORDER_FORM_INITIAL_STATE.onceOrder.order.personId,
+							comment: ADD_ORDER_FORM_INITIAL_STATE.onceOrder.order.comment,
+							sended: ADD_ORDER_FORM_INITIAL_STATE.onceOrder.order.sended,
 							shipmentDate: month,
 							shipmentType: v.shipmentType,
-							trackNumber: ADD_ORDER_FORM_INITIAL_STATE.onceOrder.trackNumber,
+							trackNumber: ADD_ORDER_FORM_INITIAL_STATE.onceOrder.order.trackNumber,
 							type: OrderTypes.subscription,
 							orderStructure: v.orderStructure,
 							orderDate: new Date().toISOString()
 						};
 					});
 
-					this.store.saveForm({subscriptionsOrders});
+					this.store.saveForm({subscriptionsOrders: {orders, isValid }});
 				}
 			});
 	}
@@ -111,7 +122,11 @@ export class SubscriptionFormComponent implements OnInit, OnDestroy {
 				takeUntil(this.destroyer$$),
 				tap((isReset: boolean) => {
 					if (isReset) {
-						this.addSubscriptionForm.reset();
+						this.addSubscriptionForm.setValue({
+							months: '',
+							shipmentType: '',
+							orderStructure: ADD_ORDER_FORM_INITIAL_STATE.onceOrder.order.orderStructure
+						});
 					}
 				})
 			)
@@ -121,13 +136,13 @@ export class SubscriptionFormComponent implements OnInit, OnDestroy {
 	showOrderStructureSelectionDialog(): void {
 		this.store.select(s => s.subscriptionsOrders)
 			.pipe(take(1))
-			.subscribe((o: Order[]) => {
+			.subscribe((s: AddOrderFormSubscriptionsOrders) => {
 				let data: Order;
 
-				if (o.length) {
-					data = o[0];
+				if (s.orders.length) {
+					data = s.orders[0];
 				} else {
-					data = ADD_ORDER_FORM_INITIAL_STATE.onceOrder;
+					data = ADD_ORDER_FORM_INITIAL_STATE.onceOrder.order;
 				}
 
 				this.dialog.open(AddOrderStructureDialogComponent, { data })

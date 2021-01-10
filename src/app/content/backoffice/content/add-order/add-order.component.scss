@@ -5,21 +5,29 @@
 
 .add-order {
 	padding: 24px;
-}
 
-.submit-button {
-	&__content {
-		display: flex;
-		align-items: center;
+	&__forms-container {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+		gap: 16px;
 	}
 
-	&__spinner {
-		margin-top: 0;
-		margin-left: 8px;
-	}
+	&__submit-button {
+		margin-top: 16px;
 
-	&__error-icon {
-		margin-left: 8px;
+		&__content {
+			display: flex;
+			align-items: center;
+		}
+	
+		&__spinner {
+			margin-top: 0;
+			margin-left: 8px;
+		}
+	
+		&__error-icon {
+			margin-left: 8px;
+		}
 	}
 }
 

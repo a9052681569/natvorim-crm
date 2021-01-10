@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, switchMap, take, takeUntil, tap } from 'rxjs/operators';
@@ -7,6 +7,8 @@ import { LOADING_STATES } from 'src/app/enums/loading-states/loading-states';
 import { Person } from 'src/app/models/people';
 import { AddOrderStoreService } from '../add-order-store.service';
 import { AddOrderService } from '../add-order.service';
+import { AddOrderFormCustomer } from '../models/add-order-form';
+import { HelpersService } from 'src/app/shared/services/helpers.service';
 
 @Component({
   selector: 'ntv-customer-form',
@@ -28,7 +30,8 @@ export class CustomerFormComponent implements OnInit, OnDestroy {
 	constructor(
 		private fb: FormBuilder,
 		private store: AddOrderStoreService,
-		private addOrderService: AddOrderService) { }
+		private addOrderService: AddOrderService,
+		public hs: HelpersService) { }
 
 	ngOnInit(): void {
 		this.initForm();
@@ -61,15 +64,15 @@ export class CustomerFormComponent implements OnInit, OnDestroy {
 		// инициируем форму
 		this.addCustomerForm = this.fb.group({
 			id: NaN,
-			name: '',
+			name: ['', Validators.required],
 			contacts: this.fb.group({
-				email: '',
+				email: ['', Validators.email],
 				inst: '',
-				phone: '',
-			}),
+				phone: [''],
+			}, {validators: [this.oneRequiredValidator]}),
 			address: this.fb.group({
-				city: '',
-				address: ''
+				city: ['', Validators.required],
+				address: ['', Validators.required]
 			})
 
 		});
@@ -79,8 +82,8 @@ export class CustomerFormComponent implements OnInit, OnDestroy {
 		this.store.select(s => s.customer)
 		.pipe(
 			take(1),
-			tap((customer: Person) => {
-				this.addCustomerForm.setValue(customer);
+			tap((customer: AddOrderFormCustomer) => {
+				this.addCustomerForm.setValue(customer.customer);
 			})
 		)
 		.subscribe();
@@ -92,8 +95,8 @@ export class CustomerFormComponent implements OnInit, OnDestroy {
 				takeUntil(this.destroyer$$),
 				debounceTime(500),
 			)
-			.subscribe(customer => {
-				this.store.saveForm({ customer });
+			.subscribe((customer: Person) => {
+				this.store.saveForm({ customer: {customer, isValid: this.addCustomerForm.valid} });
 			});
 	}
 
@@ -122,6 +125,15 @@ export class CustomerFormComponent implements OnInit, OnDestroy {
 				})
 			)
 			.subscribe();
+	}
+
+	private oneRequiredValidator(control: AbstractControl): ValidationErrors | null {
+
+		if (Object.values(control.value).every(v => !!v === false)) {
+			return { oneRequired: 'необходимо указать хотя бы один контакт' };
+		}
+
+		return null;
 	}
 
 }

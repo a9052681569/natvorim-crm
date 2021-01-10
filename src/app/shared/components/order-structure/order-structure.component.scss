@@ -26,8 +26,7 @@
 		&-item {
 			display: grid;
 			grid-template-columns: 1fr 40px;
-			grid-template-rows: repeat(auto-fill, 41px);
-			grid-gap: 16px;
+			grid-template-rows: repeat(2, auto);
 		}
 
 		&-title {

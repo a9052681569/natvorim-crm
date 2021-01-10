@@ -13,7 +13,7 @@
 		<div class="form__block">
 			<mat-card class="select-card">
 				<mat-form-field appearance="standard">
-					<mat-label>Дата</mat-label>
+					<mat-label>Дата*</mat-label>
 					<mat-select formControlName="shipmentDate">
 						<mat-option *ngFor="let month of months" [value]="month.date">
 								{{month.name}}
@@ -26,7 +26,7 @@
 	
 			<mat-card class="select-card">
 				<mat-form-field appearance="standard">
-					<mat-label>Тип</mat-label>
+					<mat-label>Тип*</mat-label>
 					<mat-select formControlName="shipmentType">
 						<mat-option *ngFor="let type of shipmentTypes" [value]="type">
 							  {{type}}
@@ -39,6 +39,7 @@
 		
 	
 		<h4>Что везем</h4>
+
 		<ntv-order-structure [order]="order"
 							 [orderStructureGroup]="orderStructure">
 		</ntv-order-structure>

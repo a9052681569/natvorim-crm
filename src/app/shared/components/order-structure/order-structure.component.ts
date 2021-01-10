@@ -1,8 +1,9 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { OrderAges, TheatreTypes, ShipmentTypes } from 'src/app/enums/order/order-enums';
 import { Kit, Order } from 'src/app/models/order';
+import { HelpersService } from '../../services/helpers.service';
 
 @Component({
 	selector: 'ntv-order-structure',
@@ -38,7 +39,9 @@ export class OrderStructureComponent implements OnInit {
 		count: 1
 	};
 
-	constructor(private fb: FormBuilder) { }
+	constructor(
+		private fb: FormBuilder,
+		public hs: HelpersService) { }
 
 	/**
 	 * массив форм контролов для наборов
@@ -56,6 +59,9 @@ export class OrderStructureComponent implements OnInit {
 
 	ngOnInit(): void {
 		this.setKitsAndTheatresControls(this.order);
+
+		this.orderStructureGroup.setValidators(this.atLeastOneKitRequiredValidator);
+		this.orderStructureGroup.updateValueAndValidity();
 	}
 
 	/**
@@ -63,20 +69,18 @@ export class OrderStructureComponent implements OnInit {
 	 *
 	 * @param kit начальное значение полей контрола
 	 */
-	addKit(kit: Kit): void {
-		this.kits.push(
-			this.fb.group(kit)
-		);
-	}
-	/**
-	 * добавляем новый контрол в массив театров
-	 *
-	 * @param theatre начальное значение полей контрола
-	 */
-	addTheatre(theatre: Kit): void {
-		this.theatres.push(
-			this.fb.group(theatre)
-		);
+	addKit(kit: Kit, arr: FormArray): void {
+		const kitGroup: FormGroup = this.fb.group(kit);
+		const countControl = kitGroup.get('count') as FormControl;
+		const ageControl = kitGroup.get('age') as FormControl;
+
+		countControl.setValidators([Validators.min(1), Validators.required]);
+		countControl.updateValueAndValidity();
+
+		ageControl.setValidators(Validators.required);
+		ageControl.updateValueAndValidity();
+
+		arr.push(kitGroup);
 	}
 
 	/**
@@ -98,34 +102,32 @@ export class OrderStructureComponent implements OnInit {
 	}
 
 	/**
-	 * приводит контрол к точному типу. В целом это грязных хак, обманывающий тайпскрипт, но как сделать по другому не придумал
-	 *
-	 * @param control результат метода {@link FormGroup.get()}
-	 * @returns инстанс контрола
-	 */
-	getControl(control: AbstractControl | null): FormControl {
-		return control as FormControl;
-	}
-
-	/**
 	 *  устанавливает начальный массив контролов для наборов и театров
 	 */
 	setKitsAndTheatresControls(order: Order): void {
 
-		
 		if (order.orderStructure?.kits) {
 			order.orderStructure.kits.forEach((kit: Kit) => {
-				console.log(order);
-				this.addKit(kit);
+				this.addKit(kit, this.kits);
 			});
 		}
 
 		if (order.orderStructure?.theatres) {
 			order.orderStructure.theatres.forEach((theatre: Kit) => {
-				this.addTheatre(theatre);
+				this.addKit(theatre, this.theatres);
 			});
 		}
 
+	}
+
+	private atLeastOneKitRequiredValidator(control: AbstractControl): ValidationErrors | null {
+		const value = control.value as { [key: string]: Kit[] };
+
+		if (Object.values(value).every((v: Kit[]) => !v.length)) {
+			return { oneKitRequired: 'необходимо добавить хотя бы один набор или театр' };
+		}
+
+		return null;
 	}
 
 }

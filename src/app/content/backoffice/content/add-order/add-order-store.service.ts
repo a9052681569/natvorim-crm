@@ -70,12 +70,12 @@ export class AddOrderStoreService extends ComponentStore<AddOrderFormState> {
 				console.log('начинаем сохранять');
 
 				if (state.orderType === OrderTypes.subscription) {
-					ordersToPost = state.subscriptionsOrders;
+					ordersToPost = state.subscriptionsOrders.orders;
 				} else if (state.orderType === OrderTypes.check) {
-					ordersToPost = [state.onceOrder];
+					ordersToPost = [state.onceOrder.order];
 				}
 
-				return this.addOrderService.getPersonsByName(state.customer.name).pipe(
+				return this.addOrderService.getPersonsByName(state.customer.customer.name).pipe(
 					switchMap((customers: Person[]) => {
 						if (!!customers.length) {
 
@@ -91,7 +91,7 @@ export class AddOrderStoreService extends ComponentStore<AddOrderFormState> {
 								})
 							);
 						}
-						return this.addOrderService.postCustomer(state.customer).pipe(
+						return this.addOrderService.postCustomer(state.customer.customer).pipe(
 							switchMap(([customer]: Person[]) => {
 
 								ordersToPost.forEach((order: Order) => {

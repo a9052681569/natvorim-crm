@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, FormArray, AbstractControl, FormControl } from '@angular/forms';
+import { FormGroup, FormBuilder, FormArray, AbstractControl, FormControl, Validators, ValidationErrors } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { debounceTime, take, takeUntil, tap } from 'rxjs/operators';
 import { LOADING_STATES } from 'src/app/enums/loading-states/loading-states';
@@ -7,8 +7,9 @@ import { Month, MONTHS } from 'src/app/enums/months/months';
 import { OrderAges, OrderTypes, ShipmentTypes, TheatreTypes } from 'src/app/enums/order/order-enums';
 import { Kit, Order } from 'src/app/models/order';
 import { Person } from 'src/app/models/people';
+import { HelpersService } from 'src/app/shared/services/helpers.service';
 import { AddOrderStoreService } from '../../add-order-store.service';
-import { ADD_ORDER_FORM_INITIAL_STATE } from '../../models/add-order-form';
+import { AddOrderFormOnceOrder, ADD_ORDER_FORM_INITIAL_STATE } from '../../models/add-order-form';
 
 @Component({
   selector: 'ntv-once-form',
@@ -37,7 +38,8 @@ export class OnceFormComponent implements OnInit, OnDestroy {
 
 	constructor(
 		private fb: FormBuilder,
-		private store: AddOrderStoreService) { }
+		private store: AddOrderStoreService
+	) { }
 
 	get orderStructure(): FormGroup {
 		return this.addOrderForm.get('orderStructure') as FormGroup;
@@ -46,14 +48,14 @@ export class OnceFormComponent implements OnInit, OnDestroy {
 	ngOnInit(): void {
 		// инициируем форму
 		this.addOrderForm = this.fb.group({
-			id: ADD_ORDER_FORM_INITIAL_STATE.onceOrder.id,
-			personId: ADD_ORDER_FORM_INITIAL_STATE.onceOrder.personId,
-			comment: ADD_ORDER_FORM_INITIAL_STATE.onceOrder.comment,
-			sended: ADD_ORDER_FORM_INITIAL_STATE.onceOrder.sended,
-			shipmentDate: ADD_ORDER_FORM_INITIAL_STATE.onceOrder.shipmentDate,
-			shipmentType: ADD_ORDER_FORM_INITIAL_STATE.onceOrder.shipmentType,
-			trackNumber: ADD_ORDER_FORM_INITIAL_STATE.onceOrder.trackNumber,
-			type: ADD_ORDER_FORM_INITIAL_STATE.onceOrder.type,
+			id: ADD_ORDER_FORM_INITIAL_STATE.onceOrder.order.id,
+			personId: ADD_ORDER_FORM_INITIAL_STATE.onceOrder.order.personId,
+			comment: ADD_ORDER_FORM_INITIAL_STATE.onceOrder.order.comment,
+			sended: ADD_ORDER_FORM_INITIAL_STATE.onceOrder.order.sended,
+			shipmentDate: ['', Validators.required],
+			shipmentType: ['', Validators.required],
+			trackNumber: ADD_ORDER_FORM_INITIAL_STATE.onceOrder.order.trackNumber,
+			type: ADD_ORDER_FORM_INITIAL_STATE.onceOrder.order.type,
 			orderStructure: this.fb.group({
 				kits: this.fb.array([]),
 				theatres: this.fb.array([])
@@ -78,8 +80,8 @@ export class OnceFormComponent implements OnInit, OnDestroy {
 				takeUntil(this.destroyer$$),
 				debounceTime(500),
 			)
-			.subscribe((onceOrder: Order) => {
-				this.store.saveForm({onceOrder});
+			.subscribe((order: Order) => {
+				this.store.saveForm({onceOrder: {order, isValid: this.addOrderForm.valid}});
 			});
 	}
 
@@ -87,10 +89,10 @@ export class OnceFormComponent implements OnInit, OnDestroy {
 		this.store.select(s => s.onceOrder)
 		.pipe(
 			take(1),
-			tap((order: Order) => {
-				this.order = order;
+			tap((order: AddOrderFormOnceOrder) => {
+				this.order = order.order;
 
-				const orderWithoutStructure: any = {...order};
+				const orderWithoutStructure: any = {...order.order};
 
 				delete orderWithoutStructure.orderStructure;
 

@@ -6,7 +6,9 @@ import { debounceTime, take, takeUntil, tap } from 'rxjs/operators';
 import { Month, MONTHS } from 'src/app/enums/months/months';
 import { ShipmentTypes } from 'src/app/enums/order/order-enums';
 import { Order, OrderStructure } from 'src/app/models/order';
+import { HelpersService } from 'src/app/shared/services/helpers.service';
 import { AddOrderStoreService } from '../../../add-order-store.service';
+import { AddOrderFormSubscriptionsOrders } from '../../../models/add-order-form';
 import { AddOrderStructureDialogComponent } from '../add-order-structure-dialog/add-order-structure-dialog.component';
 
 @Component({
@@ -34,7 +36,8 @@ export class SubscriptionOrdersFormComponent implements OnInit, OnDestroy {
 	constructor(
 		private fb: FormBuilder,
 		private store: AddOrderStoreService,
-		private dialog: MatDialog) { }
+		private dialog: MatDialog,
+		public hs: HelpersService) { }
 
 	ngOnInit(): void {
 		this.ordersControls = this.fb.array([]);
@@ -71,8 +74,17 @@ export class SubscriptionOrdersFormComponent implements OnInit, OnDestroy {
 				takeUntil(this.destroyer$$),
 				debounceTime(500),
 			)
-			.subscribe((subscriptionsOrders: Order[]) => {
-				this.store.saveForm({subscriptionsOrders});
+			.subscribe((orders: Order[]) => {
+				let isValid = false;
+
+				if (orders.length) {
+					isValid = orders.every(o => {
+						return o.shipmentDate && o.shipmentType &&
+							(o.orderStructure.kits.length || o.orderStructure.theatres.length);
+					});
+				}
+
+				this.store.saveForm({subscriptionsOrders: {orders, isValid}});
 			});
 	}
 
@@ -80,12 +92,12 @@ export class SubscriptionOrdersFormComponent implements OnInit, OnDestroy {
 		this.store.select(s => s.subscriptionsOrders)
 			.pipe(
 				takeUntil(this.destroyer$$),
-				tap((orders: Order[]) => {
-					if (orders.length && !this.isOrdersEqual(orders, this.ordersControls.value)) {
+				tap((orders: AddOrderFormSubscriptionsOrders) => {
+					if (orders.orders.length && !this.isOrdersEqual(orders.orders, this.ordersControls.value)) {
 
 						this.ordersControls.clear();
 
-						orders.forEach((order: Order) => {
+						orders.orders.forEach((order: Order) => {
 							this.addOrder(order);
 						});
 
@@ -150,16 +162,4 @@ export class SubscriptionOrdersFormComponent implements OnInit, OnDestroy {
 			this.fb.group(order)
 		);
 	}
-
-	/**
-	 * приводит контрол к точному типу. В целом это грязных хак, обманывающий тайпскрипт, но как сделать по другому не придумал
-	 *
-	 * @param control результат метода {@link FormGroup.get()}
-	 * @returns инстанс контрола
-	 */
-	getControl(control: AbstractControl | null): FormControl {
-		return control as FormControl;
-	}
-
-
 }
