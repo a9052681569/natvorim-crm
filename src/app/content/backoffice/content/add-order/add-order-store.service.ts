@@ -87,7 +87,8 @@ export class AddOrderStoreService extends ComponentStore<AddOrderFormState> {
 								tap(() => {
 									this.resetState();
 									this.addOrderService.resetFormData();
-									this.snack.open('Успешно добавили заказ', undefined, {duration: 3000});
+									this.snack.open('Успешно добавили заказ', undefined, { duration: 3000 });
+									this.toInitialState();
 								})
 							);
 						}
@@ -102,7 +103,8 @@ export class AddOrderStoreService extends ComponentStore<AddOrderFormState> {
 									tap(() => {
 										this.resetState();
 										this.addOrderService.resetFormData();
-										this.snack.open('Успешно добавили заказ и нового пользователя', undefined, {duration: 3000});
+										this.snack.open('Успешно добавили заказ и нового пользователя', undefined, { duration: 3000 });
+										this.toInitialState();
 									})
 								);
 							})
@@ -122,6 +124,10 @@ export class AddOrderStoreService extends ComponentStore<AddOrderFormState> {
 	private readonly resetState = this.updater((st: AddOrderFormState) => ({
 		...ADD_ORDER_FORM_INITIAL_STATE,
 		resetForm: true
+	}));
+
+	private readonly toInitialState = this.updater((st: AddOrderFormState) => ({
+		...ADD_ORDER_FORM_INITIAL_STATE
 	}));
 
 	private readonly reqFormPending = this.updater((st: AddOrderFormState) => ({ ...st, loadingState: LOADING_STATES.loading }));
