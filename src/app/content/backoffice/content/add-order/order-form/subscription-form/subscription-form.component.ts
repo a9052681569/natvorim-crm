@@ -111,7 +111,7 @@ export class SubscriptionFormComponent implements OnInit, OnDestroy {
 						};
 					});
 
-					this.store.saveForm({subscriptionsOrders: {orders, isValid }});
+					this.store.saveForm({subscriptionsOrders: {orders, isValid, subscriptionOrderStructure: v.orderStructure }});
 				}
 			});
 	}
@@ -137,13 +137,8 @@ export class SubscriptionFormComponent implements OnInit, OnDestroy {
 		this.store.select(s => s.subscriptionsOrders)
 			.pipe(take(1))
 			.subscribe((s: AddOrderFormSubscriptionsOrders) => {
-				let data: Order;
 
-				if (s.orders.length) {
-					data = s.orders[0];
-				} else {
-					data = ADD_ORDER_FORM_INITIAL_STATE.onceOrder.order;
-				}
+				const data: OrderStructure = s.subscriptionOrderStructure;
 
 				this.dialog.open(AddOrderStructureDialogComponent, { data })
 					.afterClosed()
@@ -155,4 +150,5 @@ export class SubscriptionFormComponent implements OnInit, OnDestroy {
 			});
 
 	}
+
 }

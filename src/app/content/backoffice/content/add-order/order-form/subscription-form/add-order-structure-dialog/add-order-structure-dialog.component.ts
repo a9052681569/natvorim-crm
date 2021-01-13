@@ -4,7 +4,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
 import { takeUntil, debounceTime, tap } from 'rxjs/operators';
 import { OrderAges, ShipmentTypes, OrderTypes } from 'src/app/enums/order/order-enums';
-import { Kit, Order } from 'src/app/models/order';
+import { Kit, Order, OrderStructure } from 'src/app/models/order';
 
 @Component({
 	selector: 'ntv-add-order-structure-dialog',
@@ -17,7 +17,7 @@ export class AddOrderStructureDialogComponent implements OnInit {
 
 	constructor(
 		private dialogRef: MatDialogRef<AddOrderStructureDialogComponent>,
-		@Inject(MAT_DIALOG_DATA) public order: Order,
+		@Inject(MAT_DIALOG_DATA) public orderStructure: OrderStructure,
 		private fb: FormBuilder) { }
 
 	ngOnInit(): void {

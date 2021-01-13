@@ -5,7 +5,7 @@ import { Subject } from 'rxjs';
 import { debounceTime, take, takeUntil, tap } from 'rxjs/operators';
 import { Month, MONTHS } from 'src/app/enums/months/months';
 import { ShipmentTypes } from 'src/app/enums/order/order-enums';
-import { Order, OrderStructure } from 'src/app/models/order';
+import { Kit, Order, OrderStructure } from 'src/app/models/order';
 import { HelpersService } from 'src/app/shared/services/helpers.service';
 import { AddOrderStoreService } from '../../../add-order-store.service';
 import { AddOrderFormSubscriptionsOrders } from '../../../models/add-order-form';
@@ -23,6 +23,8 @@ export class SubscriptionOrdersFormComponent implements OnInit, OnDestroy {
 	ordersControls: FormArray;
 
 	months: Month[] = MONTHS;
+
+	subscriptionsOrdersSavedState: AddOrderFormSubscriptionsOrders;
 
 	/**
 	 * массив возможных типов отпавки заказа
@@ -55,14 +57,21 @@ export class SubscriptionOrdersFormComponent implements OnInit, OnDestroy {
 	}
 
 	showOrderStructureDialog(data: Order, i: number): void {
-		this.dialog.open(AddOrderStructureDialogComponent, { data })
+		this.dialog.open(AddOrderStructureDialogComponent, { data: data.orderStructure })
 			.afterClosed()
 			.subscribe((orderStructure: OrderStructure) => {
 				if (orderStructure) {
+					const isOrderStructuresEqual = this.isOrderStructuresEqual(
+						orderStructure,
+						this.subscriptionsOrdersSavedState.subscriptionOrderStructure
+					);
+
 					const newControl = this.fb.group({
 						...data,
-						orderStructure
+						orderStructure,
+						standart: isOrderStructuresEqual
 					});
+
 					this.ordersControls.setControl(i, newControl);
 				}
 			});
@@ -84,7 +93,13 @@ export class SubscriptionOrdersFormComponent implements OnInit, OnDestroy {
 					});
 				}
 
-				this.store.saveForm({subscriptionsOrders: {orders, isValid}});
+				this.store.saveForm({
+					subscriptionsOrders: {
+						orders,
+						isValid,
+						subscriptionOrderStructure: this.subscriptionsOrdersSavedState.subscriptionOrderStructure
+					}
+				});
 			});
 	}
 
@@ -93,6 +108,8 @@ export class SubscriptionOrdersFormComponent implements OnInit, OnDestroy {
 			.pipe(
 				takeUntil(this.destroyer$$),
 				tap((orders: AddOrderFormSubscriptionsOrders) => {
+
+					this.subscriptionsOrdersSavedState = orders;
 					if (orders.orders.length && !this.isOrdersEqual(orders.orders, this.ordersControls.value)) {
 
 						this.ordersControls.clear();
@@ -160,8 +177,43 @@ export class SubscriptionOrdersFormComponent implements OnInit, OnDestroy {
 	 * @param order  значение полей контрола
 	 */
 	addOrder(order: Order): void {
-		this.ordersControls.push(
-			this.fb.group(order)
+		const isOrderStructuresEqual = this.isOrderStructuresEqual(
+			order.orderStructure,
+			this.subscriptionsOrdersSavedState.subscriptionOrderStructure
 		);
+
+		this.ordersControls.push(
+			this.fb.group({...order, standart: isOrderStructuresEqual})
+		);
+	}
+
+	isOrderStructuresEqual(st1: OrderStructure, st2: OrderStructure): boolean {
+		// если длины массивов не совпадают - избавляем себя от лишних вычислений, структуры точно разные
+		if (st1.kits.length !== st2.kits.length || st1.theatres.length !== st2.theatres.length) {
+			return false;
+		}
+
+		// сравниваем наборы
+		const isKitsEqual = st1.kits.every((kit: Kit, i: number) => (
+			kit.age === st2.kits[i].age && kit.count === st1.kits[i].count
+		));
+
+		// если наборы не равны - структуры разные
+		if (!isKitsEqual) {
+			return false;
+		}
+
+		// сравниваем театры
+		const isTheatresEqual = st1.theatres.every((theatre: Kit, i: number) => (
+			theatre.age === st2.theatres[i].age && theatre.count === st1.theatres[i].count
+		));
+
+		// если театры не равны - структуры разные
+		if (!isTheatresEqual) {
+			return false;
+		}
+
+
+		return true;
 	}
 }

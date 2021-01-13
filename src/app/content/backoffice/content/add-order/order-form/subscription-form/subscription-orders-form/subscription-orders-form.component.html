@@ -19,8 +19,9 @@
 		</mat-select>
 	</mat-form-field>
 
-	<ntv-overlined overline="наборы"
+	<ntv-overlined [overline]="form.value.standart ? 'наборы' : 'изменено'"
 				   value="Нажми"
+				   class="clickable"
 				   (click)="showOrderStructureDialog(form.value, i)">
 	</ntv-overlined>
 

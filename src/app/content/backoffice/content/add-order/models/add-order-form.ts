@@ -1,7 +1,7 @@
 
 import { LOADING_STATES } from 'src/app/enums/loading-states/loading-states';
 import { OrderTypes, ShipmentTypes } from 'src/app/enums/order/order-enums';
-import { Order } from 'src/app/models/order';
+import { Order, OrderStructure } from 'src/app/models/order';
 import { Person } from 'src/app/models/people';
 
 export interface SaveForm {
@@ -33,6 +33,7 @@ export interface AddOrderFormOnceOrder {
 }
 export interface AddOrderFormSubscriptionsOrders {
 	orders: Order[];
+	subscriptionOrderStructure: OrderStructure;
 	isValid: boolean;
 }
 
@@ -55,7 +56,11 @@ export const ADD_ORDER_FORM_INITIAL_STATE: AddOrderFormState = {
 	},
 	subscriptionsOrders: {
 		orders: [],
-		isValid: false
+		isValid: false,
+		subscriptionOrderStructure: {
+			theatres: [],
+			kits: []
+		}
 	},
 	onceOrder: {
 		order: {

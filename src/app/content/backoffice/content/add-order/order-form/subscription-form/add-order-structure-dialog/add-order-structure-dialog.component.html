@@ -1,7 +1,7 @@
 
 <ng-scrollbar class="scrollbar">
 	<div class="content">
-		<ntv-order-structure [orderStructureGroup]="orderStructureForm" [order]="order"></ntv-order-structure>
+		<ntv-order-structure [orderStructureGroup]="orderStructureForm" [orderStructure]="orderStructure"></ntv-order-structure>
 		<button mat-raised-button 
 				(click)="setStructure()"
 				[disabled]="orderStructureForm.invalid">
