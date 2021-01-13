@@ -39,7 +39,7 @@ export interface AddOrderFormSubscriptionsOrders {
 export const ADD_ORDER_FORM_INITIAL_STATE: AddOrderFormState = {
 	customer: {
 		customer: {
-			id: NaN,
+			id: 'NaN',
 			name: '',
 			contacts: {
 				email: '',
@@ -60,7 +60,7 @@ export const ADD_ORDER_FORM_INITIAL_STATE: AddOrderFormState = {
 	onceOrder: {
 		order: {
 			id: 'NaN',
-			personId: NaN,
+			personId: 'NaN',
 			sended: false,
 			shipmentDate: '',
 			shipmentType: null,

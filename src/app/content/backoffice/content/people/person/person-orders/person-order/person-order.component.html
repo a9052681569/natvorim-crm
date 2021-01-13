@@ -1,5 +1,5 @@
 
-<mat-card class="order">
+<mat-card class="order" *ngIf="ordersState | async as state">
 	<div class="order__data">
 		<ntv-overlined [overline]="'тип заказа'" [value]="order.type"></ntv-overlined>
 
@@ -39,6 +39,10 @@
 
 	<button mat-icon-button (click)="showEditor()" class="order__edit">
 		<mat-icon>edit</mat-icon>
+	</button>
+
+	<button mat-icon-button (click)="removeOrder()" class="order__remove">
+		<mat-icon>delete</mat-icon>
 	</button>
 	
 </mat-card>

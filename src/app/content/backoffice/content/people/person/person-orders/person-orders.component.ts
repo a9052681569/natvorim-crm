@@ -13,7 +13,7 @@ export class PersonOrdersComponent implements OnInit {
 	/**
 	 * идентификатор клиента, чьи заказы необходимо отрисовать
 	 */
-	@Input() personId: number;
+	@Input() personId: string;
 
 	/**
 	 * состояние заказов клиента (загрузка, ошибка, массив заказов)

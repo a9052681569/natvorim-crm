@@ -5,9 +5,9 @@
 .order {
 	display: grid;
 	grid-template-areas: 
-		'data edit'
-		'comment comment';
-	grid-template-columns: 1fr 40px;
+		'data edit remove'
+		'comment comment comment';
+	grid-template-columns: 1fr 40px 40px;
 	grid-template-rows: auto auto;
 	grid-gap: 8px;
 
@@ -24,6 +24,10 @@
 
 	&__edit {
 		grid-area: edit;
+	}
+	
+	&__remove {
+		grid-area: remove;
 	}
 
 	&__kits {

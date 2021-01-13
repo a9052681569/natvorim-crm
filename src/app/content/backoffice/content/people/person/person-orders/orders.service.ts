@@ -19,8 +19,12 @@ export class OrdersService {
 	 *
 	 * @param personId идентификатор клиента, по нему мы получаем заказы конкретного клиента
 	 */
-	getOrders(personId: number): Observable<Order[]> {
+	getOrders(personId: string): Observable<Order[]> {
 		return this.http.post<Order[]>(environment.apiEndpoints.getOrdersById, {personId});
+	}
+
+	removeOrder(id: string): Observable<{id: string}> {
+		return this.http.post<{id: string}>(environment.apiEndpoints.removeOrder, { id });
 	}
 
 	/**

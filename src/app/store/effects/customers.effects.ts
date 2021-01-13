@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { createEffect, ofType, Actions } from '@ngrx/effects';
 import { EMPTY, of } from 'rxjs';
 import { mergeMap, map, catchError } from 'rxjs/operators';
@@ -35,9 +36,27 @@ export class CustomersEffects {
 		})
 	));
 
+	removeCustomer$ = createEffect(() => this.actions$.pipe(
+		ofType(CustomersActionsNames.REMOVE_CUSTOMER_PENDING),
+		mergeMap(({customerId}) => {
+			return this.peopleService.removeCustomer(customerId)
+				.pipe(
+					map(({id}: {id: string}) => {
+						this.snack.open('Успешно удалили клиента', undefined, {duration: 3000});
+						return CustomersActions.removeSuccess({ customerId: id });
+					}),
+					catchError(() => {
+						this.snack.open('Ошибка при удалении клиента клиента', undefined, {duration: 3000});
+						return of(CustomersActions.removeError());
+					})
+				);
+		})
+	));
+
 	constructor(
 		private actions$: Actions,
 		private peopleService: PeopleService,
-		private dialog: MatDialog
+		private dialog: MatDialog,
+		private snack: MatSnackBar
 	) {}
 }

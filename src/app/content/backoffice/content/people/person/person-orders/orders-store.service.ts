@@ -1,8 +1,11 @@
 import { state } from '@angular/animations';
 import { Injectable } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ComponentStore } from '@ngrx/component-store';
 import { Observable, throwError } from 'rxjs';
 import { catchError, switchMap, tap } from 'rxjs/operators';
+import { LOADING_STATES } from 'src/app/enums/loading-states/loading-states';
 import { Order } from 'src/app/models/order';
 import { OrdersService } from './orders.service';
 
@@ -12,16 +15,18 @@ import { OrdersService } from './orders.service';
 @Injectable()
 export class OrdersStore extends ComponentStore<OrdersState> {
 
-	constructor(private ordersService: OrdersService) {
+	constructor(
+		private ordersService: OrdersService,
+		private snack: MatSnackBar) {
 		super(initialState);
 	}
 
 	/**
 	 * запускает цепочку действий для получения заказов пользователя, обработки ошибок и записи всего этого в стор
 	 */
-	readonly getOrders = this.effect((personId$: Observable<number>) => {
+	readonly getOrders = this.effect((personId$: Observable<string>) => {
 		return personId$.pipe(
-			switchMap((id: number) => {
+			switchMap((id: string) => {
 
 				// запускаем лоадер
 				this.addOrdersPending();
@@ -41,6 +46,40 @@ export class OrdersStore extends ComponentStore<OrdersState> {
 				);
 			})
 		);
+	});
+
+	/**
+	 * запускает цепочку действий для удаления заказа пользователя, обработки ошибок и записи всего этого в стор
+	 */
+	readonly removeOrder = this.effect((orderId$: Observable<string>) => {
+		return orderId$.pipe(
+			switchMap((orderId: string) => {
+
+				return this.ordersService.removeOrder(orderId).pipe(
+					tap(({ id }: { id: string }) => {
+						this.snack.open('Успешно удалили заказ', undefined, { duration: 3000 });
+						this.removeOrderSuccess(id);
+					}),
+					catchError(err => {
+						this.snack.open('Ошибка при удалении заказа', undefined, { duration: 3000 });
+						return throwError(err);
+					})
+				);
+			})
+		);
+	});
+
+	/**
+	 * удаляет заказ из стора
+	 */
+	private readonly removeOrderSuccess = this.updater((st: OrdersState, id: string) => {
+		const filteredOrders = st.orders.slice().filter(order => order.id !== id);
+
+		return {
+			...st,
+			orders: filteredOrders,
+			removeLoadingState: LOADING_STATES.default
+		};
 	});
 
 	/**
@@ -66,9 +105,10 @@ export class OrdersStore extends ComponentStore<OrdersState> {
 	 */
 	private readonly addOrdersSuccess = this.updater((st: OrdersState, orders: Order[]): OrdersState => {
 		return ({
+			...st,
 			orders: [...st.orders, ...orders],
 			loading: false,
-			err: false
+			err: false,
 		});
 	});
 
@@ -101,5 +141,5 @@ export interface OrdersState {
 const initialState: OrdersState = {
 	orders: [],
 	loading: false,
-	err: false
+	err: false,
 };

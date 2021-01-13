@@ -36,4 +36,13 @@ export class PeopleService {
 		return this.http.post<Person>(environment.apiEndpoints.patchCustomer, customer);
 	}
 
+	/**
+	 * отправляет запрос на удаление пользователя
+	 *
+	 * @param id идентификатор пользователя
+	 */
+	removeCustomer(id: string): Observable<{id: string}> {
+		return this.http.post<{id: string}>(environment.apiEndpoints.removeCustomer, {id});
+	}
+
 }

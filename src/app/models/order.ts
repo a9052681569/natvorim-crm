@@ -11,7 +11,7 @@ export interface Order {
 	/**
 	 * id клиентa, которому будет доставлен заказ
 	 */
-	personId: number;
+	personId: string;
 	/**
 	 * тип отправки (почта, курьер, сдек и т.д)
 	 */

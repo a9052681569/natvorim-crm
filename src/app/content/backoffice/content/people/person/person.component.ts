@@ -4,6 +4,11 @@ import { Person } from 'src/app/models/people';
 import { ContactItem } from './person-models';
 import { MatDialog } from '@angular/material/dialog';
 import { EditPersonDialogComponent } from './edit-person-dialog/edit-person-dialog.component';
+import { ConfirmationDialogData } from 'src/app/models/confirmation-dialog';
+import { ConfirmationDialogComponent } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.component';
+import { Store } from '@ngrx/store';
+import { RootState } from 'src/app/store';
+import { CustomersActions } from 'src/app/store/actions/costomers.actions';
 
 @Component({
 	selector: 'ntv-person',
@@ -24,7 +29,8 @@ export class PersonComponent implements OnInit {
 
 	constructor(
 		public clipService: ClipService,
-		private dialog: MatDialog) { }
+		private dialog: MatDialog,
+		private store: Store<RootState>) { }
 
 	ngOnInit(): void {
 		this.contactItems = [
@@ -52,6 +58,19 @@ export class PersonComponent implements OnInit {
 		};
 
 		this.dialog.open(EditPersonDialogComponent, { data });
+	}
+
+	removeCustomer(): void {
+		const data: ConfirmationDialogData = {
+			text: 'Удаляем этого типа?',
+			confirmText: 'да',
+			declineText: 'не, погодь',
+			action: () => {
+				this.store.dispatch(CustomersActions.removePending({ customerId: this.person.id }));
+			}
+		};
+
+		this.dialog.open(ConfirmationDialogComponent, { data });
 	}
 
 }

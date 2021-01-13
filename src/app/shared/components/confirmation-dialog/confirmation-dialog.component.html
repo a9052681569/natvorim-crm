@@ -1,0 +1,7 @@
+<mat-dialog-content>
+	{{data.text}}
+</mat-dialog-content>
+<mat-dialog-actions>
+	<button mat-raised-button (click)="dicline()">{{data.declineText}}</button>
+	<button mat-raised-button color="accent" (click)="confirm()">{{data.confirmText}}</button>
+</mat-dialog-actions>

@@ -137,7 +137,9 @@ export class SubscriptionOrdersFormComponent implements OnInit, OnDestroy {
 		return vals1.every(item => vals2.includes(item));
 	}
 
+	// tslint:disable-next-line:no-any
 	private getDeepValues(arr: any[]): (string | number | boolean | null)[] {
+		// tslint:disable-next-line:no-any
 		return arr.reduce((res: (string | number | boolean | null)[], item: any) => {
 			if (typeof item !== 'object' || item === null) {
 				res.push(item);

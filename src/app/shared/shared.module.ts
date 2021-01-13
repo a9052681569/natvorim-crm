@@ -11,6 +11,7 @@ import { NumberToStringPipe } from './pipes/number-to-string.pipe';
 import { SendedCheckboxComponent } from './components/sended-checkbox/sended-checkbox.component';
 import { TrackFieldComponent } from './components/track-field/track-field.component';
 import { OrderStructureComponent } from './components/order-structure/order-structure.component';
+import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
 import { ClipboardModule } from '@angular/cdk/clipboard';
 
 export const modules = [
@@ -28,7 +29,8 @@ export const components = [
 	SpinnerComponent,
 	SendedCheckboxComponent,
 	TrackFieldComponent,
-	OrderStructureComponent
+	OrderStructureComponent,
+	ConfirmationDialogComponent
 ];
 
 export const pipes = [

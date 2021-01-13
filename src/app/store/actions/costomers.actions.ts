@@ -18,6 +18,10 @@ export interface CustomerPatchSuccessProps {
 	customer: Person;
 }
 
+export interface CustomerRemoveProps {
+	customerId: string;
+}
+
 
 
 export enum CustomersActionsNames {
@@ -29,6 +33,9 @@ export enum CustomersActionsNames {
 	PATCH_СUSTOMER_SUCCESS = '[Customers] PATCH_СUSTOMER_SUCCESS',
 	PATCH_СUSTOMER_ERROR = '[Customers] PATCH_СUSTOMER_ERROR',
 	RESET_CUSTOMERS = '[Customers] RESET',
+	REMOVE_CUSTOMER_PENDING = '[Customers] REMOVE_CUSTOMER_PENDING',
+	REMOVE_CUSTOMER_SUCCESS = '[Customers] REMOVE_CUSTOMER_SUCCESS',
+	REMOVE_CUSTOMER_ERROR = '[Customers] REMOVE_CUSTOMER_ERROR',
 }
 
 export const CustomersActions = {
@@ -40,5 +47,8 @@ export const CustomersActions = {
 	patchSuccess: createAction(CustomersActionsNames.PATCH_СUSTOMER_SUCCESS, props<CustomerPatchSuccessProps>()),
 	patchError: createAction(CustomersActionsNames.PATCH_СUSTOMER_ERROR),
 	reset: createAction(CustomersActionsNames.RESET_CUSTOMERS),
+	removePending: createAction(CustomersActionsNames.REMOVE_CUSTOMER_PENDING, props<CustomerRemoveProps>()),
+	removeSuccess: createAction(CustomersActionsNames.REMOVE_CUSTOMER_SUCCESS, props<CustomerRemoveProps>()),
+	removeError: createAction(CustomersActionsNames.REMOVE_CUSTOMER_ERROR),
 };
 

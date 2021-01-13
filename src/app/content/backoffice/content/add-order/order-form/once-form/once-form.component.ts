@@ -92,6 +92,7 @@ export class OnceFormComponent implements OnInit, OnDestroy {
 			tap((order: AddOrderFormOnceOrder) => {
 				this.order = order.order;
 
+				// tslint:disable-next-line:no-any
 				const orderWithoutStructure: any = {...order.order};
 
 				delete orderWithoutStructure.orderStructure;

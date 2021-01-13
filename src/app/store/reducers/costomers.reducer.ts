@@ -78,6 +78,14 @@ const _customersReducer = createReducer(
 			...initialState
 		};
 	}),
+	on(CustomersActions.removeSuccess, (state: CustomersState, { customerId }) => {
+		const clonedCustomers = state.customers.slice().filter(c => c.id !== customerId);
+
+		return {
+			...state,
+			customers: clonedCustomers
+		};
+	}),
 );
 
 export function customersReducer(state: CustomersState = initialState, action: Action): CustomersState {
