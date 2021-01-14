@@ -8,19 +8,35 @@ export interface FilterFormState {
 }
 
 export interface FilterFormData {
-	shipmentDate: Month;
+	shipmentDate: string;
 	shipmentType: ShipmentTypes;
-	ordersType: OrderAges | 'сложный';
+	ordersType: ShipmentPreparingOrderTypes;
+	otherCriteria: ShipmentPreparingOtherCriteriaInterface;
+	othersArr: ShipmentPreparingOtherCriteriaEnum[];
 }
 
 export const filterFormInitialState: FilterFormState = {
 	data: {
-		shipmentDate: {
-			name: '',
-			date: ''
-		},
+		shipmentDate: '',
 		shipmentType: ShipmentTypes.cdek,
 		ordersType: OrderAges.twoThree,
+		otherCriteria: {
+			all: false,
+			notSendedYet: false
+		},
+		othersArr: []
 	},
 	loadingState: null
 };
+
+export interface ShipmentPreparingOtherCriteriaInterface {
+	all: boolean;
+	notSendedYet: boolean;
+}
+
+export type ShipmentPreparingOrderTypes = OrderAges | 'сложный' | 'театры';
+
+export enum ShipmentPreparingOtherCriteriaEnum {
+	all = 'все типы',
+	notSendedYet = 'не отправленные'
+}

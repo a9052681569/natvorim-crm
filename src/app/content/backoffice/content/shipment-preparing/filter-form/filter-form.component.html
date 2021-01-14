@@ -10,7 +10,7 @@
 
 	<mat-form-field appearance="standard" class="form__control">
 		<mat-label>Тип отправки</mat-label>
-		<mat-select formControlName="shipmentType">
+		<mat-select formControlName="shipmentType" [disabled]="disableTypeControls">
 			<mat-option *ngFor="let shipmentType of shipmentTypes" [value]="shipmentType">
 					{{shipmentType}}
 			</mat-option>
@@ -19,9 +19,18 @@
 
 	<mat-form-field appearance="standard" class="form__control">
 		<mat-label>Тип заказа</mat-label>
-		<mat-select formControlName="ordersType">
+		<mat-select formControlName="ordersType" [disabled]="disableTypeControls">
 			<mat-option *ngFor="let age of filterCriteria" [value]="age">
 					{{age}}
+			</mat-option>
+		</mat-select>
+	</mat-form-field>
+
+	<mat-form-field appearance="standard" class="form__control">
+		<mat-label>Прочие фильтры</mat-label>
+		<mat-select formControlName="othersArr" multiple (selectionChange)="setOtherCriteria($event)">
+			<mat-option *ngFor="let criteria of otherCriteria" [value]="criteria">
+					{{criteria}}
 			</mat-option>
 		</mat-select>
 	</mat-form-field>
