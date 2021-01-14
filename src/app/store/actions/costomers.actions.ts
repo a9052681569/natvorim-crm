@@ -11,7 +11,7 @@ export interface CustomersSearchSuccessProps {
 }
 
 export interface CustomersSearchPendingProps {
-	name: string;
+	query: string;
 }
 
 export interface CustomerPatchSuccessProps {

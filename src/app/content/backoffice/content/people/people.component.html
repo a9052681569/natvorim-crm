@@ -5,7 +5,7 @@
 						class="search">
 
 			<mat-label>поиск по имени</mat-label>
-			<input matInput [formControl]="name" [matAutocomplete]="auto">
+			<input matInput [formControl]="search" [matAutocomplete]="auto">
 			<mat-autocomplete #auto="matAutocomplete" (optionSelected)="setCustomer($event)">
 				<mat-option *ngFor="let option of autocompleteOptions" [value]="option">
 					{{option.name}}

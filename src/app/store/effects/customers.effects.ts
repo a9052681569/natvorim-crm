@@ -13,8 +13,8 @@ export class CustomersEffects {
 
 	setCustomers$ = createEffect(() => this.actions$.pipe(
 		ofType(CustomersActionsNames.SEARCH_СUSTOMERS_PENDING),
-		mergeMap(({name}) => {
-			return this.peopleService.getCustomers(name)
+		mergeMap(({query}) => {
+			return this.peopleService.searchCustomers(query)
 				.pipe(
 					map((customers: Person[]) => CustomersActions.searchSuccess({ customers })),
 					catchError(() => of(CustomersActions.searchError()))

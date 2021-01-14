@@ -36,6 +36,10 @@ export class PeopleService {
 		return this.http.post<Person>(environment.apiEndpoints.patchCustomer, customer);
 	}
 
+	searchCustomers(query: string): Observable<Person[]> {
+		return this.http.post<Person[]>(environment.apiEndpoints.searchCustomer, {query});
+	}
+
 	/**
 	 * отправляет запрос на удаление пользователя
 	 *

@@ -8,6 +8,7 @@ export const environment = {
 		customersForAutocomplete: '/cors/people/autocomplete',
 		postOrders: '/cors/orders/post',
 		postCustomer: '/cors/people/post',
+		searchCustomer: '/cors/people/search',
 		removeCustomer: '/cors/people/remove',
 		getCustomers: '/cors/people/get',
 		getOrdersById: '/cors/orders/by/personid',

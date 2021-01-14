@@ -1,16 +1,14 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { Observable, of, Subject } from 'rxjs';
-import { debounceTime, map, switchMap, takeUntil } from 'rxjs/operators';
+import { debounceTime, switchMap, takeUntil } from 'rxjs/operators';
 import { Person } from 'src/app/models/people';
 import { RootState } from 'src/app/store';
 import { CustomersActions } from 'src/app/store/actions/costomers.actions';
 import { CustomersState } from 'src/app/store/reducers/costomers.reducer';
-import { AddOrderService } from '../add-order/add-order.service';
+import { PeopleService } from './people.service';
 
 @Component({
   selector: 'ntv-people',
@@ -19,9 +17,9 @@ import { AddOrderService } from '../add-order/add-order.service';
 })
 export class PeopleComponent implements OnInit, OnDestroy {
 
-	name: FormControl;
+	search: FormControl;
 
-	prevName: string;
+	prevQuerry: string;
 
 	autocompleteOptions: Person[] = [];
 
@@ -38,12 +36,12 @@ export class PeopleComponent implements OnInit, OnDestroy {
 	constructor(
 		private store: Store<RootState>,
 		private fb: FormBuilder,
-		private addOrderService: AddOrderService) { }
+		private peopleService: PeopleService) { }
 
 	ngOnInit(): void {
 		this.state = this.store.select('customers');
 
-		this.store.dispatch(CustomersActions.searchPending({ name: '' }));
+		this.store.dispatch(CustomersActions.searchPending({ query: '' }));
 
 		this.initSearch();
 	}
@@ -56,31 +54,42 @@ export class PeopleComponent implements OnInit, OnDestroy {
 	setCustomer(e: MatAutocompleteSelectedEvent): void {
 		this.store.dispatch(CustomersActions.searchSuccess({ customers: [e.option.value] }));
 
-		this.name.setValue(e.option.value.name);
+		this.search.setValue(e.option.value.name);
 	}
 
 	private initSearch(): void {
-		this.name = this.fb.control('');
+		this.search = this.fb.control('');
 
-		this.initAutocomplete();
-	}
-
-	private initAutocomplete(): void {
-		this.name.valueChanges
+		this.search.valueChanges
 			.pipe(
 				takeUntil(this.destroyer$$),
 				debounceTime(300),
-				switchMap((name: string) => {
-					if (this.prevName && this.prevName === name) {
+			)
+			.subscribe((query: string) => {
+				this.store.dispatch(CustomersActions.searchPending({ query }));
+			});
+	}
+
+	/**
+	 * не понятно будет ли удобно пользоваться. Но пока не удаляем.
+	 * TODO: определится оставляем или убираем
+	 */
+	private initAutocomplete(): void {
+		this.search.valueChanges
+			.pipe(
+				takeUntil(this.destroyer$$),
+				debounceTime(300),
+				switchMap((querry: string) => {
+					if (this.prevQuerry && this.prevQuerry === querry) {
 						return of(this.autocompleteOptions);
 					}
 
-					this.prevName = name;
+					this.prevQuerry = querry;
 
-					return this.addOrderService.getPersonsByName(name);
+					return this.peopleService.searchCustomers(querry);
 				})
 			)
-			.subscribe((v) => {
+			.subscribe((v: Person[]) => {
 				this.autocompleteOptions = v;
 			});
 	}

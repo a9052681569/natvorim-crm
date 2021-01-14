@@ -4,6 +4,7 @@ export const environment = {
 		customersForAutocomplete: '/people/autocomplete',
 		postOrders: '/orders/post',
 		postCustomer: '/people/post',
+		searchCustomer: '/people/search',
 		getCustomers: '/people/get',
 		getOrdersById: '/orders/by/personid',
 		patchOrder: '/orders/patch',
