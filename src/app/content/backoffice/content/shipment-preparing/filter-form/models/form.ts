@@ -9,10 +9,9 @@ export interface FilterFormState {
 
 export interface FilterFormData {
 	shipmentDate: string;
-	shipmentType: ShipmentTypes;
+	shipmentType: ShipmentPreparingShipmentTypes;
 	ordersType: ShipmentPreparingOrderTypes;
-	otherCriteria: ShipmentPreparingOtherCriteriaInterface;
-	othersArr: ShipmentPreparingOtherCriteriaEnum[];
+	noTrack: boolean;
 }
 
 export const filterFormInitialState: FilterFormState = {
@@ -20,23 +19,11 @@ export const filterFormInitialState: FilterFormState = {
 		shipmentDate: '',
 		shipmentType: ShipmentTypes.cdek,
 		ordersType: OrderAges.twoThree,
-		otherCriteria: {
-			all: false,
-			notSendedYet: false
-		},
-		othersArr: []
+		noTrack: false,
 	},
 	loadingState: null
 };
 
-export interface ShipmentPreparingOtherCriteriaInterface {
-	all: boolean;
-	notSendedYet: boolean;
-}
+export type ShipmentPreparingOrderTypes = OrderAges | 'сложный' | 'театры' | 'все';
 
-export type ShipmentPreparingOrderTypes = OrderAges | 'сложный' | 'театры';
-
-export enum ShipmentPreparingOtherCriteriaEnum {
-	all = 'все типы',
-	notSendedYet = 'не отправленные'
-}
+export type ShipmentPreparingShipmentTypes = ShipmentTypes | 'все';

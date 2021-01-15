@@ -37,7 +37,7 @@ button[mat-flat-button] {
 	}
 }
 
-mat-form-field.mat-form-field {
+mat-form-field.mat-form-field, .form__control {
 	font-size: 0.869rem;
 	height: max-content;
 
@@ -118,6 +118,19 @@ mat-form-field.mat-form-field {
 
 	.mat-form-field-subscript-wrapper {
 		font-size: 86.306%;
+	}
+}
+
+mat-form-field.mat-form-field.low-control {
+
+	/* текстовый курсор на ховере инпутов */
+	&-type-mat-input .mat-form-field-wrapper,
+	.mat-form-field-wrapper{
+		padding-bottom: 0;
+
+		.mat-form-field-underline {
+			bottom: auto;
+		}
 	}
 }
 

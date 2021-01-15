@@ -1,5 +1,5 @@
 <form [formGroup]="form" class="form" (ngSubmit)="search()">
-	<mat-form-field appearance="standard" class="form__control">
+	<mat-form-field appearance="standard" class="low-control">
 		<mat-label>Дата</mat-label>
 		<mat-select formControlName="shipmentDate">
 			<mat-option *ngFor="let month of months" [value]="month.date">
@@ -8,32 +8,25 @@
 		</mat-select>
 	</mat-form-field>
 
-	<mat-form-field appearance="standard" class="form__control">
+	<mat-form-field appearance="standard" class="low-control">
 		<mat-label>Тип отправки</mat-label>
-		<mat-select formControlName="shipmentType" [disabled]="disableTypeControls">
+		<mat-select formControlName="shipmentType">
 			<mat-option *ngFor="let shipmentType of shipmentTypes" [value]="shipmentType">
 					{{shipmentType}}
 			</mat-option>
 		</mat-select>
 	</mat-form-field>
 
-	<mat-form-field appearance="standard" class="form__control">
+	<mat-form-field appearance="standard" class="low-control">
 		<mat-label>Тип заказа</mat-label>
-		<mat-select formControlName="ordersType" [disabled]="disableTypeControls">
+		<mat-select formControlName="ordersType">
 			<mat-option *ngFor="let age of filterCriteria" [value]="age">
 					{{age}}
 			</mat-option>
 		</mat-select>
 	</mat-form-field>
 
-	<mat-form-field appearance="standard" class="form__control">
-		<mat-label>Прочие фильтры</mat-label>
-		<mat-select formControlName="othersArr" multiple (selectionChange)="setOtherCriteria($event)">
-			<mat-option *ngFor="let criteria of otherCriteria" [value]="criteria">
-					{{criteria}}
-			</mat-option>
-		</mat-select>
-	</mat-form-field>
+	<mat-checkbox formControlName="noTrack">без трека</mat-checkbox>
 
 	<button mat-raised-button color="accent" type="submit">
 		search

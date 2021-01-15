@@ -8,11 +8,11 @@ import { OrderAges, ShipmentTypes } from 'src/app/enums/order/order-enums';
 import { ShipmentPreparingStoreService } from '../shipment-preparing-store.service';
 import { FilterFormStoreService } from './filter-form-store.service';
 import {
+	FilterFormData,
 	filterFormInitialState,
 	FilterFormState,
 	ShipmentPreparingOrderTypes,
-	ShipmentPreparingOtherCriteriaEnum,
-	ShipmentPreparingOtherCriteriaInterface
+	ShipmentPreparingShipmentTypes
 } from './models/form';
 
 @Component({
@@ -31,19 +31,14 @@ export class FilterFormComponent implements OnInit, OnDestroy {
 	 *
 	 * @example ['сдэк', 'почта']
 	 */
-	shipmentTypes: ShipmentTypes[] = Object.values(ShipmentTypes);
+	shipmentTypes: ShipmentPreparingShipmentTypes[] = [...Object.values(ShipmentTypes), 'все'];
 
 	/**
 	 * массив возможных диапазонов возрастов для контрола селект (наборы бывают для нескольких диапазов возрастов)
 	 *
 	 * @example ['2-3', '4-6']
 	 */
-	filterCriteria: ShipmentPreparingOrderTypes[] = Object.values(OrderAges);
-
-	/**
-	 * массив прочих фильтров
-	 */
-	otherCriteria: ShipmentPreparingOtherCriteriaEnum[] = Object.values(ShipmentPreparingOtherCriteriaEnum);
+	filterCriteria: ShipmentPreparingOrderTypes[] = [...Object.values(OrderAges), 'сложный', 'театры', 'все'];
 
 	/**
 	 * возможные месяцы доставки
@@ -54,10 +49,6 @@ export class FilterFormComponent implements OnInit, OnDestroy {
 		private fb: FormBuilder,
 		private store: FilterFormStoreService,
 		private spStore: ShipmentPreparingStoreService) { }
-
-	get disableTypeControls(): boolean {
-		return this.form.value.otherCriteria.all;
-	}
 
 	ngOnInit(): void {
 		this.initForm();
@@ -85,12 +76,8 @@ export class FilterFormComponent implements OnInit, OnDestroy {
 			shipmentDate: filterFormInitialState.data.shipmentDate,
 			shipmentType: filterFormInitialState.data.shipmentType,
 			ordersType: filterFormInitialState.data.ordersType,
-			otherCriteria: filterFormInitialState.data.otherCriteria,
-			othersArr: []
+			noTrack: filterFormInitialState.data.noTrack,
 		});
-
-		this.filterCriteria.push('сложный');
-		this.filterCriteria.push('театры');
 	}
 
 	private initFormSetter(): void {
@@ -110,20 +97,9 @@ export class FilterFormComponent implements OnInit, OnDestroy {
 				takeUntil(this.destroyer$$),
 				debounceTime(500),
 			)
-			.subscribe(v => {
-				console.log(v);
+			.subscribe((v: FilterFormData) => {
 				this.store.saveForm(v);
 			});
-	}
-
-	setOtherCriteria(e: MatSelectChange): void {
-
-		const otherCriteria: ShipmentPreparingOtherCriteriaInterface = {
-			all: e.value.includes(ShipmentPreparingOtherCriteriaEnum.all),
-			notSendedYet: e.value.includes(ShipmentPreparingOtherCriteriaEnum.notSendedYet)
-		};
-
-		this.form.patchValue({ otherCriteria });
 	}
 
 }
