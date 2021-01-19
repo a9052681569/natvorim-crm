@@ -9,12 +9,14 @@ export interface ASFilterFormState {
 export interface ASFilterFormData {
 	shipmentDate: string;
 	shipmentType: ASShipmentTypes;
+	notSended: boolean;
 }
 
 export const AS_FILTER_FORM_INIT_STATE: ASFilterFormState = {
 	data: {
 		shipmentDate: '',
 		shipmentType: ShipmentTypes.cdek,
+		notSended: true
 	},
 	loadingState: LOADING_STATES.default
 };
