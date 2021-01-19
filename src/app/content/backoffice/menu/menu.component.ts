@@ -30,6 +30,11 @@ export class MenuComponent {
 			itemName: 'Подготовка отправки'
 		},
 		{
+			route: 'actual-shipment',
+			iconName: 'wheelchair_pickup',
+			itemName: 'Настоящая отправка'
+		},
+		{
 			route: 'add-order',
 			iconName: 'add',
 			itemName: 'Добавление заказа'

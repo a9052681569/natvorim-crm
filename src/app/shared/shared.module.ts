@@ -10,9 +10,11 @@ import { OverlinedComponent } from './components/overlined/overlined.component';
 import { NumberToStringPipe } from './pipes/number-to-string.pipe';
 import { SendedCheckboxComponent } from './components/sended-checkbox/sended-checkbox.component';
 import { TrackFieldComponent } from './components/track-field/track-field.component';
-import { OrderStructureComponent } from './components/order-structure/order-structure.component';
+import { OrderStructureFormComponent } from './components/order-structure-form/order-structure-form.component';
 import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
+import { OrderStructureComponent } from './components/order-structure/order-structure.component';
 import { ClipboardModule } from '@angular/cdk/clipboard';
+import { KitComponent } from './components/kit/kit.component';
 
 export const modules = [
 	CommonModule,
@@ -29,8 +31,10 @@ export const components = [
 	SpinnerComponent,
 	SendedCheckboxComponent,
 	TrackFieldComponent,
+	OrderStructureFormComponent,
 	OrderStructureComponent,
-	ConfirmationDialogComponent
+	ConfirmationDialogComponent,
+	KitComponent
 ];
 
 export const pipes = [

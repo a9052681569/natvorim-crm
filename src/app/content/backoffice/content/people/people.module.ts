@@ -5,7 +5,6 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { PersonComponent } from './person/person.component';
 import { PersonOrderComponent } from './person/person-orders/person-order/person-order.component';
 import { PersonOrdersComponent } from './person/person-orders/person-orders.component';
-import { KitComponent } from './person/person-orders/person-order/kit/kit.component';
 import { OrderStructureDialogComponent } from './person/person-orders/person-order/order-structure-dialog/order-structure-dialog.component';
 import { EditPersonDialogComponent } from './person/edit-person-dialog/edit-person-dialog.component';
 import { EditOrderDialogComponent } from './person/person-orders/person-order/edit-order-dialog/edit-order-dialog.component';
@@ -16,7 +15,6 @@ import { EditOrderDialogComponent } from './person/person-orders/person-order/ed
 		PersonComponent,
 		PersonOrderComponent,
 		PersonOrdersComponent,
-		KitComponent,
 		OrderStructureDialogComponent,
 		EditPersonDialogComponent,
 		EditOrderDialogComponent,

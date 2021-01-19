@@ -7,8 +7,8 @@
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
-		  "style": "scss",
-		  "skipTests": true,
+          "style": "scss",
+          "skipTests": true,
           "lintFix": true
         },
         "@schematics/angular:application": {
@@ -32,7 +32,7 @@
         },
         "@schematics/angular:module": {
           "skipTests": true,
-			"lintFix": true
+          "lintFix": true
         },
         "@schematics/angular:pipe": {
           "skipTests": true,
@@ -107,8 +107,8 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-			"browserTarget": "natvorim-crm:build",
-			"proxyConfig": "./proxy.conf.json"
+            "browserTarget": "natvorim-crm:build",
+            "proxyConfig": "./proxy.conf.json"
           },
           "configurations": {
             "production": {
@@ -163,6 +163,12 @@
             "production": {
               "devServerTarget": "natvorim-crm:serve:production"
             }
+          }
+        },
+        "analyze": {
+          "builder": "@ngx-builders/analyze:analyze",
+          "options": {
+            "outputPath": "dist/natvorim-crm"
           }
         }
       }

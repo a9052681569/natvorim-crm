@@ -1,0 +1,75 @@
+<div [formGroup]="orderStructureGroup" class="form__block">
+	<div formArrayName="kits" class="form__array">
+		<div class="form__array-title">
+
+			<h6>Наборы</h6>
+
+			<button mat-icon-button type="button" (click)="addKit(initialKitGroupState, kits)">
+				<mat-icon>add</mat-icon>
+			</button>
+		</div>
+		
+		<mat-card *ngFor="let form of kits.controls; index as i" class="form__array-item">
+
+			<mat-form-field appearance="standard">
+				<mat-label>сколько*</mat-label>
+				
+				<input type="number" matInput [formControl]="hs.getControl(form.get('count'))">
+
+				<mat-error *ngIf="hs.getControl(form.get('count')).invalid">>0</mat-error>
+
+			</mat-form-field>
+
+			<button mat-icon-button type="button" (click)='removeKit(i)'>
+				<mat-icon>delete</mat-icon>
+			</button>
+
+			<mat-form-field appearance="standard">
+				<mat-label>возраст*</mat-label>
+				<mat-select [formControl]="hs.getControl(form.get('age'))">
+					<mat-option *ngFor="let age of ages" [value]="age">
+					  {{age}}
+					</mat-option>
+				</mat-select>
+			</mat-form-field>
+
+		</mat-card>
+	</div>
+
+	<mat-divider [vertical]="true"></mat-divider>
+
+	<div formArrayName="theatres" class="form__array">
+		<div class="form__array-title">
+
+			<h6>Театры</h6>
+
+			<button mat-icon-button type="button" (click)="addKit(initialKitGroupState, theatres)">
+				<mat-icon>add</mat-icon>
+			</button>
+		</div>
+		
+		<mat-card *ngFor="let form of theatres.controls; index as i" class="form__array-item">
+
+			<mat-form-field appearance="standard">
+				<mat-label>сколько*</mat-label>
+				<input type="number" matInput [formControl]="hs.getControl(form.get('count'))">
+				<mat-error *ngIf="hs.getControl(form.get('count')).invalid">>0</mat-error>
+			</mat-form-field>
+
+			<button mat-icon-button type="button" (click)='removeTheatre(i)'>
+				<mat-icon>delete</mat-icon>
+			</button>
+
+			<mat-form-field appearance="standard">
+				<mat-label>тип*</mat-label>
+				<mat-select [formControl]="hs.getControl(form.get('age'))">
+					<mat-option name="dsfsd" *ngFor="let type of theatreTypes" [value]="type">
+					  {{type}}
+					</mat-option>
+				</mat-select>
+			</mat-form-field>
+
+		</mat-card>
+	</div>
+</div>
+<mat-error *ngIf="orderStructureGroup.errors?.oneKitRequired">{{orderStructureGroup.errors?.oneKitRequired}}</mat-error>

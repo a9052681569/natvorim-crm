@@ -4,21 +4,19 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, switchMap, tap } from 'rxjs/operators';
 import { LOADING_STATES } from 'src/app/enums/loading-states/loading-states';
 import { ShipmentPreparingOrder } from 'src/app/models/shipment-preparing-order';
-import { FilterFormData } from './filter-form/models/form';
+import { SPFilterFormData } from './sp-filter-form/models/form';
 import { ShipmentPreparingService } from './shipment-preparing.service';
 
-@Injectable({
-  	providedIn: 'root'
-})
+@Injectable()
 export class ShipmentPreparingStoreService extends ComponentStore<ShipmentPreparingState> {
 
 	constructor(private spService: ShipmentPreparingService) {
 		super(shipmentPreparingInitialState);
 	}
 
-	readonly search = this.effect((data$: Observable<FilterFormData>) => {
+	readonly search = this.effect((data$: Observable<SPFilterFormData>) => {
 		return data$.pipe(
-			switchMap((formData: FilterFormData) => {
+			switchMap((formData: SPFilterFormData) => {
 
 				this.searchPending();
 

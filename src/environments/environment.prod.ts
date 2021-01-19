@@ -14,6 +14,8 @@ export const environment = {
 		patchCustomer: '/people/patch',
 		removeCustomer: '/people/remove',
 		auth: '/auth/main',
-		prepairingOrders: '/orders/for/prepaire'
+		prepairingOrders: '/orders/for/prepaire',
+		actualShipment: '/cors/orders/for/actual-shipment',
+		actualShipmentPatchSended: '/cors/orders/patch/actual-shipment-sended',
 	}
 };

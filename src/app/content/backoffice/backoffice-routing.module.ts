@@ -17,6 +17,10 @@ const routes: Routes = [
 				path: 'shipment-preparing',
 				loadChildren: () => import('./content/shipment-preparing/shipment-preparing.module').then(m => m.ShipmentPreparingModule)
 			},
+			{
+				path: 'actual-shipment',
+				loadChildren: () => import('./content/actual-shipment/actual-shipment.module').then(m => m.ActualShipmentModule)
+			},
 			{ path: '**', redirectTo: 'dashboard' },
 		]
 	},

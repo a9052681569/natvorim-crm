@@ -1,0 +1,25 @@
+<mat-card class="card">
+	<p>{{order.name}}</p>
+
+	<mat-checkbox (click)="$event.preventDefault(); changeSended(!order.sended)"
+				  [checked]="order.sended"
+				  color="accent"> 
+		Отправлено
+	</mat-checkbox>
+
+	<ng-container *ngIf="showStructure">
+		<ntv-overlined *ngIf="order.comment" 
+					   [value]="order.comment" 
+					   overline="комментарий">
+		</ntv-overlined>
+
+		<ntv-order-structure [orderStructure]="order.orderStructure"></ntv-order-structure>
+	</ng-container>
+
+	<ntv-overlined *ngIf="showAddress"
+				   [value]="order.address.address"
+				   overline="адрес">
+	</ntv-overlined>
+</mat-card>
+
+

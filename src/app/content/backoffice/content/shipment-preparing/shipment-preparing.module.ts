@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { ShipmentPreparingComponent } from './shipment-preparing.component';
 import { ShipmentPreparingRoutingModule } from './shipment-preparing-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { FilterFormComponent } from './filter-form/filter-form.component';
+import { SPFilterFormComponent } from './sp-filter-form/sp-filter-form.component';
 import { PreparingOrderComponent } from './preparing-order/preparing-order.component';
 
 
@@ -10,7 +10,7 @@ import { PreparingOrderComponent } from './preparing-order/preparing-order.compo
 @NgModule({
 	declarations: [
 		ShipmentPreparingComponent,
-		FilterFormComponent,
+		SPFilterFormComponent,
 		PreparingOrderComponent
 	],
 	imports: [

@@ -18,7 +18,9 @@ export const environment = {
 		patchOrderTrack: '/cors/orders/patch/track',
 		patchCustomer: '/cors/people/patch',
 		auth: '/cors/auth/main',
-		prepairingOrders: '/cors/orders/for/prepaire'
+		prepairingOrders: '/cors/orders/for/prepaire',
+		actualShipment: '/cors/orders/for/actual-shipment',
+		actualShipmentPatchSended: '/cors/orders/patch/actual-shipment-sended',
 	}
 };
 /*

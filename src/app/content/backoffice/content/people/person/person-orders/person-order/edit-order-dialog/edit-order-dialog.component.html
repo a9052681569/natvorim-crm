@@ -63,7 +63,7 @@
 		
 	
 		<h4>Что везем</h4>
-		<ntv-order-structure [orderStructure]="order.orderStructure" [orderStructureGroup]="orderStructure"></ntv-order-structure>
+		<ntv-order-structure-form [orderStructure]="order.orderStructure" [orderStructureGroup]="orderStructure"></ntv-order-structure-form>
 	
 		<button mat-raised-button type="submit" [ngSwitch]="loadingState" class="submit-button">
 			<span *ngSwitchCase="loadingStates.loading" class="submit-button__content">

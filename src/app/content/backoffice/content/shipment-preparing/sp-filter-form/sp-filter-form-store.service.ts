@@ -3,24 +3,24 @@ import { ComponentStore } from '@ngrx/component-store';
 import { Observable, throwError } from 'rxjs';
 import { switchMap, tap, catchError } from 'rxjs/operators';
 import { LOADING_STATES } from 'src/app/enums/loading-states/loading-states';
-import { FilterFormService } from './filter-form.service';
-import { FilterFormState, filterFormInitialState, FilterFormData } from './models/form';
+import { SPFilterFormService } from './sp-filter-form.service';
+import { SPFilterFormState, SP_FILTER_FORM_INIT_STATE, SPFilterFormData } from './models/form';
 
 @Injectable({
   providedIn: 'root'
 })
-export class FilterFormStoreService extends ComponentStore<FilterFormState> {
+export class SPFilterFormStoreService extends ComponentStore<SPFilterFormState> {
 
-	constructor(private ffs: FilterFormService) {
-		super(filterFormInitialState);
+	constructor(private ffs: SPFilterFormService) {
+		super(SP_FILTER_FORM_INIT_STATE);
 	}
 
-	readonly saveForm = this.effect((data$: Observable<FilterFormData>) => {
+	readonly saveForm = this.effect((data$: Observable<SPFilterFormData>) => {
 		return data$.pipe(
-			switchMap((formData: FilterFormData) => {
+			switchMap((formData: SPFilterFormData) => {
 
 				return this.ffs.updateFormData(formData).pipe(
-					tap((data: FilterFormData) => {
+					tap((data: SPFilterFormData) => {
 
 						// в случае успеха добавляем заказы в стор
 						this.reqFormSuccess(data);
@@ -39,7 +39,7 @@ export class FilterFormStoreService extends ComponentStore<FilterFormState> {
 		return origin$.pipe(
 			switchMap(() => {
 				return this.ffs.getFormData().pipe(
-					tap((data: FilterFormData) => {
+					tap((data: SPFilterFormData) => {
 						this.reqFormSuccess(data);
 					}),
 					catchError(err => {
@@ -51,7 +51,7 @@ export class FilterFormStoreService extends ComponentStore<FilterFormState> {
 		);
 	});
 
-	private readonly reqFormSuccess = this.updater((st: FilterFormState, formData: FilterFormData) => {
+	private readonly reqFormSuccess = this.updater((st: SPFilterFormState, formData: SPFilterFormData) => {
 		return {
 			...st,
 			data: formData,
@@ -59,5 +59,5 @@ export class FilterFormStoreService extends ComponentStore<FilterFormState> {
 		};
 	});
 
-	private readonly reqFormError = this.updater((st: FilterFormState) => ({ ...st, loadingState: LOADING_STATES.err }));
+	private readonly reqFormError = this.updater((st: SPFilterFormState) => ({ ...st, loadingState: LOADING_STATES.err }));
 }

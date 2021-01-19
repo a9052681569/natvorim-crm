@@ -1,0 +1,8 @@
+:host {
+	width: 100%;
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	color: rgba(0, 0, 0, 0.54);
+	font-size: .75rem;
+	font-weight: 500;
+}

@@ -1,46 +1,10 @@
-.form {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	gap: 16px;
-	height: 100%;
-	box-sizing: border-box;
-
-	&__block {
-		display: grid;
-		grid-template-columns: 1fr 1px 1fr;
-		grid-gap: 16px;
-		width: 100%;
-	}
-
-	&__comment {
-		width: 100%;
-		display: grid;
-	}
-
-	&__array {
-		display: flex;
-		flex-direction: column;
-		gap: 16px;
-
-		&-item {
-			display: grid;
-			grid-template-columns: 1fr 40px;
-			grid-template-rows: repeat(2, auto);
-		}
-
-		&-title {
-			display: flex;
-			gap: 16px;
-			align-items: center;
-		}
-	}
-}
-
-.scrollbar {
-	max-height: 50vh;
-}
-
-.select-card {
+:host {
 	display: grid;
+	grid-template-columns: 1fr 1px 1fr;
+	grid-gap: 16px;
+}
+
+.kits, .theatres {
+	display: grid;
+	gap: 8px;
 }

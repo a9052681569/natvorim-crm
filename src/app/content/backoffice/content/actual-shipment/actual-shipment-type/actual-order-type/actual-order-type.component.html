@@ -1,0 +1,9 @@
+<div>{{orderType.ordersType}}</div>
+
+<div>{{orderType.orders.length}}</div>
+
+<mat-checkbox [checked]="isAllSended"
+			  (click)="$event.stopPropagation()"
+			  (change)="changeAllSended($event)">
+</mat-checkbox>
+

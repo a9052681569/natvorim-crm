@@ -5,7 +5,8 @@ import { ShipmentPreparingStoreService } from './shipment-preparing-store.servic
 @Component({
 	selector: 'ntv-shipment-preparing',
 	templateUrl: './shipment-preparing.component.html',
-	styleUrls: ['./shipment-preparing.component.scss']
+	styleUrls: ['./shipment-preparing.component.scss'],
+	providers: [ShipmentPreparingStoreService]
 })
 export class ShipmentPreparingComponent implements OnInit {
 

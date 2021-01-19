@@ -32,6 +32,7 @@ import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { MatCardModule } from '@angular/material/card';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import {MatTableModule} from '@angular/material/table';
 
 
 const MATERIAL_MODULES = [
@@ -65,7 +66,8 @@ const MATERIAL_MODULES = [
 	MatBottomSheetModule,
 	MatCardModule,
 	MatDatepickerModule,
-	MatNativeDateModule
+	MatNativeDateModule,
+	MatTableModule
 ];
 
 @NgModule({
