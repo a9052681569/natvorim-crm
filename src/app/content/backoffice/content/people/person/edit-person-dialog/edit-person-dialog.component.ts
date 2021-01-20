@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { Person } from 'src/app/models/people';
+import { HelpersService } from 'src/app/shared/services/helpers.service';
 import { RootState } from 'src/app/store';
 import { CustomersActions } from 'src/app/store/actions/costomers.actions';
 
@@ -21,7 +22,8 @@ export class EditPersonDialogComponent implements OnInit {
 	constructor(
 		@Inject(MAT_DIALOG_DATA) public data: { person: Person },
 		private fb: FormBuilder,
-		public store: Store<RootState>) { }
+		public store: Store<RootState>,
+		private hs: HelpersService) { }
 
 	ngOnInit(): void {
 		// инициируем форму
@@ -29,7 +31,7 @@ export class EditPersonDialogComponent implements OnInit {
 			name: this.data.person.name,
 			email: this.data.person.contacts.email || '',
 			inst: this.data.person.contacts.inst || '',
-			phone: this.data.person.contacts.phone || '',
+			phone: [this.data.person.contacts.phone || '', this.hs.phoneValidator],
 			city: this.data.person.address.city,
 			address: this.data.person.address.address
 		});

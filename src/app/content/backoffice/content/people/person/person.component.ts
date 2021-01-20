@@ -9,6 +9,7 @@ import { ConfirmationDialogComponent } from 'src/app/shared/components/confirmat
 import { Store } from '@ngrx/store';
 import { RootState } from 'src/app/store';
 import { CustomersActions } from 'src/app/store/actions/costomers.actions';
+import { HelpersService } from 'src/app/shared/services/helpers.service';
 
 @Component({
 	selector: 'ntv-person',
@@ -30,7 +31,8 @@ export class PersonComponent implements OnInit {
 	constructor(
 		public clipService: ClipService,
 		private dialog: MatDialog,
-		private store: Store<RootState>) { }
+		private store: Store<RootState>,
+		private hs: HelpersService) { }
 
 	ngOnInit(): void {
 		this.contactItems = [
@@ -40,7 +42,7 @@ export class PersonComponent implements OnInit {
 			},
 			{
 				name: 'Телефон',
-				value: this.person.contacts.phone || 'Не указан'
+				value: this.person.contacts.phone ? this.hs.addRussianPhonePrefix(this.person.contacts.phone) : 'Не указан'
 			},
 			{
 				name: 'Инстаграм',

@@ -68,7 +68,7 @@ export class CustomerFormComponent implements OnInit, OnDestroy {
 			contacts: this.fb.group({
 				email: ['', Validators.email],
 				inst: '',
-				phone: [''],
+				phone: ['', this.hs.phoneValidator],
 			}, {validators: [this.oneRequiredValidator]}),
 			address: this.fb.group({
 				city: ['', Validators.required],
