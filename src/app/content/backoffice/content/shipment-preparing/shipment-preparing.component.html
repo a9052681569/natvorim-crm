@@ -1,5 +1,6 @@
-<ntv-sp-filter-form></ntv-sp-filter-form>
+
 <ng-scrollbar class="scrollbar" *ngIf="preparingStore.state$ | async as preparingState">
+	<ntv-sp-filter-form></ntv-sp-filter-form>
 
 	<ntv-spinner *ngIf="preparingState.loadingState === loadingStates.loading"></ntv-spinner>
 

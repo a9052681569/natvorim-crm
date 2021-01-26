@@ -1,13 +1,12 @@
-<ntv-as-filter-form></ntv-as-filter-form>
-
-<div class="table-header">
-	<div>Тип заказов</div>
-	<div>Количество</div>
-	<div>Все отправлены</div>
-</div>
-
 <ng-scrollbar class="scrollbar" *ngIf="actualShipmentState$ | async as state">
 	<div class="scrollbar__content">
+		<ntv-as-filter-form></ntv-as-filter-form>
+
+		<div class="table-header">
+			<div>Тип заказов</div>
+			<div>Количество</div>
+			<div>Все отправлены</div>
+		</div>
 
 		<ntv-spinner *ngIf="state.loadingState === loadingStates.loading"></ntv-spinner>
 
@@ -19,6 +18,5 @@
 
 		
 	</div>
-	
 
 </ng-scrollbar>

@@ -16,8 +16,8 @@
 
 .scrollbar {
 
-	max-height: calc(100vh - 64px - 83px);
-	min-height: calc(100vh - 64px - 83px);
+	max-height: calc(100vh - 64px);
+	min-height: calc(100vh - 64px);
 
 	&__content {
 		padding: 0 16px;
