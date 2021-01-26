@@ -15,8 +15,14 @@ import { ASFilterFormData, ASShipmentTypes, AS_FILTER_FORM_INIT_STATE } from './
 })
 export class ASFilterFormComponent implements OnInit, OnDestroy {
 
+	/**
+	 * форма критериев фильтрации запроса заказов для отправки
+	 */
 	form: FormGroup;
 
+	/**
+	 * маркер уничтожения компонента, нужен для корректной отписки
+	 */
 	destroyer$$ = new Subject();
 
 	/**
@@ -41,7 +47,7 @@ export class ASFilterFormComponent implements OnInit, OnDestroy {
 
 		this.formStore.setFormData();
 
-		this.initFormSetter();
+		this.setFormDataFromSaved();
 
 		this.initFormSaver();
 
@@ -53,15 +59,24 @@ export class ASFilterFormComponent implements OnInit, OnDestroy {
 		this.destroyer$$.complete();
 	}
 
+	/**
+	 * запускает поиск заказов для отправки с установленными в {@link form} критериями
+	 */
 	search(): void {
 		this.asStore.search(this.form.value);
 	}
 
+	/**
+	 * инициирует форму фильтров с дефолтными значениями
+	 */
 	private initForm(): void {
 		this.form = this.fb.group(AS_FILTER_FORM_INIT_STATE.data);
 	}
 
-	private initFormSetter(): void {
+	/**
+	 * устанавливает сохраненные в сторе данные значением формы
+	 */
+	private setFormDataFromSaved(): void {
 		this.formStore.select(s => s.data)
 			.pipe(
 				take(1),
@@ -72,6 +87,9 @@ export class ASFilterFormComponent implements OnInit, OnDestroy {
 			.subscribe();
 	}
 
+	/**
+	 * запускает механизм сохранения данных из формы
+	 */
 	private initFormSaver(): void {
 		this.form.valueChanges
 			.pipe(
@@ -79,7 +97,6 @@ export class ASFilterFormComponent implements OnInit, OnDestroy {
 				debounceTime(500),
 			)
 			.subscribe((v: ASFilterFormData) => {
-				console.log('значение формы', v);
 				this.formStore.saveForm(v);
 			});
 	}

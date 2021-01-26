@@ -21,23 +21,29 @@ import {
 })
 export class SPFilterFormComponent implements OnInit, OnDestroy {
 
+	/**
+	 * форма критериев фильтрации запроса заказов для подготовки отправки
+	 */
 	form: FormGroup;
 
+	/**
+	 * маркер уничтожения компонента, нужен для корректной отписки
+	 */
 	destroyer$$ = new Subject();
 
 	/**
-	 * массив возможных типов отпавки заказа
+	 * массив возможных фильтров по типам отправки заказа
 	 *
 	 * @example ['сдэк', 'почта']
 	 */
-	shipmentTypes: ShipmentPreparingShipmentTypes[] = [...Object.values(ShipmentTypes), 'все'];
+	filterShipmentTypes: ShipmentPreparingShipmentTypes[] = [...Object.values(ShipmentTypes), 'все'];
 
 	/**
-	 * массив возможных диапазонов возрастов для контрола селект (наборы бывают для нескольких диапазов возрастов)
+	 * массив возможных фильтров по типам заказа
 	 *
 	 * @example ['2-3', '4-6']
 	 */
-	filterCriteria: ShipmentPreparingOrderTypes[] = [...Object.values(ShipmentOrderTypes), 'все'];
+	filterOrderTypes: ShipmentPreparingOrderTypes[] = [...Object.values(ShipmentOrderTypes), 'все'];
 
 	/**
 	 * возможные месяцы доставки
@@ -54,7 +60,7 @@ export class SPFilterFormComponent implements OnInit, OnDestroy {
 
 		this.store.setFormData();
 
-		this.initFormSetter();
+		this.setFormDataFromSaved();
 
 		this.initFormSaver();
 
@@ -66,10 +72,16 @@ export class SPFilterFormComponent implements OnInit, OnDestroy {
 		this.destroyer$$.complete();
 	}
 
+	/**
+	 * запускает поиск заказов по выбранным критериям
+	 */
 	search(): void {
 		this.spStore.search(this.form.value);
 	}
 
+	/**
+	 * инициирует форму фильтров с дефолтными значениями
+	 */
 	private initForm(): void {
 		this.form = this.fb.group({
 			shipmentDate: SP_FILTER_FORM_INIT_STATE.data.shipmentDate,
@@ -79,7 +91,10 @@ export class SPFilterFormComponent implements OnInit, OnDestroy {
 		});
 	}
 
-	private initFormSetter(): void {
+	/**
+	 * устанавливает сохраненные в сторе данные в качестве значения формы
+	 */
+	private setFormDataFromSaved(): void {
 		this.store.select(s => s)
 			.pipe(
 				take(1),
@@ -90,6 +105,9 @@ export class SPFilterFormComponent implements OnInit, OnDestroy {
 			.subscribe();
 	}
 
+	/**
+	 * запускает механизм сохранения данных из формы
+	 */
 	private initFormSaver(): void {
 		this.form.valueChanges
 			.pipe(

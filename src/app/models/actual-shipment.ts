@@ -6,7 +6,9 @@ export interface ASShipmentTypeState {
 	shipmentType: ShipmentTypes;
 	ordersByType: ASOrderTypeState[];
 }
-
+/**
+ * 
+ */
 export interface ASOrderTypeState {
 	ordersType: ShipmentOrderTypes;
 	orders: ActualShipmentOrder[];

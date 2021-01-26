@@ -21,6 +21,9 @@ export class AddOrderService {
 
 	constructor(private http: HttpClient) { }
 
+	/**
+	 * дополняет сохраненные данные форм добавления заказа переданными данными
+	 */
 	updateFormData(data: SaveForm): Observable<SaveFormResponse> {
 		const formDataString = localStorage.getItem('ntv-add-order-form-data');
 
@@ -42,6 +45,9 @@ export class AddOrderService {
 		return of(patchData);
 	}
 
+	/**
+	 * отдает сохраненные данные форм добавления заказа
+	 */
 	getFormData(): Observable<SaveFormResponse> {
 		const formDataString = localStorage.getItem('ntv-add-order-form-data');
 
@@ -50,18 +56,34 @@ export class AddOrderService {
 		return of(formData);
 	}
 
+	/**
+	 * сбрасывает сохраненные данные форм добавления заказа
+	 */
 	resetFormData(): void {
 		localStorage.removeItem('ntv-add-order-form-data');
 	}
 
+	/**
+	 * запрашивает клиентов по переданному имени
+	 */
 	getPersonsByName(name: string): Observable<Person[]> {
 		return this.http.post<Person[]>(environment.apiEndpoints.customersForAutocomplete, {name});
 	}
 
+	/**
+	 * делает запрос на регистрацию переданного массива заказов
+	 *
+	 * @param orders массив заказов
+	 */
 	postOrders(orders: Order[]): Observable<Order[]> {
 		return this.http.post<Order[]>(environment.apiEndpoints.postOrders, orders);
 	}
 
+	/**
+	 * делает запрос на регистрацию переданного клиента
+	 *
+	 * @param customer клиент
+	 */
 	postCustomer(customer: Person): Observable<Person[]> {
 		return this.http.post<Person[]>(environment.apiEndpoints.postCustomer, customer);
 	}

@@ -5,13 +5,13 @@ import { CustomPreloadService } from './custom-preload.service';
 
 
 const routes: Routes = [
-  { path: 'login', loadChildren: () => import('./content/login/login.module').then(m => m.LoginModule) },
-  {
-	path: 'backoffice',
-	loadChildren: () => import('./content/backoffice/backoffice.module').then(m => m.BackofficeModule),
-	canActivate: [AuthGuard]
-  },
-  { path: '**', redirectTo: 'backoffice' },
+	{ path: 'login', loadChildren: () => import('./content/login/login.module').then(m => m.LoginModule) },
+	{
+		path: 'backoffice',
+		loadChildren: () => import('./content/backoffice/backoffice.module').then(m => m.BackofficeModule),
+		canActivate: [AuthGuard]
+	},
+	{ path: '**', redirectTo: 'backoffice' },
 ];
 
 @NgModule({

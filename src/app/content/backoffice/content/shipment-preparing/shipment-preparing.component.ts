@@ -8,13 +8,13 @@ import { ShipmentPreparingStoreService } from './shipment-preparing-store.servic
 	styleUrls: ['./shipment-preparing.component.scss'],
 	providers: [ShipmentPreparingStoreService]
 })
-export class ShipmentPreparingComponent implements OnInit {
+export class ShipmentPreparingComponent {
 
+	/**
+	 * состояние загрузки запросов хранилища {@link ShipmentPreparingStoreService}
+	 */
 	loadingStates = LOADING_STATES;
 
 	constructor(public preparingStore: ShipmentPreparingStoreService) { }
-
-	ngOnInit(): void {
-	}
 
 }

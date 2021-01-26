@@ -24,10 +24,19 @@ export class SubscriptionFormComponent implements OnInit, OnDestroy {
 	 */
 	shipmentTypes: ShipmentTypes[] = Object.values(ShipmentTypes);
 
+	/**
+	 * форма конфигурирования подписки
+	 */
 	addSubscriptionForm: FormGroup;
 
+	/**
+	 * возможные месяцы доставки
+	 */
 	months: Month[] = MONTHS;
 
+	/**
+	 * маркер уничтожения компонента
+	 */
 	destroyer$$ = new Subject();
 
 	constructor(
@@ -42,7 +51,7 @@ export class SubscriptionFormComponent implements OnInit, OnDestroy {
 			orderStructure: ADD_ORDER_FORM_INITIAL_STATE.onceOrder.order.orderStructure
 		});
 
-		this.initFormSetter();
+		this.setFormFromStore();
 
 		this.initFormSaver();
 
@@ -55,7 +64,10 @@ export class SubscriptionFormComponent implements OnInit, OnDestroy {
 		this.destroyer$$.complete();
 	}
 
-	private initFormSetter(): void {
+	/**
+	 * Устанавливает данные формы из сохраненных в {@link AddOrderStoreService}
+	 */
+	private setFormFromStore(): void {
 		this.store.select(s => s.subscriptionsOrders)
 			.pipe(
 				take(1),
@@ -78,6 +90,11 @@ export class SubscriptionFormComponent implements OnInit, OnDestroy {
 			.subscribe();
 	}
 
+	/**
+	 * Инициирует сохранение введенных в форму данных в {@link AddOrderStoreService}.
+	 *
+	 * Введенные данные сначала конвертирутся в массив заказов и только потом сохраняются.
+	 */
 	private initFormSaver(): void {
 		this.addSubscriptionForm.valueChanges
 			.pipe(
@@ -116,6 +133,11 @@ export class SubscriptionFormComponent implements OnInit, OnDestroy {
 			});
 	}
 
+	/**
+	 * Инициирует слушатель сброса формы.
+	 *
+	 * Нужен для сброса формы внешним триггером
+	 */
 	private initResetListener(): void {
 		this.store.select(s => s.resetForm)
 			.pipe(
@@ -133,6 +155,10 @@ export class SubscriptionFormComponent implements OnInit, OnDestroy {
 			.subscribe();
 	}
 
+	/**
+	 * открывает диалог выбора структуры заказа для всей подписки,
+	 * после закрытия диалога, если вернулись данные структуры - патчит {@link addSubscriptionForm} полученными данными
+	 */
 	showOrderStructureSelectionDialog(): void {
 		this.store.select(s => s.subscriptionsOrders)
 			.pipe(take(1))

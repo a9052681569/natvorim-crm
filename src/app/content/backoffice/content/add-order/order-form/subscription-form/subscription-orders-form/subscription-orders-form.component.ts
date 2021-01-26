@@ -18,12 +18,19 @@ import { AddOrderStructureDialogComponent } from '../add-order-structure-dialog/
 })
 export class SubscriptionOrdersFormComponent implements OnInit, OnDestroy {
 
-	@Input() orders: Order[] = [];
-
+	/**
+	 * массив контролов для отображения и редактирования информации о заказах подписки
+	 */
 	ordersControls: FormArray;
 
+	/**
+	 * возможные месяцы доставки
+	 */
 	months: Month[] = MONTHS;
 
+	/**
+	 * состояние формы подписки, нужно для различных расчетов
+	 */
 	subscriptionsOrdersSavedState: AddOrderFormSubscriptionsOrders;
 
 	/**
@@ -33,6 +40,9 @@ export class SubscriptionOrdersFormComponent implements OnInit, OnDestroy {
 	 */
 	shipmentTypes: ShipmentTypes[] = Object.values(ShipmentTypes);
 
+	/**
+	 * маркер уничтожения компонента
+	 */
 	destroyer$$ = new Subject();
 
 	constructor(
@@ -56,9 +66,17 @@ export class SubscriptionOrdersFormComponent implements OnInit, OnDestroy {
 		this.destroyer$$.complete();
 	}
 
+	/**
+	 * вызывает диалог для редактирования структуры отдельного заказа в подписке
+	 *
+	 * @param data заказ, структура которого будет редактироваться
+	 * @param i индекс контрола, вызвавшего метод, нужен для последующего изменения данных формы
+	 */
 	showOrderStructureDialog(data: Order, i: number): void {
 		this.dialog.open(AddOrderStructureDialogComponent, { data: data.orderStructure })
 			.afterClosed()
+			// после закрытия диалога обрабатываем полученную информацию
+			// изменяя данные нужного контрола
 			.subscribe((orderStructure: OrderStructure) => {
 				if (orderStructure) {
 					const isOrderStructuresEqual = this.isOrderStructuresEqual(
@@ -77,6 +95,9 @@ export class SubscriptionOrdersFormComponent implements OnInit, OnDestroy {
 			});
 	}
 
+	/**
+	 * Инициирует сохранение введенных в форму данных в {@link AddOrderStoreService}
+	 */
 	private initFormSaver(): void {
 		this.ordersControls.valueChanges
 			.pipe(
@@ -103,6 +124,10 @@ export class SubscriptionOrdersFormComponent implements OnInit, OnDestroy {
 			});
 	}
 
+	/**
+	 * Инициирует обновление данных в {@link ordersControls}
+	 * при изменении данных в {@link AddOrderStoreService.state.subscriptionsOrders}
+	 */
 	private initFormSetter(): void {
 		this.store.select(s => s.subscriptionsOrders)
 			.pipe(
@@ -124,6 +149,11 @@ export class SubscriptionOrdersFormComponent implements OnInit, OnDestroy {
 			.subscribe();
 	}
 
+	/**
+	 * Инициирует слушатель сброса формы.
+	 *
+	 * Нужен для сброса формы внешним триггером
+	 */
 	private initResetListener(): void {
 		this.store.select(s => s.resetForm)
 			.pipe(
@@ -137,6 +167,12 @@ export class SubscriptionOrdersFormComponent implements OnInit, OnDestroy {
 			.subscribe();
 	}
 
+	/**
+	 * сравнивает 2 массива заказов, возвращает true если они идентичны
+	 *
+	 * @param orders1 первый массив заказов
+	 * @param orders2 второй массив заказов
+	 */
 	private isOrdersEqual(orders1: Order[], orders2: Order[]): boolean {
 
 		if (orders1.length !== orders2.length) {
@@ -154,6 +190,11 @@ export class SubscriptionOrdersFormComponent implements OnInit, OnDestroy {
 		return vals1.every(item => vals2.includes(item));
 	}
 
+	/**
+	 * раскладывает массив любых значений на массив простых значений
+	 *
+	 * @param arr массив любых элементов
+	 */
 	// tslint:disable-next-line:no-any
 	private getDeepValues(arr: any[]): (string | number | boolean | null)[] {
 		// tslint:disable-next-line:no-any
@@ -187,6 +228,13 @@ export class SubscriptionOrdersFormComponent implements OnInit, OnDestroy {
 		);
 	}
 
+	/**
+	 * /**
+	 * сравнивает 2 {@link OrderStructure}, возвращает true если они идентичны
+	 *
+	 * @param st1 персвая структура заказа
+	 * @param st2 вторая структура заказа
+	 */
 	isOrderStructuresEqual(st1: OrderStructure, st2: OrderStructure): boolean {
 		// если длины массивов не совпадают - избавляем себя от лишних вычислений, структуры точно разные
 		if (st1.kits.length !== st2.kits.length || st1.theatres.length !== st2.theatres.length) {

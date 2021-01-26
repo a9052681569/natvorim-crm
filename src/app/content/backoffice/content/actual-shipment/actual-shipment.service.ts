@@ -13,10 +13,20 @@ export class ActualShipmentService {
 
 	constructor(private http: HttpClient) { }
 
+	/**
+	 * запрашивает заказы для отправки, удовлетворяющие переданным критериям
+	 *
+	 * @param credentials критерии поиска
+	 */
 	search(credentials: ASFilterFormData): Observable<ASShipmentTypeState[]> {
 		return this.http.post<ASShipmentTypeState[]>(environment.apiEndpoints.actualShipment, credentials);
 	}
 
+	/**
+	 * делает запрос на изменение статуса отправленности у переданных заказов
+	 *
+	 * @param data данные для изменения статуса отправленности заказов
+	 */
 	sendedStatusChange(data: ChangeAllSendedData): Observable<ChangeAllSendedData> {
 		return this.http.post<ChangeAllSendedData>(environment.apiEndpoints.actualShipmentPatchSended, { data });
 	}

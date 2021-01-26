@@ -22,6 +22,9 @@ export class EditOrderDialogComponent implements OnInit {
 	 */
 	loadingStates = LOADING_STATES;
 
+	/**
+	 * возможные месяцы оправки заказа
+	 */
 	months: Month[] = MONTHS;
 
 	/**

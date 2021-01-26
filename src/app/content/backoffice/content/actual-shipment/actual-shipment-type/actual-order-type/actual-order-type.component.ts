@@ -11,14 +11,26 @@ import { ChangeAllSendedData } from '../../models/change-all-sended';
 })
 export class ActualOrderTypeComponent {
 
+	/**
+	 * объект с типом заказа в разрезе отправки (сложный, театр, 2-3 и т.д)
+	 * и массивом заказов для отправки
+	 */
 	@Input() orderType: ASOrderTypeState;
 
 	constructor(private store: ActualShipmentStoreService) { }
 
+	/**
+	 * отражает статус отправленности всех заказов в {@link orderType.orders}
+	 */
 	get isAllSended(): boolean {
 		return this.orderType.orders.every(o => o.sended);
 	}
 
+	/**
+	 * пытается изменить статус отправленности всех заказов в {@link orderType.orders}
+	 *
+	 * @param e событие клика на чекбокс
+	 */
 	changeAllSended(e: MatCheckboxChange): void {
 
 		e.source.checked = !e.checked;

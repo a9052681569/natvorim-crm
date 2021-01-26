@@ -11,8 +11,14 @@ import { ActualShipmentState, ActualShipmentStoreService } from './actual-shipme
 })
 export class ActualShipmentComponent implements OnInit {
 
+	/**
+	 * состояние хранилища отправки {@link ActualShipmentStoreService}
+	 */
 	actualShipmentState$: Observable<ActualShipmentState>;
 
+	/**
+	 * состояние загрузки запросов хранилища {@link ActualShipmentStoreService}
+	 */
 	loadingStates = LOADING_STATES;
 
 	constructor(private store: ActualShipmentStoreService) { }

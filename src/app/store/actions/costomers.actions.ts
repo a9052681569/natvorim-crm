@@ -22,8 +22,9 @@ export interface CustomerRemoveProps {
 	customerId: string;
 }
 
-
-
+/**
+ * перечисление названий экшенов
+ */
 export enum CustomersActionsNames {
 	ADD = '[Customers] ADD',
 	SEARCH_СUSTOMERS_PENDING = '[Customers] SEARCH_СUSTOMERS_PENDING',
@@ -38,8 +39,11 @@ export enum CustomersActionsNames {
 	REMOVE_CUSTOMER_ERROR = '[Customers] REMOVE_CUSTOMER_ERROR',
 }
 
+/**
+ * объект с экшенами
+ */
 export const CustomersActions = {
-	add: createAction('[Customers] ADD', props<CustomersAddProps>()),
+	add: createAction(CustomersActionsNames.ADD, props<CustomersAddProps>()),
 	searchPending: createAction(CustomersActionsNames.SEARCH_СUSTOMERS_PENDING, props<CustomersSearchPendingProps>()),
 	searchSuccess: createAction(CustomersActionsNames.SEARCH_СUSTOMERS_SUCCESS, props<CustomersSearchSuccessProps>()),
 	searchError: createAction(CustomersActionsNames.SEARCH_СUSTOMERS_ERROR),

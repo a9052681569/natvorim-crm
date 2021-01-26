@@ -14,12 +14,24 @@ import { AddOrderFormState } from './models/add-order-form';
 })
 export class AddOrderComponent implements OnInit {
 
+	/**
+	 * возможные состояния загрузки для доступа в шаблоне
+	 */
 	loadingStates = LOADING_STATES;
 
+	/**
+	 * текущее состояние загрузки
+	 */
 	loadingState$: Observable<LOADING_STATES | null>;
 
+	/**
+	 * состояние хранилища добавления нового заказа
+	 */
 	state$: Observable<AddOrderFormState>;
 
+	/**
+	 * флаг говорящий о валидности всех форм на экране добавления заказа
+	 */
 	readyToSend: boolean;
 
 	constructor(private store: AddOrderStoreService) { }
@@ -41,6 +53,9 @@ export class AddOrderComponent implements OnInit {
 		});
 	}
 
+	/**
+	 * регистрирует новый заказ
+	 */
 	registerNewOrder(state: AddOrderFormState): void {
 		this.store.registerNewOrder(state);
 	}

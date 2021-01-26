@@ -62,6 +62,9 @@ export class PersonComponent implements OnInit {
 		this.dialog.open(EditPersonDialogComponent, { data });
 	}
 
+	/**
+	 * открывает диалог подтвержения, в случае подтверждения запускает экшен удаления клиента
+	 */
 	removeCustomer(): void {
 		const data: ConfirmationDialogData = {
 			text: 'Удаляем этого типа?',

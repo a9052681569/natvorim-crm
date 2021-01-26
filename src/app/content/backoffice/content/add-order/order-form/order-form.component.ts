@@ -13,10 +13,19 @@ import { AddOrderStoreService } from '../add-order-store.service';
 })
 export class OrderFormComponent {
 
+	/**
+	 * типы заказов для отображения
+	 */
 	orderTypes = OrderTypes;
 
 	constructor(private store: AddOrderStoreService) { }
 
+	/**
+	 * Сохраняет в {@link AddOrderStoreService} переданный тип заказа.
+	 *
+	 * Это необходимо для того, чтобы при добавлении заказа в базу понимать что добавлять,
+	 * данные о подписке или о пробном заказе
+	 */
 	setCurrentOrderType(e: MatTabChangeEvent): void {
 
 		const orderType = Object.values(OrderTypes).reduce((res: OrderTypes, item: OrderTypes) => {

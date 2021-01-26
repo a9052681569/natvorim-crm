@@ -9,6 +9,11 @@ export class SPFilterFormService {
 
 	constructor() { }
 
+	/**
+	 * обновляет сохраненные данные формы
+	 *
+	 * @param data данные формы
+	 */
 	updateFormData(data: SPFilterFormData): Observable<SPFilterFormData> {
 
 		localStorage.setItem('ntv-sp-filter-form-data', JSON.stringify(data));
@@ -16,6 +21,10 @@ export class SPFilterFormService {
 		return of(data);
 	}
 
+	/**
+	 * запрашивает сохраненные данные формы,
+	 * если сохраненных данных нет - возвращает дефолтные данные формы
+	 */
 	getFormData(): Observable<SPFilterFormData> {
 		const formDataString = localStorage.getItem('ntv-sp-filter-form-data');
 

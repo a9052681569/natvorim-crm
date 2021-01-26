@@ -11,7 +11,7 @@
 	<mat-form-field appearance="standard" class="low-control">
 		<mat-label>Тип отправки</mat-label>
 		<mat-select formControlName="shipmentType">
-			<mat-option *ngFor="let shipmentType of shipmentTypes" [value]="shipmentType">
+			<mat-option *ngFor="let shipmentType of filterShipmentTypes" [value]="shipmentType">
 					{{shipmentType}}
 			</mat-option>
 		</mat-select>
@@ -20,7 +20,7 @@
 	<mat-form-field appearance="standard" class="low-control">
 		<mat-label>Тип заказа</mat-label>
 		<mat-select formControlName="ordersType">
-			<mat-option *ngFor="let age of filterCriteria" [value]="age">
+			<mat-option *ngFor="let age of filterOrderTypes" [value]="age">
 					{{age}}
 			</mat-option>
 		</mat-select>

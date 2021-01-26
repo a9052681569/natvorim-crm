@@ -9,6 +9,9 @@ import { Order } from 'src/app/models/order';
 })
 export class ActualShipmentTypeComponent {
 
+	/**
+	 * содержит информацию о типе отправки и всех заказах для этого типа
+	 */
 	@Input() type: ASShipmentTypeState;
 
 }

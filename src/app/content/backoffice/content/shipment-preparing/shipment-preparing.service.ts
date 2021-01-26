@@ -12,6 +12,11 @@ export class ShipmentPreparingService {
 
 	constructor(private http: HttpClient) { }
 
+	/**
+	 * запрашивает заказы для подготовки отправки, удовлетворяющие переданным критериям
+	 *
+	 * @param credentials критерии поиска
+	 */
 	search(credentials: SPFilterFormData): Observable<ShipmentPreparingOrder[]> {
 		return this.http.post<ShipmentPreparingOrder[]>(environment.apiEndpoints.prepairingOrders, credentials);
 	}

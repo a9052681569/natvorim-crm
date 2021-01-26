@@ -11,6 +11,9 @@ import { Person } from 'src/app/models/people';
 import { AddOrderService } from './add-order.service';
 import { AddOrderFormState, ADD_ORDER_FORM_INITIAL_STATE, SaveForm, SaveFormResponse } from './models/add-order-form';
 
+/**
+ * хранилище добавления нового заказа
+ */
 @Injectable()
 export class AddOrderStoreService extends ComponentStore<AddOrderFormState> {
 
@@ -20,6 +23,9 @@ export class AddOrderStoreService extends ComponentStore<AddOrderFormState> {
 		super(ADD_ORDER_FORM_INITIAL_STATE);
 	}
 
+	/**
+	 * сохраняет данные одной из форм для последующего доступа к ним
+	 */
 	readonly saveForm = this.effect((dataToSave$: Observable<SaveForm>) => {
 		return dataToSave$.pipe(
 			switchMap((dataToSave: SaveForm) => {
@@ -27,6 +33,7 @@ export class AddOrderStoreService extends ComponentStore<AddOrderFormState> {
 				// запускаем лоадер
 				this.reqFormPending();
 
+				// делаем запрос на сохранение переданных данных
 				return this.addOrderService.updateFormData(dataToSave).pipe(
 					tap((data: SaveFormResponse) => {
 
@@ -43,6 +50,9 @@ export class AddOrderStoreService extends ComponentStore<AddOrderFormState> {
 		);
 	});
 
+	/**
+	 * пытается установить сохраненные данные формы
+	 */
 	readonly setFormData = this.effect((origin$: Observable<void>) => {
 		return origin$.pipe(
 			switchMap(() => {
@@ -61,22 +71,35 @@ export class AddOrderStoreService extends ComponentStore<AddOrderFormState> {
 		);
 	});
 
+	/**
+	 * пытается добавить новый заказ\заказы и человека в БД
+	 */
 	readonly registerNewOrder = this.effect((state$: Observable<AddOrderFormState>) => {
 		return state$.pipe(
 			switchMap((state: AddOrderFormState) => {
+
+				// запускаем лоадер
 				this.reqFormPending();
 
 				let ordersToPost: Order[];
-				console.log('начинаем сохранять');
 
+				// на сервер необходимо отправить массив заказов
+				// в данных подписки заказы уже в массиве, в данных пробного заказа один заказ
+				// его необходимо добавить в массив
 				if (state.orderType === OrderTypes.subscription) {
 					ordersToPost = state.subscriptionsOrders.orders;
 				} else if (state.orderType === OrderTypes.check) {
 					ordersToPost = [state.onceOrder.order];
 				}
 
+				// TODO: переделать, необходимо запрашивать клиента по id, если id нет -
+				// пользователя в базе точно нет и все равно надо его добавить,
+				// а значит нет смысла делать лишний запрос, при этом запрос по имени не надежен - имена могут совпадать.
+
+				// делаем запрос на сохраненного клиента
 				return this.addOrderService.getPersonsByName(state.customer.customer.name).pipe(
 					switchMap((customers: Person[]) => {
+						// если такой клиент есть - добавляем ему новый заказ
 						if (!!customers.length) {
 
 							ordersToPost.forEach((order: Order) => {
@@ -92,6 +115,7 @@ export class AddOrderStoreService extends ComponentStore<AddOrderFormState> {
 								})
 							);
 						}
+						// если такого клиента не существует - необходимо добавить и заказ и нового клиента
 						return this.addOrderService.postCustomer(state.customer.customer).pipe(
 							switchMap(([customer]: Person[]) => {
 
@@ -119,19 +143,29 @@ export class AddOrderStoreService extends ComponentStore<AddOrderFormState> {
 		);
 	});
 
-
-
+	/**
+	 * указывает на необходимость всем формам сбросить свои значения
+	 */
 	private readonly resetState = this.updater((st: AddOrderFormState) => ({
 		...ADD_ORDER_FORM_INITIAL_STATE,
 		resetForm: true
 	}));
 
+	/**
+	 * возвращает стор к дефолтному состоянию
+	 */
 	private readonly toInitialState = this.updater((st: AddOrderFormState) => ({
 		...ADD_ORDER_FORM_INITIAL_STATE
 	}));
 
+	/**
+	 * указывает состояние загрузки "в процессе"
+	 */
 	private readonly reqFormPending = this.updater((st: AddOrderFormState) => ({ ...st, loadingState: LOADING_STATES.loading }));
 
+	/**
+	 * патчит стор переданными данными
+	 */
 	private readonly reqFormSuccess = this.updater((st: AddOrderFormState, formData: SaveFormResponse) => {
 		return {
 			...st,
@@ -140,6 +174,9 @@ export class AddOrderStoreService extends ComponentStore<AddOrderFormState> {
 		};
 	});
 
+	/**
+	 * указывает состояние загрузки "ошибка"
+	 */
 	private readonly reqFormError = this.updater((st: AddOrderFormState) => ({ ...st, loadingState: LOADING_STATES.err }));
 }
 

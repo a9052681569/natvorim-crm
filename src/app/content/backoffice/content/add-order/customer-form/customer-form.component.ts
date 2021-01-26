@@ -17,14 +17,29 @@ import { HelpersService } from 'src/app/shared/services/helpers.service';
 })
 export class CustomerFormComponent implements OnInit, OnDestroy {
 
+	/**
+	 * форма добавления пользователя
+	 */
 	addCustomerForm: FormGroup;
 
+	/**
+	 * маркер уничтожения компонента
+	 */
 	destroyer$$ = new Subject();
 
+	/**
+	 * перечисление возможных состояний загрузки
+	 */
 	loadingStates = LOADING_STATES;
 
+	/**
+	 * актуальное состояние загрузки
+	 */
 	loadingState$: Observable<LOADING_STATES | null>;
 
+	/**
+	 * массив клиентов, который отображается в автокомплите
+	 */
 	autocompleteOptions: Person[] = [];
 
 	constructor(
@@ -52,14 +67,25 @@ export class CustomerFormComponent implements OnInit, OnDestroy {
 		this.destroyer$$.complete();
 	}
 
+	/**
+	 * Устанавливает поля формы {@link addCustomerForm} из переданного события
+	 *
+	 * @param event событие клика по опции автокомплита
+	 */
 	setCustomerFromAutocomplete(event: MatAutocompleteSelectedEvent): void {
 		this.addCustomerForm.setValue(event.option.value);
 	}
 
+	/**
+	 * Сбрасывает форму {@link addCustomerForm}
+	 */
 	resetForm(): void {
 		this.addCustomerForm.reset();
 	}
 
+	/**
+	 * Инициирует форму {@link addCustomerForm}
+	 */
 	private initForm(): void {
 		// инициируем форму
 		this.addCustomerForm = this.fb.group({
@@ -78,6 +104,9 @@ export class CustomerFormComponent implements OnInit, OnDestroy {
 		});
 	}
 
+	/**
+	 * Устанавливает данные формы из сохраненных в {@link AddOrderStoreService}
+	 */
 	private setFormFromStore(): void {
 		this.store.select(s => s.customer)
 		.pipe(
@@ -89,6 +118,9 @@ export class CustomerFormComponent implements OnInit, OnDestroy {
 		.subscribe();
 	}
 
+	/**
+	 * Инициирует сохранение введенных в форму данных в {@link AddOrderStoreService}
+	 */
 	private initFormSaver(): void {
 		this.addCustomerForm.valueChanges
 			.pipe(
@@ -100,6 +132,9 @@ export class CustomerFormComponent implements OnInit, OnDestroy {
 			});
 	}
 
+	/**
+	 * Инициирует автозаполнение формы при вводе имени клиента
+	 */
 	private initAutocomplete(): void {
 		this.addCustomerForm.get('name')?.valueChanges
 			.pipe(
@@ -114,6 +149,11 @@ export class CustomerFormComponent implements OnInit, OnDestroy {
 			});
 	}
 
+	/**
+	 * Инициирует слушатель сброса формы.
+	 *
+	 * Нужен для сброса формы внешним триггером
+	 */
 	private initResetListener(): void {
 		this.store.select(s => s.resetForm)
 			.pipe(
@@ -127,6 +167,11 @@ export class CustomerFormComponent implements OnInit, OnDestroy {
 			.subscribe();
 	}
 
+	/**
+	 * валидирует группу контролов, возвращая ошибку если ни одному контролу не присвоено значение.
+	 *
+	 * @param control группа контролов {@link FormGroup} к которой применяется валидатор
+	 */
 	private oneRequiredValidator(control: AbstractControl): ValidationErrors | null {
 
 		if (Object.values(control.value).every(v => !!v === false)) {

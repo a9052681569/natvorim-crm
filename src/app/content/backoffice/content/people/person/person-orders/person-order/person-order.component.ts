@@ -25,8 +25,14 @@ export class PersonOrderComponent implements OnInit {
 	 */
 	@Input() order: Order;
 
+	/**
+	 * состояние хранилища заказов конкретного человека
+	 */
 	ordersState: Observable<OrdersState>;
 
+	/**
+	 * возможные статусы загрузки
+	 */
 	loadingStates = LOADING_STATES;
 
 	constructor(

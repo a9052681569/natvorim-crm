@@ -9,6 +9,11 @@ export class FilterFormService {
 
 	constructor() { }
 
+	/**
+	 * обновляет сохраненные данные формы
+	 *
+	 * @param data данные формы
+	 */
 	updateFormData(data: ASFilterFormData): Observable<ASFilterFormData> {
 
 		localStorage.setItem('ntv-as-filter-form-data', JSON.stringify(data));
@@ -16,6 +21,10 @@ export class FilterFormService {
 		return of(data);
 	}
 
+	/**
+	 * запрашивает сохраненные данные формы,
+	 * если сохраненных данных нет - возвращает дефолтные данные формы
+	 */
 	getFormData(): Observable<ASFilterFormData> {
 		const formDataString = localStorage.getItem('ntv-as-filter-form-data');
 

@@ -8,7 +8,9 @@ export interface LoginPendingProps {
 export interface LoginSuccessProps {
 	user: User;
 }
-
+/**
+ * перечисление названий экшенов
+ */
 export enum AuthActionsNames {
 	LOGIN_PENDING = '[Auth] LOGIN_PENDING',
 	LOGIN_SUCCESS = '[Auth] LOGIN_SUCCESS',

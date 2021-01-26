@@ -23,8 +23,14 @@ export class OnceFormComponent implements OnInit, OnDestroy {
 	 */
 	addOrderForm: FormGroup;
 
+	/**
+	 * возможные месяцы доставки
+	 */
 	months: Month[] = MONTHS;
 
+	/**
+	 * текущий заказ, нужен для доступа к этой информации в шаблоне
+	 */
 	order: Order;
 
 	/**
@@ -34,13 +40,21 @@ export class OnceFormComponent implements OnInit, OnDestroy {
 	 */
 	shipmentTypes: ShipmentTypes[] = Object.values(ShipmentTypes);
 
+	/**
+	 * маркер уничтожения компонента
+	 */
 	destroyer$$ = new Subject();
 
 	constructor(
 		private fb: FormBuilder,
-		private store: AddOrderStoreService
-	) { }
+		private store: AddOrderStoreService) { }
 
+	/**
+	 * форм контрол для компонента {@link OrderStructureFormComponent}
+	 *
+	 * Нужен для того чтобы изменения в {@link OrderStructureFormComponent}
+	 * влияли сразу на {@link addOrderForm}
+	 */
 	get orderStructure(): FormGroup {
 		return this.addOrderForm.get('orderStructure') as FormGroup;
 	}
@@ -62,7 +76,7 @@ export class OnceFormComponent implements OnInit, OnDestroy {
 			})
 		});
 
-		this.initFormSetter();
+		this.setFormFromStore();
 
 		this.initFormSaver();
 
@@ -74,6 +88,9 @@ export class OnceFormComponent implements OnInit, OnDestroy {
 		this.destroyer$$.complete();
 	}
 
+	/**
+	 * Инициирует сохранение введенных в форму данных в {@link AddOrderStoreService}
+	 */
 	private initFormSaver(): void {
 		this.addOrderForm.valueChanges
 			.pipe(
@@ -85,7 +102,10 @@ export class OnceFormComponent implements OnInit, OnDestroy {
 			});
 	}
 
-	private initFormSetter(): void {
+	/**
+	 * Устанавливает данные формы из сохраненных в {@link AddOrderStoreService}
+	 */
+	private setFormFromStore(): void {
 		this.store.select(s => s.onceOrder)
 		.pipe(
 			take(1),
@@ -106,6 +126,11 @@ export class OnceFormComponent implements OnInit, OnDestroy {
 		.subscribe();
 	}
 
+	/**
+	 * Инициирует слушатель сброса формы.
+	 *
+	 * Нужен для сброса формы внешним триггером
+	 */
 	private initResetListener(): void {
 		this.store.select(s => s.resetForm)
 			.pipe(

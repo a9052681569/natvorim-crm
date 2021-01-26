@@ -12,12 +12,24 @@ import { ChangeAllSendedData } from '../../models/change-all-sended';
 })
 export class ActualShipmentOrderComponent implements OnInit {
 
+	/**
+	 * объект с данными о заказе для отправки
+	 */
 	@Input() order: ActualShipmentOrder;
 
+	/**
+	 * тип заказа в контексте отправки (сложный, театр, 2-3 и т.д)
+	 */
 	@Input() orderType: ShipmentOrderTypes;
 
+	/**
+	 * маркер отвечает за необходимость отрисовки структуры заказа
+	 */
 	showStructure = false;
 
+	/**
+	 * маркер отвечает за необходимость отрисовки адреса
+	 */
 	showAddress = false;
 
 	constructor(private store: ActualShipmentStoreService) { }
@@ -33,11 +45,16 @@ export class ActualShipmentOrderComponent implements OnInit {
 		}
 	}
 
-	changeSended(val: boolean): void {
+	/**
+	 * пытается изменить статус отправленности {@link order}
+	 *
+	 * @param sended значение для статуса отправленности
+	 */
+	changeSended(sended: boolean): void {
 
 		const data: ChangeAllSendedData = {
 			ids: [this.order.orderId],
-			sended: val
+			sended
 		};
 
 		this.store.sendedChange(data);

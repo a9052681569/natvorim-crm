@@ -12,7 +12,12 @@ import { Kit, Order, OrderStructure } from 'src/app/models/order';
 	styleUrls: ['./add-order-structure-dialog.component.scss']
 })
 export class AddOrderStructureDialogComponent implements OnInit {
-
+	/**
+	 * форм контрол для компонента {@link OrderStructureFormComponent}
+	 *
+	 * Нужен для того чтобы изменения в {@link OrderStructureFormComponent}
+	 * влияли сразу на {@link orderStructureForm}
+	 */
 	orderStructureForm: FormGroup;
 
 	constructor(
@@ -28,6 +33,9 @@ export class AddOrderStructureDialogComponent implements OnInit {
 		});
 	}
 
+	/**
+	 * закрывает диалог, передавая в родительский компонент значение контрола {@link orderStructureForm}
+	 */
 	setStructure(): void {
 		this.dialogRef.close(this.orderStructureForm.value);
 	}

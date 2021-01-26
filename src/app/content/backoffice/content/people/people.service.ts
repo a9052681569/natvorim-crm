@@ -36,6 +36,11 @@ export class PeopleService {
 		return this.http.post<Person>(environment.apiEndpoints.patchCustomer, customer);
 	}
 
+	/**
+	 * отправляет запрос на поиск клиентов по переданному параметру
+	 *
+	 * @param query строка с параметром поиска
+	 */
 	searchCustomers(query: string): Observable<Person[]> {
 		return this.http.post<Person[]>(environment.apiEndpoints.searchCustomer, {query});
 	}

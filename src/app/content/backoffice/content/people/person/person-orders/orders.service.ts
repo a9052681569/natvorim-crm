@@ -36,10 +36,22 @@ export class OrdersService {
 		return this.http.post<Order>(environment.apiEndpoints.patchOrder, order);
 	}
 
+	/**
+	 * делает запрос на изменение статуса отправленности заказа
+	 *
+	 * @param id идентификатор заказа
+	 * @param sended новый статус отправленности
+	 */
 	patchOrderSended(id: string, sended: boolean): Observable<boolean> {
 		return this.http.post<boolean>(environment.apiEndpoints.patchOrderSended, {id, sended});
 	}
 
+	/**
+	 * делает запрос на изменение номера отправления заказа
+	 *
+	 * @param id идентификатор заказа
+	 * @param trackNumber новый номер отправления
+	 */
 	patchOrderTrack(id: string, trackNumber: string): Observable<string> {
 		return this.http.post<string>(environment.apiEndpoints.patchOrderTrack, {id, trackNumber});
 	}
