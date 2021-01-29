@@ -81,56 +81,47 @@ export class AddOrderStoreService extends ComponentStore<AddOrderFormState> {
 				// запускаем лоадер
 				this.reqFormPending();
 
-				let ordersToPost: Order[];
+				const ordersToPost: Order[] = [];
 
 				// на сервер необходимо отправить массив заказов
 				// в данных подписки заказы уже в массиве, в данных пробного заказа один заказ
 				// его необходимо добавить в массив
 				if (state.orderType === OrderTypes.subscription) {
-					ordersToPost = state.subscriptionsOrders.orders;
+					ordersToPost.push(...state.subscriptionsOrders.orders);
 				} else if (state.orderType === OrderTypes.check) {
-					ordersToPost = [state.onceOrder.order];
+					ordersToPost.push(state.onceOrder.order);
 				}
 
-				// TODO: переделать, необходимо запрашивать клиента по id, если id нет -
-				// пользователя в базе точно нет и все равно надо его добавить,
-				// а значит нет смысла делать лишний запрос, при этом запрос по имени не надежен - имена могут совпадать.
+				// если у введенного пользователя есть id значит он уже есть в системе, постим его заказ
+				if (state.customer.customer.id) {
+					ordersToPost.forEach((order: Order) => {
+						order.personId = state.customer.customer.id;
+					});
 
-				// делаем запрос на сохраненного клиента
-				return this.addOrderService.getPersonsByName(state.customer.customer.name).pipe(
-					switchMap((customers: Person[]) => {
-						// если такой клиент есть - добавляем ему новый заказ
-						if (!!customers.length) {
+					return this.addOrderService.postOrders(ordersToPost).pipe(
+						tap(() => {
+							this.resetState();
+							this.addOrderService.resetFormData();
+							this.snack.open('Успешно добавили заказ', undefined, { duration: 3000 });
+							this.toInitialState();
+						})
+					);
+				}
 
-							ordersToPost.forEach((order: Order) => {
-								order.personId = customers[0].id;
-							});
+				// если id отсутствует - необходимо добавить и заказ и нового клиента
+				return this.addOrderService.postCustomer(state.customer.customer).pipe(
+					switchMap(([customer]: Person[]) => {
 
-							return this.addOrderService.postOrders(ordersToPost).pipe(
-								tap(() => {
-									this.resetState();
-									this.addOrderService.resetFormData();
-									this.snack.open('Успешно добавили заказ', undefined, { duration: 3000 });
-									this.toInitialState();
-								})
-							);
-						}
-						// если такого клиента не существует - необходимо добавить и заказ и нового клиента
-						return this.addOrderService.postCustomer(state.customer.customer).pipe(
-							switchMap(([customer]: Person[]) => {
+						ordersToPost.forEach((order: Order) => {
+							order.personId = customer.id;
+						});
 
-								ordersToPost.forEach((order: Order) => {
-									order.personId = customer.id;
-								});
-
-								return this.addOrderService.postOrders(ordersToPost).pipe(
-									tap(() => {
-										this.resetState();
-										this.addOrderService.resetFormData();
-										this.snack.open('Успешно добавили заказ и нового пользователя', undefined, { duration: 3000 });
-										this.toInitialState();
-									})
-								);
+						return this.addOrderService.postOrders(ordersToPost).pipe(
+							tap(() => {
+								this.resetState();
+								this.addOrderService.resetFormData();
+								this.snack.open('Успешно добавили заказ и нового пользователя', undefined, { duration: 3000 });
+								this.toInitialState();
 							})
 						);
 					}),
@@ -139,6 +130,10 @@ export class AddOrderStoreService extends ComponentStore<AddOrderFormState> {
 						return throwError(err);
 					})
 				);
+			}),
+			catchError(err => {
+				this.reqFormError();
+				return throwError(err);
 			})
 		);
 	});
