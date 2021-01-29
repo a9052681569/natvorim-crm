@@ -7,7 +7,7 @@ import { LOADING_STATES } from 'src/app/enums/loading-states/loading-states';
 import { Person } from 'src/app/models/people';
 import { AddOrderStoreService } from '../add-order-store.service';
 import { AddOrderService } from '../add-order.service';
-import { AddOrderFormCustomer } from '../models/add-order-form';
+import { AddOrderFormCustomer, ADD_ORDER_FORM_INITIAL_STATE } from '../models/add-order-form';
 import { HelpersService } from 'src/app/shared/services/helpers.service';
 
 @Component({
@@ -73,7 +73,9 @@ export class CustomerFormComponent implements OnInit, OnDestroy {
 	 * @param event событие клика по опции автокомплита
 	 */
 	setCustomerFromAutocomplete(event: MatAutocompleteSelectedEvent): void {
-		this.addCustomerForm.setValue(event.option.value);
+		const customer: Person = event.option.value;
+		console.log(customer);
+		this.addCustomerForm.setValue(customer);
 	}
 
 	/**
@@ -99,8 +101,8 @@ export class CustomerFormComponent implements OnInit, OnDestroy {
 			address: this.fb.group({
 				city: ['', Validators.required],
 				address: ['', Validators.required]
-			})
-
+			}),
+			reminders: 'this.fb.array([])'
 		});
 	}
 
@@ -128,6 +130,7 @@ export class CustomerFormComponent implements OnInit, OnDestroy {
 				debounceTime(500),
 			)
 			.subscribe((customer: Person) => {
+				console.log(customer);
 				this.store.saveForm({ customer: {customer, isValid: this.addCustomerForm.valid} });
 			});
 	}

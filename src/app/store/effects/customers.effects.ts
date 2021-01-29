@@ -16,7 +16,10 @@ export class CustomersEffects {
 		mergeMap(({query}) => {
 			return this.peopleService.searchCustomers(query)
 				.pipe(
-					map((customers: Person[]) => CustomersActions.searchSuccess({ customers })),
+					map((customers: Person[]) => {
+						console.log(customers);
+						return CustomersActions.searchSuccess({ customers });
+					}),
 					catchError(() => of(CustomersActions.searchError()))
 				);
 		})

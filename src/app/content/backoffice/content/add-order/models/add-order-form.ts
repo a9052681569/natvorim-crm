@@ -123,7 +123,8 @@ export const ADD_ORDER_FORM_INITIAL_STATE: AddOrderFormState = {
 			address: {
 				city: '',
 				address: ''
-			}
+			},
+			reminders: []
 		},
 		isValid: false
 	},

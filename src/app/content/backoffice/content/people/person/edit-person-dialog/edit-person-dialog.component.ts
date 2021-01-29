@@ -52,7 +52,8 @@ export class EditPersonDialogComponent implements OnInit {
 			address: {
 				city: this.editPersonForm.get('city')?.value,
 				address: this.editPersonForm.get('address')?.value,
-			}
+			},
+			reminders: this.data.person.reminders
 		};
 
 		this.store.dispatch(CustomersActions.patchPending({ customer: patchedPerson }));
