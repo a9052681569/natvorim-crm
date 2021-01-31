@@ -1,0 +1,23 @@
+:host {
+	display: block;
+	margin: -24px;
+}
+
+.header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 0 16px;
+	height: 63px;
+}
+
+.reminders {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+	grid-gap: 16px;
+	padding: 16px;
+}
+
+.scrollbar {
+	max-height: calc(100vh - 64px);
+}

@@ -1,0 +1,66 @@
+<div class="header">
+	<ntv-time-range-selector [selectedMonth]="selectedMonth"
+							 (selectionChange)="setActiveMonth($event)">
+	</ntv-time-range-selector>
+
+	<button mat-icon-button (click)="toReminderList()">
+		<mat-icon>launch</mat-icon>
+	</button>
+</div>
+
+<mat-divider></mat-divider>
+
+<div *ngIf="conversion$ | async as syncReminders" class="conversion">
+	<div *ngFor="let reminder of syncReminders" class="conversion__item">
+
+		<p class="conversion__item-title">{{reminder.orderType | titlecase}}</p>
+		
+		<div class="conversion__item-data">
+			<div class="body-4">Отправили уведомлений</div>
+			<div class="bar">
+				<div class="bar__scale bar__scale--sended" [ngStyle]="{'width': getPersentString(reminder.total, reminder.sended)}"></div>
+	
+				<span class="bar__scale-value-color-changer"
+				[ngStyle]="{'width': getPersentString(reminder.total, reminder.sended)}"></span>
+				
+				<p class="bar__text">{{reminder.sended}} ({{getPersentString(reminder.total, reminder.sended)}})</p>
+	
+				<p class="bar__text">{{reminder.total}}</p>
+				
+				<span class="bar__scale-value-color-changer"
+				[ngStyle]="{'width': getPersentString(reminder.total, reminder.sended)}"></span>
+				
+			</div>
+		</div>
+
+		<div class="conversion__item-data">
+			<div class="body-4">Заказали еще</div>
+			<div class="bar">
+				<div class="bar__scale bar__scale--did-new-order" 
+					 [ngStyle]="{'width': getPersentString(reminder.total, reminder.didNewOrder)}">
+				</div>
+	
+				<span class="bar__scale-value-color-changer"
+					  [ngStyle]="{'width': getPersentString(reminder.total, reminder.didNewOrder)}">
+				</span>
+				
+				<p class="bar__text">{{reminder.didNewOrder}} ({{getPersentString(reminder.total, reminder.didNewOrder)}})</p>
+	
+				<p class="bar__text">{{reminder.total}}</p>
+				
+				<span class="bar__scale-value-color-changer"
+					  [ngStyle]="{'width': getPersentString(reminder.total, reminder.didNewOrder)}">
+				</span>
+				
+			</div>
+		</div>
+
+	</div>
+	
+</div>
+
+<ng-container [ngSwitch]="loadingState">
+	<ntv-spinner *ngSwitchCase="loadingStates.loading" [diameter]="16"></ntv-spinner>
+
+	<p *ngSwitchCase="loadingStates.err">какое-то говно</p>
+</ng-container>

@@ -1,0 +1,18 @@
+<mat-card class="card">
+	<ntv-overlined [value]="reminder.inst ? reminder.inst : phone"
+				   [overline]="reminder.inst ? 'инстаграмм' : 'телефон'"
+				   [clip]="reminder.inst ? reminder.inst : phone">
+	</ntv-overlined>
+
+	<mat-checkbox (click)="$event.preventDefault(); change(!reminder.sended)"
+				  [checked]="reminder.sended"
+				  color="accent">
+		<ng-container [ngSwitch]="loadingState">
+			<span *ngSwitchCase="loadingStates.loading">Загрузка...</span>
+			<span *ngSwitchCase="loadingStates.err">Ошибка</span>
+			<span *ngSwitchDefault>Отправлено</span>
+		</ng-container>
+		
+	</mat-checkbox>
+
+</mat-card>

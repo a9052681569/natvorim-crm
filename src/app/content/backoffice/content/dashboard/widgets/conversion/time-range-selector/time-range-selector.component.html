@@ -1,0 +1,15 @@
+<h2 class="time-range-selector" [matMenuTriggerFor]="intervalSelect">
+	{{selectedMonth.name}}
+	<mat-icon>arrow_drop_down</mat-icon>
+</h2>
+
+<mat-menu #intervalSelect="matMenu" overlapTrigger>
+	<ng-template matMenuContent let-name="name">
+		<button mat-menu-item
+				*ngFor="let month of months"
+				[ngClass]="{'isActive': month === selectedMonth}"
+				(click)="select(month)">
+			{{month.name}}
+		</button>
+	</ng-template>
+</mat-menu>

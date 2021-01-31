@@ -12,7 +12,9 @@ export const MONTH_NAMES = [
 	'Ноябрь',
 	'Декабрь',
 ];
-
+/**
+ * человекочитаемое название и дата месяца
+ */
 export interface Month {
 	name: string;
 	date: string;

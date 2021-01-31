@@ -17,5 +17,8 @@ export const environment = {
 		prepairingOrders: '/orders/for/prepaire',
 		actualShipment: '/orders/for/actual-shipment',
 		actualShipmentPatchSended: '/orders/patch/actual-shipment-sended',
+		getConversion: '/widgets/conversion/get',
+		getReminders: '/people/reminders/get',
+		markReminderSended: '/people/reminders/sended',
 	}
 };

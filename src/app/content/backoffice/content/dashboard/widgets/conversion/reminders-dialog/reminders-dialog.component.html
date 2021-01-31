@@ -1,0 +1,26 @@
+<div class="header">
+	<ntv-time-range-selector [selectedMonth]="selectedMonth"
+							 (selectionChange)="getReminders($event)">
+	</ntv-time-range-selector>
+	<button mat-icon-button (click)="close()">
+		<mat-icon>close</mat-icon>
+	</button>
+</div>
+
+<mat-divider></mat-divider>
+
+
+
+<ng-scrollbar class="scrollbar">
+
+	<ng-container [ngSwitch]="loadingState">
+		<ntv-spinner *ngSwitchCase="loadingStates.loading" [diameter]="16"></ntv-spinner>
+	
+		<p *ngSwitchCase="loadingStates.err">какое-то говно</p>
+	</ng-container>
+	
+	<div class="reminders" *ngIf="reminders$ | async as reminders">
+		<ntv-reminder *ngFor="let reminder of reminders" [reminder]="reminder" [selectedMonth]="selectedMonth"></ntv-reminder>
+	</div>
+
+</ng-scrollbar>

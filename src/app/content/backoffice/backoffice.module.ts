@@ -6,13 +6,11 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { MaterialModule } from 'src/app/shared/material.module';
 import { MenuComponent } from './menu/menu.component';
 
-
-
 @NgModule({
 	declarations: [
 		BackofficeComponent,
 		HeaderComponent,
-		MenuComponent
+		MenuComponent,
 	],
 	imports: [
 		BackofficeRoutingModule,

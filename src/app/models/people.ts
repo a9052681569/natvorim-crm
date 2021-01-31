@@ -1,3 +1,5 @@
+import { OrderTypes } from '../enums/order/order-enums';
+
 /**
  * объект с информацией о клиенте
  */
@@ -60,4 +62,15 @@ export interface Reminder {
 	 * маркер продления сотрудничества
 	 */
 	didNewOrder: boolean;
+	/**
+	 * тип заказа
+	 */
+	orderType: OrderTypes;
+}
+
+export interface ConversionData {
+	total: number;
+	sended: number;
+	didNewOrder: number;
+	orderType: OrderTypes | 'все';
 }

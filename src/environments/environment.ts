@@ -21,6 +21,9 @@ export const environment = {
 		prepairingOrders: '/cors/orders/for/prepaire',
 		actualShipment: '/cors/orders/for/actual-shipment',
 		actualShipmentPatchSended: '/cors/orders/patch/actual-shipment-sended',
+		getConversion: '/cors/widgets/conversion/get',
+		getReminders: '/cors/people/reminders/get',
+		markReminderSended: '/cors/people/reminders/sended',
 	}
 };
 /*
