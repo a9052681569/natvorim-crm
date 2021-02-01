@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
-import { Month, MONTHS } from 'src/app/enums/months/months';
+import { ALL_MONTHS, Month, MONTHS } from 'src/app/enums/months/months';
 
 @Component({
 	selector: 'ntv-time-range-selector',
@@ -12,14 +12,13 @@ export class TimeRangeSelectorComponent {
 	/**
 	 * возможные месяцы доставки
 	 */
-	months: Month[] = MONTHS;
+	months: Month[] = ALL_MONTHS;
 
 	@Input() selectedMonth: Month = MONTHS[0];
 
 	@Output() selectionChange = new EventEmitter<Month>();
 
 	select(month: Month): void {
-		console.log(month);
 		this.selectionChange.emit(month);
 	}
 

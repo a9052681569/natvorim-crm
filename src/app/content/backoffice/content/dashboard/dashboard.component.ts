@@ -7,7 +7,6 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DashboardComponent implements OnInit {
 
-	cards: string[] = ['', '', '', ''];
 	constructor() { }
 
 	ngOnInit(): void {

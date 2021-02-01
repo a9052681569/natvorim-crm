@@ -13,7 +13,7 @@
 <div *ngIf="conversion$ | async as syncReminders" class="conversion">
 	<div *ngFor="let reminder of syncReminders" class="conversion__item">
 
-		<p class="conversion__item-title">{{reminder.orderType | titlecase}}</p>
+		<p class="conversion__item-title">{{reminder.orderType | titlecase}} ({{reminder.total}})</p>
 		
 		<div class="conversion__item-data">
 			<div class="body-4">Отправили уведомлений</div>
@@ -24,8 +24,6 @@
 				[ngStyle]="{'width': getPersentString(reminder.total, reminder.sended)}"></span>
 				
 				<p class="bar__text">{{reminder.sended}} ({{getPersentString(reminder.total, reminder.sended)}})</p>
-	
-				<p class="bar__text">{{reminder.total}}</p>
 				
 				<span class="bar__scale-value-color-changer"
 				[ngStyle]="{'width': getPersentString(reminder.total, reminder.sended)}"></span>
@@ -45,8 +43,6 @@
 				</span>
 				
 				<p class="bar__text">{{reminder.didNewOrder}} ({{getPersentString(reminder.total, reminder.didNewOrder)}})</p>
-	
-				<p class="bar__text">{{reminder.total}}</p>
 				
 				<span class="bar__scale-value-color-changer"
 					  [ngStyle]="{'width': getPersentString(reminder.total, reminder.didNewOrder)}">
