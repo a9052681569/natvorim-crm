@@ -99,7 +99,7 @@ export class CustomerFormComponent implements OnInit, OnDestroy {
 				phone: ['', this.hs.phoneValidator],
 			}, {validators: [this.oneRequiredValidator]}),
 			address: this.fb.group({
-				city: ['', Validators.required],
+				city: [''],
 				address: ['', Validators.required]
 			}),
 			reminders: 'this.fb.array([])'
