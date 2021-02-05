@@ -32,6 +32,7 @@ export class ShipmentPreparingStoreService extends ComponentStore<ShipmentPrepar
 					tap((data: ShipmentPreparingOrder[]) => {
 						// в случае успеха добавляем заказы в стор
 						this.searchSuccess(data);
+						console.log(data);
 					}),
 					// обрабатываем ошибку
 					catchError(err => {

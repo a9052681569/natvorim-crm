@@ -24,6 +24,7 @@ export const environment = {
 		getConversion: '/cors/widgets/conversion/get',
 		getReminders: '/cors/people/reminders/get',
 		markReminderSended: '/cors/people/reminders/sended',
+		getCourierSheet: '/cors/orders/couriersheet',
 	}
 };
 /*

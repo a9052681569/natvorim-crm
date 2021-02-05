@@ -17,7 +17,7 @@
 	</ng-container>
 
 	<ntv-overlined *ngIf="showAddress"
-				   [value]="order.address.address"
+				   [value]="order.address.city + ' ' + order.address.address"
 				   overline="адрес">
 	</ntv-overlined>
 </mat-card>

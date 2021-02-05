@@ -1,0 +1,22 @@
+<h6>Таблица курьеров</h6>
+
+<mat-card>
+	<form [formGroup]="form" 
+	  (ngSubmit)="saveCourierSheet()" 
+	  class="form">
+
+		<mat-form-field appearance="standard" class="low-control">
+			<mat-label>Дата</mat-label>
+			<mat-select formControlName="date">
+				<mat-option *ngFor="let month of months" [value]="month.date">
+						{{month.name}}
+				</mat-option>
+			</mat-select>
+		</mat-form-field>
+
+		<mat-checkbox formControlName="notSendedYet">Не отправленные</mat-checkbox>
+
+		<button mat-button>скачать таблицу</button>
+	</form>
+</mat-card>
+

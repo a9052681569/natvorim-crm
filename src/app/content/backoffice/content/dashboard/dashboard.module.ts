@@ -7,6 +7,7 @@ import { ConversionComponent } from './widgets/conversion/conversion.component';
 import { RemindersDialogComponent } from './widgets/conversion/reminders-dialog/reminders-dialog.component';
 import { TimeRangeSelectorComponent } from './widgets/conversion/time-range-selector/time-range-selector.component';
 import { ReminderComponent } from './widgets/conversion/reminders-dialog/reminder/reminder.component';
+import { CourierSheetComponent } from './widgets/courier-sheet/courier-sheet.component';
 
 @NgModule({
 	declarations: [
@@ -14,7 +15,8 @@ import { ReminderComponent } from './widgets/conversion/reminders-dialog/reminde
 		ConversionComponent,
 		RemindersDialogComponent,
 		TimeRangeSelectorComponent,
-		ReminderComponent
+		ReminderComponent,
+		CourierSheetComponent
 	],
 	imports: [
 		DashboardRoutingModule,
