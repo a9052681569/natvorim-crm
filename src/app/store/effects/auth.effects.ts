@@ -36,7 +36,9 @@ export class AuthEffects {
 	onLoginSuccess$ = createEffect(() => this.actions$.pipe(
 		ofType(AuthActionsNames.LOGIN_SUCCESS),
 		mergeMap(({ user }: LoginSuccessProps) => {
-			this.router.navigate(['/backoffice']);
+			if (this.router.url === '/login') {
+				this.router.navigate(['/backoffice']);
+			}
 
 			return of(AuthActions.loginEnd());
 		})

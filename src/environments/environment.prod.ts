@@ -20,5 +20,6 @@ export const environment = {
 		getConversion: '/widgets/conversion/get',
 		getReminders: '/people/reminders/get',
 		markReminderSended: '/people/reminders/sended',
+		getCourierSheet: '/orders/couriersheet',
 	}
 };
