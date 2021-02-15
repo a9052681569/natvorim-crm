@@ -3,11 +3,11 @@ import { OrderStructure } from './order';
 import { PersonAddress } from './people';
 
 export interface ASShipmentTypeState {
-	shipmentType: ShipmentTypes;
+	shipmentType: string;
 	ordersByType: ASOrderTypeState[];
 }
 /**
- * 
+ *
  */
 export interface ASOrderTypeState {
 	ordersType: ShipmentOrderTypes;
@@ -21,5 +21,6 @@ export interface ActualShipmentOrder {
 	address: PersonAddress;
 	orderId: string;
 	sended: boolean;
+	track: string;
 }
 

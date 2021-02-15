@@ -37,6 +37,7 @@ export class ActualShipmentStoreService extends ComponentStore<ActualShipmentSta
 				return this.asService.search(formData).pipe(
 					tap((data: ASShipmentTypeState[]) => {
 						// в случае успеха добавляем заказы в стор
+						console.log(data);
 						this.searchSuccess(data);
 					}),
 					// обрабатываем ошибку

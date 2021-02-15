@@ -6,6 +6,10 @@
 				  color="accent"> 
 		Отправлено
 	</mat-checkbox>
+	<ntv-overlined *ngIf="order.track"
+				   [value]="order.track"
+				   overline="номер">
+	</ntv-overlined>
 
 	<ng-container *ngIf="showStructure">
 		<ntv-overlined *ngIf="order.comment" 
@@ -20,6 +24,9 @@
 				   [value]="order.address.city + ' ' + order.address.address"
 				   overline="адрес">
 	</ntv-overlined>
+
+	
+
 </mat-card>
 
 
